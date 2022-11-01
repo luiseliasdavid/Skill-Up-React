@@ -2,7 +2,7 @@
 
 ## Pasos para intalacion:
 
-### 1) `git clone https://github.com/cortiz2894/alkemy-alkybank.git`
+### 1) `git clone https://github.com/luiseliasdavid/Skill-Up-React.git`
 
 Clonar el repositorio en su local.
 
