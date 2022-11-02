@@ -64,3 +64,5 @@ export const NavBar = ({ userName = "sinNombreDeUsuario" }) => {
     </nav>
   );
 };
+
+export default NavBar;
