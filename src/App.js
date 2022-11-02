@@ -1,16 +1,12 @@
 import './App.css';
+import Layout from './components/Layout/Layout';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={'./alkemy_logo.svg'} className="App-logo" alt="logo" />
-        <p>
-          Bienvenido a AlkyBank
-        </p>
-      </header>
-    </div>
-  );
+    return (
+        <div className="App">
+            <Layout />
+        </div>
+    );
 }
 
 export default App;
