@@ -49,10 +49,11 @@ const Layout = () => {
 
   return (
     <>
-      <NavBar />
-      <Header />
+     
 
       <BrowserRouter>
+      <NavBar />
+      <Header />
         <AnimatePresence>
           <Routes>
 
