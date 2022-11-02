@@ -7,7 +7,7 @@ export const NavBar = ({ userName = "sinNombreDeUsuario" }) => {
         <div id="nav-left-container">
           <a className="navbar-brand " href="#home">
             <img
-              src={require("../assets/logo.png")}
+              src={require("./assets/logo.png")}
               alt="brand-logo"
               /* Cambiar tamaños */ width="30"
               /* Cambiar tamaños */ height="24"
