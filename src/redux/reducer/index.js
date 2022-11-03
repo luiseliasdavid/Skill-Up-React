@@ -1,6 +1,6 @@
 // import actions
-import { POST_NEW_USER, GET_USER_LIST, LOGIN ,DELETE_USER } from "../actions";
-
+import { POST_NEW_USER, GET_USER_LIST, LOGIN,
+     LOGOUT } from "../actions";
 
 
 const initialState = {
@@ -29,7 +29,7 @@ const initialState = {
                 userActive: action.payload,
                 userData: action.userData
             }
-        case DELETE_USER:
+        case LOGOUT:
             return {
                 ...state,
                 userActive: false,

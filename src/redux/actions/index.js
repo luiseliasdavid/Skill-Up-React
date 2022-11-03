@@ -3,7 +3,7 @@ import axios from 'axios';
 export const POST_NEW_USER = 'POST_NEW_USER';
 export const GET_USER_LIST = 'GET_USER_LIST';
 export const LOGIN = 'LOGIN';
-export const DELETE_USER = 'DELETE_USER';
+export const LOGOUT= 'LOGOUT';
 
 const API_SWAGGER= 'http://wallet-main.eba-ccwdurgr.us-east-1.elasticbeanstalk.com'
 
@@ -44,9 +44,30 @@ export const login = ( user ) => {
             const response = await axios.post( `${API_SWAGGER}/auth/login`, user );
             localStorage.setItem( 'token', response.data.accessToken )
             // get the user data and set on localsatorage
-            let info= await axios.get( `${API_SWAGGER}/auth/me`,
-             {headers: { Authorization: `Bearer ${response.data.accessToken}`} })
-            localStorage.setItem( 'user', user.password )
+            let info = await axios.get( `${API_SWAGGER}/auth/me`,
+             { headers: { Authorization: `Bearer ${response.data.accessToken}`} })
+             // crea un nuevo objeto `Date`
+            var today = new Date();
+ 
+             // obtener la fecha de hoy en formato `MM/DD/YYYY`
+            var now = today.toLocaleDateString('en-US');
+              console.log(now);
+            let account = await axios.post(`${API_SWAGGER}/account`,{
+                creationDate: "2022-10-26 10:00:00",
+                money: 0,
+                isBlocked: false,
+                userId: info.data.id
+              })
+
+            const userDataStorage = { 
+                first_name: info.data.first_name,
+                last_name: info.data.last_name,
+                email: info.data.email,
+                roleId: info.data.roleId,
+                id: info.data.id
+            }
+
+            localStorage.setItem( 'user', JSON.stringify( userDataStorage ) )
             // set de user data on redux
             return dispatch({
                 type: LOGIN,
@@ -64,14 +85,10 @@ export const login = ( user ) => {
     }
 };
 
-export const logout = ( id ) => {
-    return async function( dispatch ) {
-        const api = `http://wallet-main.eba-ccwdurgr.us-east-1.elasticbeanstalk.com/users/${ id }`
-        const response = await axios.delete( api );
+export const logout = () => {
         localStorage.clear()
-        return dispatch({
-            type: DELETE_USER,
+        return ({
+            type: LOGOUT,
         });
-    }
 }
 
