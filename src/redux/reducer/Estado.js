@@ -1,15 +1,16 @@
 import React,{useEffect} from 'react'
 import {createUser , userList , login , logout} from "../actions"
 import { useDispatch, useSelector } from 'react-redux';
-
+import axios from 'axios';
 
 export const  Estado= ()=> {
+const API_SWAGGER= 'http://wallet-main.eba-ccwdurgr.us-east-1.elasticbeanstalk.com'
 
 let data = useSelector(state=> state)
 const dispatch = useDispatch()
 
 useEffect(()=>{
-console.log(data)
+//console.log(data)
 },[data])
 
 const crearUsuario= ()=>{
@@ -25,15 +26,18 @@ const crearUsuario= ()=>{
     
   }))
 }
-const listaDeUsuarios=()=>{
-  
+const log=()=>{
+ dispatch(login({
+  "email": "pepe@pepe.com",
+  "password": "123456"
+}))
 }
-console.log(data)
+
   return (
     <div>
       <button onClick={crearUsuario}>cear usuario </button>
-      <button onclick={listaDeUsuarios}></button>
-      <button></button>
+      <button onClick={log}>login</button>
+      
       <button></button>
     </div>
   )

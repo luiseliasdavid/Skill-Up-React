@@ -5,12 +5,13 @@ export const GET_USER_LIST = 'GET_USER_LIST';
 export const LOGIN = 'LOGIN';
 export const DELETE_USER = 'DELETE_USER';
 
+const API_SWAGGER= 'http://wallet-main.eba-ccwdurgr.us-east-1.elasticbeanstalk.com'
 
 export const createUser = ( user ) => {
     return async function( dispatch ) {
         try {
-            const api = 'http://wallet-main.eba-ccwdurgr.us-east-1.elasticbeanstalk.com/users'
-            const response = await axios.post(api, user );
+            
+            const response = await axios.post( `${API_SWAGGER}/users`, user );
             return dispatch({
                 type: POST_NEW_USER,
                 payload: true
@@ -39,23 +40,21 @@ export const userList = () => {
 export const login = ( user ) => {
     return async function( dispatch ) {
         try {
-            const api = 'http://wallet-main.eba-ccwdurgr.us-east-1.elasticbeanstalk.com/auth/login'
-            const response = await axios.get( api, user );
-            localStorage.setItem( 'email', user.email )
-            localStorage.setItem( 'password', user.password )
+            // get jwt from api
+            const response = await axios.post( `${API_SWAGGER}/auth/login`, user );
             localStorage.setItem( 'token', response.data.accessToken )
-            
-            const apiDetail = 'http://wallet-main.eba-ccwdurgr.us-east-1.elasticbeanstalk.com/auth/me'
-            const info = await axios.get( apiDetail, response.data )
-            localStorage.setItem( 'first_name', info.data.first_name )
-            localStorage.setItem( 'last_name', info.data.last_name )
-
+            // get the user data and set on localsatorage
+            let info= await axios.get( `${API_SWAGGER}/auth/me`,
+             {headers: { Authorization: `Bearer ${response.data.accessToken}`} })
+            localStorage.setItem( 'user', user.password )
+            // set de user data on redux
             return dispatch({
                 type: LOGIN,
                 payload: true,
                 userData: info.data
             });
         } catch (e) {
+            console.log(e)
             return dispatch({
                 type: LOGIN,
                 payload: false,
