@@ -1,7 +1,6 @@
 import React from 'react'
 import { Route, Routes } from 'react-router-dom'
 import {  motion } from "framer-motion";
-import Login from '../components/views/auth/Login/Login';
 import Charge from '../components/views/Charge/Charge';
 import Spents from '../components/views/Spents/Spents';
 import Balance from '../components/views/Balance/Balance';
