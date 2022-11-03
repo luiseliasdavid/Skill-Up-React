@@ -5,14 +5,42 @@ import * as Yup from "yup";
 import swal from "../../../../utils/swal";
 
 const Login = () => {
-    const API_ENDPOINT =
-        "http://wallet-main.eba-ccwdurgr.us-east-1.elasticbeanstalk.com/";
-    const navigate = useNavigate();
+    const API_ENDPOINT = "http://wallet-main.eba-ccwdurgr.us-east-1.elasticbeanstalk.com/";
+    const navigate = useNavigate();    
+
+    const [token, setToken] = useState(null);
 
     useEffect(() => {
         // Esto es para que si el usuario se redirige al login, lo desloguee
         localStorage.getItem("token") && localStorage.removeItem("token");
     }, []);
+
+    useEffect(() => {        
+        if (token) return;
+        
+        localStorage.setItem("token", token);
+
+        fetch(`${API_ENDPOINT}auth/me`)
+            .then((res) => res.json())
+            .then((data) => {
+                console.log(data);
+                switch (data.status) {
+                    case 200:
+                        const userData = data?.result;
+                        localStorage.setItem('userData', userData);
+                        navigate("/home", { replace: true });
+                        break;
+                    case 401:
+                        swal("Usuario o contraseña incorrecta.");
+                        break;
+                    default:
+                        swal("Ocurrió un error inesperado.");
+                        break;
+                }
+            })
+            .catch((err) => console.log(err));
+    }, [token])
+    
 
     const initialValues = {
         email: "",
@@ -45,8 +73,7 @@ const Login = () => {
                 switch (data.status) {
                     case 200:
                         const token = data?.result?.accessToken;
-                        localStorage.setItem("token", token);
-                        navigate("/", { replace: true });
+                        setToken(token);
                         break;
                     case 401:
                         swal("Usuario o contraseña incorrecta.");
