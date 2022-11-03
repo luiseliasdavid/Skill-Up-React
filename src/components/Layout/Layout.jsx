@@ -4,8 +4,10 @@ import { AnimatePresence } from "framer-motion";
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 import { NavBar } from "../NavBar/NavBar";
-import PrivateRoutes from "../../router/PrivateRoutes";
-import PublicRoutes from "../../router/PublicRoutes";
+import PrivateRoutes from "../router/PrivateRoutes";
+import PublicRoutes from "../router/PublicRoutes";
+
+
 
 const Layout = () => {
   // Componente para envolver a las rutas privadas

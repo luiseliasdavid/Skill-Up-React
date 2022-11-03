@@ -1,11 +1,12 @@
 import React from 'react'
 import { Route, Routes } from 'react-router-dom'
 import {  motion } from "framer-motion";
-import Charge from '../components/views/Charge/Charge';
-import Spents from '../components/views/Spents/Spents';
-import Balance from '../components/views/Balance/Balance';
-import Movements from '../components/views/Movements/Movements';
-import Transfers from '../components/views/Transfers/Transfers';
+import Charge from '../views/Charge/Charge';
+import Spents from '../views/Spents/Spents';
+import Balance from '../views/Balance/Balance';
+import Movements from '../views/Movements/Movements';
+import Transfers from '../views/Transfers/Transfers';
+
 
 const PrivateRoutes = () => {
 

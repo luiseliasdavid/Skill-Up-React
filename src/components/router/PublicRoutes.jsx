@@ -1,9 +1,9 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 import { motion } from "framer-motion";
-import Register from "../components/views/auth/Register/Register";
 import { lazy, Suspense } from "react";
-import Login from "../components/views/auth/Login/Login";
+import Login from "../views/auth/Login/Login";
+import Register from "../views/auth/Register/Register";
 
 const PublicRoutes = () => {
   const pageTransition = {
@@ -29,7 +29,7 @@ const PublicRoutes = () => {
     },
   };
 
-  const Error404 = lazy(() => import("../components/views/Error404/Error404"));
+  const Error404 = lazy(() => import("../views/Error404/Error404"));
   return (
     <Routes>
       <Route
