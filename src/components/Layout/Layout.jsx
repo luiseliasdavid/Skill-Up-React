@@ -13,7 +13,6 @@ const Layout = () => {
         <>
             <BrowserRouter>
                 <NavBar />
-                <Header />
                 <AnimatePresence>
                     {localStorage.getItem("token") ? (
                         <>
