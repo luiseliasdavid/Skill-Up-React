@@ -1,12 +1,14 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import swal from "../../../../utils/swal";
+import toast from "../../../../utils/toast";
 
 const Login = () => {
-    const API_ENDPOINT = "http://wallet-main.eba-ccwdurgr.us-east-1.elasticbeanstalk.com/";
-    const navigate = useNavigate();    
+    const API_ENDPOINT =
+        "http://wallet-main.eba-ccwdurgr.us-east-1.elasticbeanstalk.com/";
+    const navigate = useNavigate();
 
     const [token, setToken] = useState(null);
 
@@ -15,32 +17,24 @@ const Login = () => {
         localStorage.getItem("token") && localStorage.removeItem("token");
     }, []);
 
-    useEffect(() => {        
-        if (token) return;
-        
+    useEffect(() => {
+        if (!token) return;
+
         localStorage.setItem("token", token);
 
-        fetch(`${API_ENDPOINT}auth/me`)
+        fetch(`${API_ENDPOINT}auth/me`, {
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+        })
             .then((res) => res.json())
             .then((data) => {
-                console.log(data);
-                switch (data.status) {
-                    case 200:
-                        const userData = data?.result;
-                        localStorage.setItem('userData', userData);
-                        navigate("/home", { replace: true });
-                        break;
-                    case 401:
-                        swal("Usuario o contraseña incorrecta.");
-                        break;
-                    default:
-                        swal("Ocurrió un error inesperado.");
-                        break;
-                }
+                localStorage.setItem('userData', JSON.stringify(data));
+                navigate('/home', { redirect: true });
             })
             .catch((err) => console.log(err));
-    }, [token])
-    
+    }, [token]);
 
     const initialValues = {
         email: "",
@@ -54,7 +48,9 @@ const Login = () => {
         password: Yup.string().required("Debe ingresar una contraseña"),
     });
 
-    const onSubmit = () => {
+    const onSubmit = (e) => {
+        e.preventDefault();
+
         const { email, password } = values;
 
         fetch(`${API_ENDPOINT}auth/login`, {
@@ -69,18 +65,11 @@ const Login = () => {
         })
             .then((res) => res.json())
             .then((data) => {
-                console.log(data);
-                switch (data.status) {
-                    case 200:
-                        const token = data?.result?.accessToken;
-                        setToken(token);
-                        break;
-                    case 401:
-                        swal("Usuario o contraseña incorrecta.");
-                        break;
-                    default:
-                        swal("Ocurrió un error inesperado.");
-                        break;
+                if (data.accessToken) {
+                    setToken(data.accessToken);
+                    toast("Todo bien", "success");
+                } else {
+                    swal("Usuario o contraseña incorrecta.");
                 }
             })
             .catch((err) => console.log(err));
