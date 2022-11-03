@@ -32,7 +32,7 @@ const PublicRoutes = () => {
     };
 
     return (
-        <>
+        <Routes>
             <Route
                 path="/register"
                 element={
@@ -79,7 +79,7 @@ const PublicRoutes = () => {
                     </motion.div>
                 }
             />
-        </>
+        </Routes>
     );
 };
 
