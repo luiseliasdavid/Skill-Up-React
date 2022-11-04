@@ -32,7 +32,7 @@ const Login = () => {
                 navigate('/home', { redirect: true });
             })
             .catch((err) => console.log(err));
-    }, [token]);
+    }, [token,navigate]);
 
     const initialValues = {
         email: "",
