@@ -11,7 +11,7 @@ export const createUser = ( user ) => {
     return async function( dispatch ) {
         try {
             //create the user
-             await axios.post( `${API_SWAGGER}/users`, user )
+             const response = await axios.post( `${API_SWAGGER}/users`, user );
              
             
              //login the user
@@ -19,10 +19,11 @@ export const createUser = ( user ) => {
                 email: user.email,
                 password: user.password
             }
-            dispatch (login(emailAndPasword))
+            dispatch ( login( emailAndPasword ) )
            console.log("holaaaaaaaaaaaaaaaaaaaaaaaaa")
+
             //create the account
-            const account = dispatch (createAccount(localStorage.getItem(JSON.parse(localStorage.getItem("user")).id)))
+            const account = createAccount( response.data.id );
             console.log(account,"esta es la account")
             
             return dispatch({
@@ -39,14 +40,34 @@ export const createUser = ( user ) => {
     }
 };
 
-export const userList = () => {
+export const createAccount = ( id ) => {
     return async function( dispatch ) {
-        const api = 'http://wallet-main.eba-ccwdurgr.us-east-1.elasticbeanstalk.com/users'
-        const response = await axios.get( api );
-        return dispatch({
-            type: GET_USER_LIST,
-            payload: response.data
-        });
+        // obtener la fecha de hoy en formato `yyyy-mm-dd 00:00:00`
+        console.log("estamos en account")
+        let date = new Date();
+        let dateStr = date.getFullYear() + "-" +
+        ("00" + (date.getMonth() + 1)).slice(-2) + "-" +
+        ("00" + date.getDate()).slice(-2)  + " " +
+        
+        ("00" + date.getHours()).slice(-2) + ":" +
+        ("00" + date.getMinutes()).slice(-2) + ":" +
+        ("00" + date.getSeconds()).slice(-2);
+
+        const data = {
+            creationDate: `${dateStr}`,
+            money: 230,
+            isBlocked: false,
+            userId: id
+        }
+        console.log(data)
+        let token = localStorage.getItem('token');
+        let tokenBody = { headers: { Authorization: `Bearer ${token}` }}
+        
+        //create the account whit this date
+        let account = await axios.post( `${API_SWAGGER}/account`, data, tokenBody )
+        console.log(account,"respuesta del account")
+        return account;
+
     }
 };
 
@@ -94,30 +115,16 @@ export const logout = () => {
         });
 }
 
-export const createAccount = (id)=> {
+export const userList = () => {
     return async function( dispatch ) {
-// obtener la fecha de hoy en formato `yyyy-mm-dd 00:00:00`
-console.log("estamos en account")
-var date = new Date();
-var dateStr = date.getFullYear() + "-" +
-("00" + (date.getMonth() + 1)).slice(-2) + "-" +
-("00" + date.getDate()).slice(-2)  + " " +
-  
-  ("00" + date.getHours()).slice(-2) + ":" +
-  ("00" + date.getMinutes()).slice(-2) + ":" +
-  ("00" + date.getSeconds()).slice(-2);
+        const api = 'http://wallet-main.eba-ccwdurgr.us-east-1.elasticbeanstalk.com/users'
+        const response = await axios.get( api );
+        return dispatch({
+            type: GET_USER_LIST,
+            payload: response.data
+        });
+    }
+};
 
-let data = {
-    creationDate: `${dateStr}`,
-    money: 150,
-    isBlocked: false,
-    userId: id
-  }
-console.log(data)
-let token ={ headers: { Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJJZCI6NjM0LCJyb2xlSWQiOjJ9LCJpYXQiOjE2Njc1NzYwMTIsImV4cCI6MTY2NzY2MjQxMn0.oC-sa76Abbv05Z3pQ5LEN1BwUWmaznGjTUE82OxhRYg`} }
-//create the account whit this date
-let account = await axios.post(`${API_SWAGGER}/account`,data,token)
- console.log(account,"respuesta del account")
- return account}
-}
+
 
