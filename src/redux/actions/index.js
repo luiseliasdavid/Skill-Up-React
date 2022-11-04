@@ -5,6 +5,9 @@ export const GET_USER_LIST = 'GET_USER_LIST';
 export const LOGIN = 'LOGIN';
 export const LOGOUT= 'LOGOUT';
 export const POST_ACCOUNT = 'POST_ACCOUNT';
+export const POST_ADD_CASH = 'POST_ADD_CASH';
+export const GET_BALANCE = 'GET_BALANCE';
+
 
 let date = new Date();
     let dateStr = date.getFullYear() + "-" +
@@ -125,6 +128,60 @@ export const logout = () => {
         return ({
             type: LOGOUT,
         });
+}
+
+export const addMoneyToAccount = ( amount, id ) => {
+    return async function( dispatch ) {
+        const deposit = {
+            type: 'topup',
+            concept: 'Add money',
+            amount: amount
+        }
+
+        const token = localStorage.getItem('token');
+        const tokenBody = { headers: { Authorization: `Bearer ${token}`} };
+
+        const info = await axios.post( `${API_SWAGGER}/accounts/${ id }`, deposit, tokenBody)
+
+        const detailAccount = await axios.get(`${API_SWAGGER}/accounts/${ id }`, tokenBody )
+
+        return dispatch({
+            type: POST_ADD_CASH,
+            payload: detailAccount.data
+        });
+    }
+};
+
+export const balance = () => {
+    return async function( dispatch ) {
+        const token = localStorage.getItem('token');
+        const tokenBody = { headers: { Authorization: `Bearer ${token}`} };
+
+        const dataTransactions = await axios.get( `${API_SWAGGER}/transactions`, tokenBody );
+        console.log(dataTransactions);
+        const topup = dataTransactions.data.data.filter( transaction => transaction.type === 'topup' );
+        const payment = dataTransactions.data.data.filter( transaction => transaction.type === 'payment' );
+
+        const initialValue = 0;
+        const balanceTopup = topup.reduce(
+        (previousAmount, currentAmount) => Number(currentAmount.amount) + Number(previousAmount),
+        initialValue
+        );
+        
+        const balancePayment = payment.reduce(
+            (previousAmount, currentAmount) => Number(currentAmount.amount) + Number(previousAmount),
+            initialValue
+            );
+        
+        const totalBalance = balanceTopup - balancePayment;
+
+        return dispatch({
+            type: GET_BALANCE,
+            payload: { topup: balanceTopup, payments: balancePayment, totalBalance },
+            topupList: topup,
+            paymentsList: payment
+        });
+    }
 }
 
 export const userList = () => {

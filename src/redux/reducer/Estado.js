@@ -1,5 +1,6 @@
 import React,{useEffect} from 'react'
-import {createUser , userList , login ,logout, createAccount } from "../actions"
+import {createUser , userList , login ,logout, createAccount, 
+  addMoneyToAccount, balance } from "../actions"
 import { useDispatch, useSelector } from 'react-redux';
 
 
@@ -7,6 +8,7 @@ export const  Estado= ()=> {
 const API_SWAGGER= 'http://wallet-main.eba-ccwdurgr.us-east-1.elasticbeanstalk.com'
 
 let data = useSelector(state=> state)
+
 const dispatch = useDispatch()
 
 useEffect(()=>{
@@ -21,7 +23,7 @@ const crearUsuario= ()=>{
     
     first_name: "lioffpsp",
     last_name: "oodredss",
-    email: "lagddfiy@ail.com",
+    email: "lppppp@ail.com",
     password: "123456",
     points: 0,
     roleId: 2,
@@ -30,10 +32,20 @@ const crearUsuario= ()=>{
 }
 const log=()=>{
  dispatch(login({
-  email: "jjhhhq@ail.com",
+  email: "jjhhkkk@ail.com",
   password: "123456"
 }))
 }
+
+const cargasaldo = () => {
+  dispatch( addMoneyToAccount( 740 ,data.userData.account.id  ) );
+}
+
+const balanceview = () => {
+  dispatch(balance())
+}
+
+
 
 const userLogout = () => {
   dispatch(logout());
@@ -53,8 +65,8 @@ const crearCuenta =()=> {
       <button onClick={consoleEstate}>Console.log estado</button>
       <button onClick={crearUsuario}>cear usuario </button>
       <button onClick={log}>login</button>
-      <button onClick={userLogout}>LOGOUT</button>
-      <button onClick={crearCuenta}>crear account</button>
+      <button onClick={cargasaldo}>CARGAR SALDO</button>
+      <button onClick={balanceview}>BALANCE</button>
       
     </div>
   )
