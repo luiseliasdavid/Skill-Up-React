@@ -1,7 +1,7 @@
 import React,{useEffect} from 'react'
 import {createUser , userList , login , logout} from "../actions"
 import { useDispatch, useSelector } from 'react-redux';
-import axios from 'axios';
+
 
 export const  Estado= ()=> {
 const API_SWAGGER= 'http://wallet-main.eba-ccwdurgr.us-east-1.elasticbeanstalk.com'
