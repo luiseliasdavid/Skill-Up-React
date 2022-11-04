@@ -1,6 +1,6 @@
 // import actions
 import { POST_NEW_USER, GET_USER_LIST, LOGIN,
-     LOGOUT } from "../actions";
+     LOGOUT, POST_ACCOUNT } from "../actions";
 
 
 const initialState = {
@@ -16,7 +16,7 @@ const initialState = {
         case POST_NEW_USER: 
             return {
                 ...state,
-                createUser: action.payload
+                createUser: action.payload,
             }
         case GET_USER_LIST:
             return {
@@ -26,15 +26,20 @@ const initialState = {
         case LOGIN: 
             return {
                 ...state,
-                userActive: action.payload,
-                userData: action.userData
+                userActive: action.payload[0],
+                userData: { ...state.userData, ...action.payload[1] }
             }
         case LOGOUT:
             return {
                 ...state,
                 userActive: false,
                 userData: {}
-            }  
+            }
+        case POST_ACCOUNT: 
+        return {
+            ...state,
+            userData: { ...state.userData, account: action.payload }
+        }      
         default:
             return state;
     }       

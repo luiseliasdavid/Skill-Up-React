@@ -19,9 +19,9 @@ const crearUsuario= ()=>{
   console.log("hoola")
  dispatch( createUser({
     
-    first_name: "liodfpsp",
-    last_name: "oposfpojhndredss",
-    email: "aaassaqq@ail.com",
+    first_name: "lioffpsp",
+    last_name: "oodredss",
+    email: "lagddfiy@ail.com",
     password: "123456",
     points: 0,
     roleId: 2,
@@ -30,7 +30,7 @@ const crearUsuario= ()=>{
 }
 const log=()=>{
  dispatch(login({
-  email: "aaassaqq@ail.com",
+  email: "jjhhhq@ail.com",
   password: "123456"
 }))
 }

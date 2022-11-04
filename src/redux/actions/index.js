@@ -4,6 +4,16 @@ export const POST_NEW_USER = 'POST_NEW_USER';
 export const GET_USER_LIST = 'GET_USER_LIST';
 export const LOGIN = 'LOGIN';
 export const LOGOUT= 'LOGOUT';
+export const POST_ACCOUNT = 'POST_ACCOUNT';
+
+let date = new Date();
+    let dateStr = date.getFullYear() + "-" +
+    ("00" + (date.getMonth() + 1)).slice(-2) + "-" +
+    ("00" + date.getDate()).slice(-2)  + " " +
+    
+    ("00" + date.getHours()).slice(-2) + ":" +
+    ("00" + date.getMinutes()).slice(-2) + ":" +
+    ("00" + date.getSeconds()).slice(-2);
 
 const API_SWAGGER= 'http://wallet-main.eba-ccwdurgr.us-east-1.elasticbeanstalk.com'
 
@@ -19,12 +29,12 @@ export const createUser = ( user ) => {
                 email: user.email,
                 password: user.password
             }
-            dispatch ( login( emailAndPasword ) )
-           console.log("holaaaaaaaaaaaaaaaaaaaaaaaaa")
+            dispatch( login(emailAndPasword) )
 
+            console.log(dateStr);
             //create the account
-            const account = createAccount( response.data.id );
-            console.log(account,"esta es la account")
+            console.log(response.data.id);
+            dispatch( createAccount( response.data.id, emailAndPasword ));
             
             return dispatch({
                 type: POST_NEW_USER,
@@ -40,18 +50,15 @@ export const createUser = ( user ) => {
     }
 };
 
-export const createAccount = ( id ) => {
+
+export const createAccount = ( id, emailAndPasword ) => {
     return async function( dispatch ) {
         // obtener la fecha de hoy en formato `yyyy-mm-dd 00:00:00`
         console.log("estamos en account")
-        let date = new Date();
-        let dateStr = date.getFullYear() + "-" +
-        ("00" + (date.getMonth() + 1)).slice(-2) + "-" +
-        ("00" + date.getDate()).slice(-2)  + " " +
         
-        ("00" + date.getHours()).slice(-2) + ":" +
-        ("00" + date.getMinutes()).slice(-2) + ":" +
-        ("00" + date.getSeconds()).slice(-2);
+         // get jwt from api
+         const authLogin = await axios.post( `${API_SWAGGER}/auth/login`, emailAndPasword );
+         localStorage.setItem( 'token', authLogin.data.accessToken )
 
         const data = {
             creationDate: `${dateStr}`,
@@ -59,14 +66,20 @@ export const createAccount = ( id ) => {
             isBlocked: false,
             userId: id
         }
-        console.log(data)
+        
         let token = localStorage.getItem('token');
+        console.log(token);
         let tokenBody = { headers: { Authorization: `Bearer ${token}` }}
         
+        console.log(tokenBody);
         //create the account whit this date
-        let account = await axios.post( `${API_SWAGGER}/account`, data, tokenBody )
-        console.log(account,"respuesta del account")
-        return account;
+        let account = await axios.post( `http://wallet-main.eba-ccwdurgr.us-east-1.elasticbeanstalk.com/accounts`, data, tokenBody )
+        console.log("respuesta del account");
+
+        return dispatch({
+            type: POST_ACCOUNT,
+            payload: account.data
+        });
 
     }
 };
@@ -94,8 +107,7 @@ export const login = ( user ) => {
             // set de user data on redux
             return dispatch({
                 type: LOGIN,
-                payload: true,
-                userData: info.data
+                payload: [ true, info.data ]
             });
         } catch (e) {
             console.log(e)
