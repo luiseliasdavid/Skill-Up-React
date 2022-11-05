@@ -102,27 +102,27 @@ export const login = (user) => {
    return async function (dispatch) {
       try {
          // get jwt from api
-         const response = await axios.post(`${API_SWAGGER}/auth/login`, user);
+         const response = await fetchWalletApi.post("/auth/login", user);
          localStorage.setItem("token", response.data.accessToken);
+
          // get the user data and set on localsatorage
-         let info = await axios.get(`${API_SWAGGER}/auth/me`, {
-            headers: { Authorization: `Bearer ${response.data.accessToken}` },
-         });
+         const { data } = await fetchWalletApi.get("/auth/me");
 
          //set info in local starage
          const userDataStorage = {
-            first_name: info.data.first_name,
-            last_name: info.data.last_name,
-            email: info.data.email,
-            roleId: info.data.roleId,
-            id: info.data.id,
+            first_name: data.first_name,
+            last_name: data.last_name,
+            email: data.email,
+            roleId: data.roleId,
+            id: data.id,
          };
 
          localStorage.setItem("user", JSON.stringify(userDataStorage));
+
          // set de user data on redux
          return dispatch({
             type: LOGIN,
-            payload: [true, info.data],
+            payload: [true, data],
          });
       } catch (e) {
          console.log(e);
