@@ -222,9 +222,9 @@ export const balance = () => {
 // * Get all users
 export const userList = () => {
    return async function (dispatch) {
-      const api =
-         "http://wallet-main.eba-ccwdurgr.us-east-1.elasticbeanstalk.com/users";
-      const response = await axios.get(api);
+      // const api =
+      //    "http://wallet-main.eba-ccwdurgr.us-east-1.elasticbeanstalk.com/users";
+      const response = await fetchWalletApi.get("/users");
       return dispatch({
          type: GET_USER_LIST,
          payload: response.data,
