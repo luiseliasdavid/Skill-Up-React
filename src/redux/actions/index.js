@@ -152,18 +152,18 @@ export const addMoneyToAccount = (amount, id) => {
          amount: amount,
       };
 
-      const token = localStorage.getItem("token");
-      const tokenBody = { headers: { Authorization: `Bearer ${token}` } };
+      // const token = localStorage.getItem("token");
+      // const tokenBody = { headers: { Authorization: `Bearer ${token}` } };
 
-      const info = await axios.post(
-         `${API_SWAGGER}/accounts/${id}`,
-         deposit,
-         tokenBody
+      const depositMoneyToOwnUserAccount = await fetchWalletApi.post(
+         `/accounts/${id}`,
+         deposit
+         // tokenBody
       );
 
-      const detailAccount = await axios.get(
-         `${API_SWAGGER}/accounts/${id}`,
-         tokenBody
+      const detailAccount = await fetchWalletApi.get(
+         `/accounts/${id}`
+         // tokenBody
       );
 
       return dispatch({
