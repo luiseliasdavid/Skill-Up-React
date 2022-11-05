@@ -176,12 +176,12 @@ export const addMoneyToAccount = (amount, id) => {
 // * This balance function will get all data we need in "Movientos" and "Balance" views
 export const balance = () => {
    return async function (dispatch) {
-      const token = localStorage.getItem("token");
-      const tokenBody = { headers: { Authorization: `Bearer ${token}` } };
+      // const token = localStorage.getItem("token");
+      // const tokenBody = { headers: { Authorization: `Bearer ${token}` } };
 
-      const dataTransactions = await axios.get(
-         `${API_SWAGGER}/transactions`,
-         tokenBody
+      const dataTransactions = await fetchWalletApi.get(
+         "/transactions"
+         // tokenBody
       );
       console.log(dataTransactions);
       const topup = dataTransactions.data.data.filter(
