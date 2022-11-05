@@ -66,10 +66,11 @@ export const createAccount = (id, emailAndPasword) => {
       console.log("estamos en account");
 
       // get jwt from api
-      const authLogin = await axios.post(
-         `${API_SWAGGER}/auth/login`,
+      const authLogin = await fetchWalletApi.post(
+         "/auth/login",
          emailAndPasword
       );
+
       localStorage.setItem("token", authLogin.data.accessToken);
 
       const data = {
@@ -79,17 +80,14 @@ export const createAccount = (id, emailAndPasword) => {
          userId: id,
       };
 
-      let token = localStorage.getItem("token");
-      console.log(token);
-      let tokenBody = { headers: { Authorization: `Bearer ${token}` } };
+      // let token = localStorage.getItem("token");
+      // console.log(token);
+      // let tokenBody = { headers: { Authorization: `Bearer ${token}` } };
 
-      console.log(tokenBody);
+      // console.log(tokenBody);
       //create the account whit this date
-      let account = await axios.post(
-         `http://wallet-main.eba-ccwdurgr.us-east-1.elasticbeanstalk.com/accounts`,
-         data,
-         tokenBody
-      );
+
+      let account = await fetchWalletApi.post("/accounts", data);
       console.log("respuesta del account");
 
       return dispatch({
