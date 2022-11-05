@@ -29,6 +29,7 @@ const Login = () => {
             .then((res) => res.json())
             .then((data) => {
                 localStorage.setItem('userData', JSON.stringify(data));
+                toast(`¡Bienvenido ${data.first_name}!`, "success");
                 navigate('/home', { redirect: true });
             })
             .catch((err) => console.log(err));
@@ -46,9 +47,7 @@ const Login = () => {
         password: Yup.string().required("Debe ingresar una contraseña"),
     });
 
-    const onSubmit = (e) => {
-        e.preventDefault();
-
+    const onSubmit = () => {
         const { email, password } = values;
 
         fetch(`${API_ENDPOINT}auth/login`, {
@@ -65,7 +64,6 @@ const Login = () => {
             .then((data) => {
                 if (data.accessToken) {
                     setToken(data.accessToken);
-                    toast("Todo bien", "success");
                 } else {
                     swal("Usuario o contraseña incorrecta.");
                 }
@@ -75,12 +73,12 @@ const Login = () => {
 
     const formik = useFormik({ initialValues, validationSchema, onSubmit });
 
-    const { errors, touched, values, handleChange, handleBlur } = formik;
+    const { errors, touched, values, handleChange, handleBlur, handleSubmit } = formik;
 
     return (
         <div className="d-flex justify-content-center row">
             <form
-                onSubmit={onSubmit}
+                onSubmit={handleSubmit}
                 className="col-6 d-flex flex-column align-items-center g-3"
             >
                 <h1>Iniciar sesión</h1>
@@ -88,7 +86,7 @@ const Login = () => {
                 <label className="col-6 d-flex flex-column mb-3">
                     <span className="form-label">Email</span>
                     <input
-                        type="text"
+                        type="email"
                         name="email"
                         autoComplete="off"
                         value={values.email}
