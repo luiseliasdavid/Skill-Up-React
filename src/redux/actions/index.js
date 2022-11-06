@@ -1,12 +1,12 @@
 import axios from 'axios';
 
 export const POST_NEW_USER = 'POST_NEW_USER';
-export const GET_USER_LIST = 'GET_USER_LIST';
-export const LOGIN = 'LOGIN';
-export const LOGOUT= 'LOGOUT';
 export const POST_ACCOUNT = 'POST_ACCOUNT';
+export const LOGIN = 'LOGIN';
+export const LOGOUT = 'LOGOUT';
 export const POST_ADD_CASH = 'POST_ADD_CASH';
 export const GET_BALANCE = 'GET_BALANCE';
+export const GET_USER_DATA = 'GET_USER_DATA';
 
 
 let date = new Date();
@@ -205,16 +205,29 @@ export const balance = () => {
     }
 }
 
-export const userList = () => {
+
+export const userData = () => {
     return async function( dispatch ) {
-        const api = 'http://wallet-main.eba-ccwdurgr.us-east-1.elasticbeanstalk.com/users'
-        const response = await axios.get( api );
+
+        const token = localStorage.getItem('token');
+        const tokenBody = { headers: { Authorization: `Bearer ${token}`} };
+
+        const userDetail = await axios.get( `${API_SWAGGER}/auth/me`, tokenBody );
+
+        
+        const transactionsUser = await axios.get( `${API_SWAGGER}/transactions`, tokenBody );
+
+        const initialTopup = transactionsUser.data.data.find( transactions => 
+            transactions.concept === 'initial' && transactions.type === 'topup' )
+        
+        const idAccount = initialTopup.accountId;
+        const account = await axios.get( `${API_SWAGGER}/accounts/${idAccount}`, tokenBody )
+
+
+        
         return dispatch({
-            type: GET_USER_LIST,
-            payload: response.data
+            type: GET_USER_DATA,
+            payload: { user: userDetail.data, account: account.data }
         });
     }
-};
-
-
-
+} 

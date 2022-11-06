@@ -1,13 +1,12 @@
 // import actions
-import { POST_NEW_USER, GET_USER_LIST, LOGIN,
-     LOGOUT, POST_ACCOUNT, POST_ADD_CASH, GET_BALANCE } from "../actions";
+import { POST_NEW_USER, LOGIN, GET_USER_DATA, LOGOUT, POST_ACCOUNT, 
+        POST_ADD_CASH, GET_BALANCE } from "../actions";
 
 
 const initialState = {
     userActive: false,
     createUser: false,
     userData: {},
-    userList: [],
     };
     
     
@@ -18,10 +17,17 @@ const initialState = {
                 ...state,
                 createUser: action.payload,
             }
-        case GET_USER_LIST:
+        case POST_ACCOUNT: 
             return {
                 ...state,
-                userList: action.payload
+                userActive: action.payload.active,
+                userData: { ...action.payload.user, account: action.payload.account }
+            }
+        case GET_USER_DATA: 
+            return {
+                ...state,
+                userActive: true,
+                userData: { ...action.payload.user, account: action.payload.account } 
             }
         case LOGIN: 
             return {
@@ -36,12 +42,6 @@ const initialState = {
                 createUser: false,
                 userActive: false,
                 userData: {}
-            }
-        case POST_ACCOUNT: 
-            return {
-                ...state,
-                userActive: action.payload.active,
-                userData: { ...action.payload.user ,account: action.payload.account }
             }
         case POST_ADD_CASH: 
             return {

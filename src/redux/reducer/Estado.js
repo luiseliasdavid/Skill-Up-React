@@ -29,7 +29,7 @@ const crearUsuario= ()=>{
     
     first_name: "lioffpsp",
     last_name: "oodredss",
-    email: "ekkkhdfee@ail.com",
+    email: "ekkkxcz@ail.com",
     password: "123456",
     points: 0,
     roleId: 2,
@@ -38,7 +38,7 @@ const crearUsuario= ()=>{
 }
 const log=()=>{
  dispatch(login({
-  email: "ekkkhdfee@ail.com",
+  email: "ekkkxcz@ail.com",
   password: "123456"
 }))
 }
