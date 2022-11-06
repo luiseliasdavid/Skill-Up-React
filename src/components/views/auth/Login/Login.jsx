@@ -12,9 +12,9 @@ const Login = () => {
 
     const [token, setToken] = useState(null);
     
-    useEffect(() => {
+    /* useEffect(() => {
         // Esto es para que si el usuario se redirige al login (cambiando la ruta), lo desloguee
-        localStorage.getItem("token") && localStorage.removeItem("token");
+       localStorage.getItem("token") && localStorage.removeItem("token"); 
 
         if (!token) return;
 
@@ -32,7 +32,7 @@ const Login = () => {
                 navigate('/home', { redirect: true });
             })
             .catch((err) => console.log(err));
-    }, [token]);
+    }, [token]); */
 
     const initialValues = {
         email: "",

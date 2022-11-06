@@ -5,7 +5,13 @@ import { useDispatch, useSelector } from 'react-redux';
 
 
 export const  Estado= ()=> {
-const API_SWAGGER= 'http://wallet-main.eba-ccwdurgr.us-east-1.elasticbeanstalk.com'
+
+// El 'useEffect' en el componente Login era el que borraba el token
+// del localStorage. 
+
+// Ahora queda solucionar que al recargar la pagina no se pierdan los datos
+// que tenemos en el store.
+
 
 let data = useSelector(state=> state)
 
@@ -23,7 +29,7 @@ const crearUsuario= ()=>{
     
     first_name: "lioffpsp",
     last_name: "oodredss",
-    email: "lppppp@ail.com",
+    email: "ekkkhdfee@ail.com",
     password: "123456",
     points: 0,
     roleId: 2,
@@ -32,7 +38,7 @@ const crearUsuario= ()=>{
 }
 const log=()=>{
  dispatch(login({
-  email: "jjhhkkk@ail.com",
+  email: "ekkkhdfee@ail.com",
   password: "123456"
 }))
 }
@@ -57,16 +63,17 @@ const consoleEstate = ()=>{
   console.log(JSON.parse(localStorage.getItem("user")).id)}
 }
 
-const crearCuenta =()=> {
+/* const crearCuenta =()=> {
   dispatch(createAccount(67))
-}
+} */
   return (
     <div>
       <button onClick={consoleEstate}>Console.log estado</button>
-      <button onClick={crearUsuario}>cear usuario </button>
+      <button onClick={crearUsuario}>crear usuario </button>
       <button onClick={log}>login</button>
       <button onClick={cargasaldo}>CARGAR SALDO</button>
       <button onClick={balanceview}>BALANCE</button>
+      <button onClick={userLogout}>LOGOUT</button>
       
     </div>
   )

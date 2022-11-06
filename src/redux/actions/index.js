@@ -32,9 +32,9 @@ export const createUser = ( user ) => {
                 email: user.email,
                 password: user.password
             }
-            dispatch( login(emailAndPasword) )
+            /* dispatch( login(emailAndPasword) ) */
 
-            console.log(dateStr);
+
             //create the account
             console.log(response.data.id);
             dispatch( createAccount( response.data.id, emailAndPasword ));
@@ -65,7 +65,7 @@ export const createAccount = ( id, emailAndPasword ) => {
 
         const data = {
             creationDate: `${dateStr}`,
-            money: 230,
+            money: 0,
             isBlocked: false,
             userId: id
         }
@@ -76,12 +76,23 @@ export const createAccount = ( id, emailAndPasword ) => {
         
         console.log(tokenBody);
         //create the account whit this date
-        let account = await axios.post( `http://wallet-main.eba-ccwdurgr.us-east-1.elasticbeanstalk.com/accounts`, data, tokenBody )
+        let account = await axios.post( `${API_SWAGGER}/accounts`, data, tokenBody )
         console.log("respuesta del account");
+
+        const deposit = {
+            type: 'topup',
+            concept: 'initial',
+            amount: 0
+        }
+
+        const initialTopup = await axios.post( `${API_SWAGGER}/accounts/${account.data.id}`, deposit, tokenBody )
+        
+        const userDetail = await axios.get( `${API_SWAGGER}/auth/me`, tokenBody )
+        const accountDetail = await axios.get( `${API_SWAGGER}/accounts/${ account.data.id }`, tokenBody )
 
         return dispatch({
             type: POST_ACCOUNT,
-            payload: account.data
+            payload: { user: userDetail.data, account: accountDetail.data, active: true }
         });
 
     }
@@ -93,9 +104,11 @@ export const login = ( user ) => {
             // get jwt from api
             const response = await axios.post( `${API_SWAGGER}/auth/login`, user );
             localStorage.setItem( 'token', response.data.accessToken )
+
             // get the user data and set on localsatorage
-            let info = await axios.get( `${API_SWAGGER}/auth/me`,
-             { headers: { Authorization: `Bearer ${response.data.accessToken}`} })
+            let tokenBody = { headers: { Authorization: `Bearer ${response.data.accessToken}` }}
+
+            let info = await axios.get( `${API_SWAGGER}/auth/me`, tokenBody )
             
              //set info in local starage
              const userDataStorage = { 
@@ -105,19 +118,27 @@ export const login = ( user ) => {
                 roleId: info.data.roleId,
                 id: info.data.id
             }
-
             localStorage.setItem( 'user', JSON.stringify( userDataStorage ) )
+
+            const transactionsUser = await axios.get( `${API_SWAGGER}/transactions`, tokenBody )
+
+            const initialTopup = transactionsUser.data.data.find( transactions => 
+                transactions.concept === 'initial' && transactions.type === 'topup' )
+            
+            const idAccount = initialTopup.accountId;
+            const account = await axios.get( `${API_SWAGGER}/accounts/${idAccount}`, tokenBody )
+
+            
             // set de user data on redux
             return dispatch({
                 type: LOGIN,
-                payload: [ true, info.data ]
+                payload: { active: true, user: info.data, account: account.data }
             });
         } catch (e) {
             console.log(e)
             return dispatch({
                 type: LOGIN,
-                payload: false,
-                userData: {}
+                payload: { active: false, user: {}, account: {} }
             });
         }
     }

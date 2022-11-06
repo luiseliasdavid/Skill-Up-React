@@ -26,19 +26,22 @@ const initialState = {
         case LOGIN: 
             return {
                 ...state,
-                userActive: action.payload[0],
-                userData: { ...state.userData, ...action.payload[1] }
+                createUser: false,
+                userActive: action.payload.active,
+                userData: { ...action.payload.user, account: action.payload.account }
             }
         case LOGOUT:
             return {
                 ...state,
+                createUser: false,
                 userActive: false,
                 userData: {}
             }
         case POST_ACCOUNT: 
             return {
                 ...state,
-                userData: { ...state.userData, account: action.payload }
+                userActive: action.payload.active,
+                userData: { ...action.payload.user ,account: action.payload.account }
             }
         case POST_ADD_CASH: 
             return {
