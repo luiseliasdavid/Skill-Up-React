@@ -17,13 +17,13 @@ let data = useSelector(state=> state)
 
 const dispatch = useDispatch()
 
-useEffect(()=>{
+useEffect(() => {
  if(data){
  console.log(data)}
 //result 11-3-2022   // necesitamos esto -> "2022-10-26 10:00:00"
-},[data])
+}, [ data ])
 
-const crearUsuario= ()=>{
+const crearUsuario = () => {
   console.log("hoola")
  dispatch( createUser({
     
