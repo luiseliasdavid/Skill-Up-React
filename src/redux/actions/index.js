@@ -33,7 +33,7 @@ export const createUser = ( user ) => {
     return async function( dispatch ) {
         try {
             //create the user
-             const response = fetchWalletApi.post(`/users`, user);;
+             const response = axios.post(`${API_SWAGGER}/users`, user );
              
              //login the user
             const emailAndPasword = {
@@ -43,6 +43,7 @@ export const createUser = ( user ) => {
             /* dispatch( login(emailAndPasword) ) */
 
 
+            console.log('se crea el usuario con id ' + response.data.id)
             //create the account
             console.log(response.data.id);
             dispatch( createAccount( response.data.id, emailAndPasword ));
@@ -67,9 +68,12 @@ export const createAccount = ( id, emailAndPasword ) => {
     return async function( dispatch ) {
         // obtener la fecha de hoy en formato `yyyy-mm-dd 00:00:00`
         
-         // get jwt from api
-         const authLogin = await fetchWalletApi.post( '/auth/login', emailAndPasword );
-         localStorage.setItem( 'token', authLogin.data.accessToken )
+        // get jwt from api
+        const authLogin = await axios.post( `${API_SWAGGER}/auth/login`,
+            emailAndPasword 
+        );
+
+        localStorage.setItem( 'token', authLogin.data.accessToken )
 
         const data = {
             creationDate: `${dateStr}`,
@@ -94,14 +98,21 @@ export const createAccount = ( id, emailAndPasword ) => {
             amount: 0
         }
 
-        const initialTopup = await fetchWalletApi.post( `/accounts/${ account.data.id }`, deposit )
+        const initialTopup = await fetchWalletApi.post(
+            `/accounts/${ account.data.id }`,
+            deposit
+        )
         
         const userDetail = await fetchWalletApi.get( '/auth/me' )
         const accountDetail = await fetchWalletApi.get( `/accounts/${ account.data.id }` )
 
         return dispatch({
             type: POST_ACCOUNT,
-            payload: { user: userDetail.data, account: accountDetail.data, active: true }
+            payload: { 
+                user: userDetail.data,
+                account: accountDetail.data,
+                active: true
+            }
         });
 
     }
@@ -152,7 +163,6 @@ export const login = ( user ) => {
     }
 };
 
-
 // * logout from the app. This will clear all data in localStorage
 export const logout = () => {
     localStorage.clear()
@@ -161,43 +171,7 @@ export const logout = () => {
     });
 }
 
-
-
-
-
-
 // * Function to add money to the account user.
-export const addMoneyToAccount = (amount, id) => {
-   return async function (dispatch) {
-      const deposit = {
-         type: "topup",
-         concept: "Add money",
-         amount: amount,
-      };
-
-      // const token = localStorage.getItem("token");
-      // const tokenBody = { headers: { Authorization: `Bearer ${token}` } };
-
-      const depositMoneyToOwnUserAccount = await fetchWalletApi.post(
-         `/accounts/${id}`,
-         deposit
-         // tokenBody
-      );
-
-      const detailAccount = await fetchWalletApi.get(
-         `/accounts/${id}`
-         // tokenBody
-      );
-
-      return dispatch({
-         type: POST_ADD_CASH,
-         payload: detailAccount.data,
-      });
-   };
-};
-
-
-
 export const addMoneyToAccount = ( amount, id ) => {
     return async function( dispatch ) {
         const deposit = {
@@ -270,9 +244,6 @@ export const balance = () => {
         });
     }
 };
-
-
-
 
 export const userData = () => {
     return async function( dispatch ) {

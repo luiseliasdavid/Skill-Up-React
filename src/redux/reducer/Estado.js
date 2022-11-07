@@ -1,5 +1,5 @@
 import React,{useEffect} from 'react'
-import {createUser , userList , login ,logout, createAccount, 
+import {createUser, login, logout, 
   addMoneyToAccount, balance } from "../actions"
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -17,19 +17,19 @@ let data = useSelector(state=> state)
 
 const dispatch = useDispatch()
 
-useEffect(() => {
+/* useEffect(() => {
  if(data){
  console.log(data)}
 //result 11-3-2022   // necesitamos esto -> "2022-10-26 10:00:00"
-}, [ data ])
+}, [ data ]) */
 
 const crearUsuario = () => {
   console.log("hoola")
  dispatch( createUser({
     
-    first_name: "lioffpsp",
-    last_name: "oodredss",
-    email: "ekkkxcz@ail.com",
+    first_name: "dlocop",
+    last_name: "ootobgss",
+    email: "ezhhhhhkk@ail.com",
     password: "123456",
     points: 0,
     roleId: 2,
@@ -38,7 +38,7 @@ const crearUsuario = () => {
 }
 const log=()=>{
  dispatch(login({
-  email: "ekkkxcz@ail.com",
+  email: "ezewjkkkk@ail.com",
   password: "123456"
 }))
 }
