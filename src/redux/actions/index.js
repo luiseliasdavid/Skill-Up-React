@@ -1,13 +1,13 @@
 import axios from "axios";
 import fetchWalletApi from "../../api/fetchWalletApi";
 
-export const POST_NEW_USER = "POST_NEW_USER";
-export const GET_USER_LIST = "GET_USER_LIST";
-export const LOGIN = "LOGIN";
-export const LOGOUT = "LOGOUT";
-export const POST_ACCOUNT = "POST_ACCOUNT";
-export const POST_ADD_CASH = "POST_ADD_CASH";
-export const GET_BALANCE = "GET_BALANCE";
+export const POST_NEW_USER = 'POST_NEW_USER';
+export const POST_ACCOUNT = 'POST_ACCOUNT';
+export const LOGIN = 'LOGIN';
+export const LOGOUT = 'LOGOUT';
+export const POST_ADD_CASH = 'POST_ADD_CASH';
+export const GET_BALANCE = 'GET_BALANCE';
+export const GET_USER_DATA = 'GET_USER_DATA';
 
 let date = new Date();
 let dateStr =
@@ -23,125 +23,148 @@ let dateStr =
    ":" +
    ("00" + date.getSeconds()).slice(-2);
 
+
 const API_SWAGGER =
    "http://wallet-main.eba-ccwdurgr.us-east-1.elasticbeanstalk.com";
 
+
 // * Function to create an user on Register Form.
-export const createUser = (user) => {
-   return async function (dispatch) {
-      try {
-         //create the user
-         const response = await fetchWalletApi.post(`/users`, user);
+export const createUser = ( user ) => {
+    return async function( dispatch ) {
+        try {
+            //create the user
+             const response = fetchWalletApi.post(`/users`, user);;
+             
+             //login the user
+            const emailAndPasword = {
+                email: user.email,
+                password: user.password
+            }
+            /* dispatch( login(emailAndPasword) ) */
 
-         //login the user
-         const emailAndPasword = {
-            email: user.email,
-            password: user.password,
-         };
 
-         dispatch(login(emailAndPasword));
+            //create the account
+            console.log(response.data.id);
+            dispatch( createAccount( response.data.id, emailAndPasword ));
+            
+            return dispatch({
+                type: POST_NEW_USER,
+                payload: true
+            });
+        } catch (e) {
+            return dispatch({
+                type: POST_NEW_USER,
+                payload: false
+            });
+        }
 
-         console.log(dateStr);
-         //create the account
-         console.log(response.data.id);
-         dispatch(createAccount(response.data.id, emailAndPasword));
-
-         return dispatch({
-            type: POST_NEW_USER,
-            payload: true,
-         });
-      } catch (e) {
-         return dispatch({
-            type: POST_NEW_USER,
-            payload: false,
-         });
-      }
-   };
+    }
 };
+
 
 // * Function to create a new and unique account when an user register first time.
-export const createAccount = (id, emailAndPasword) => {
-   return async function (dispatch) {
-      // obtener la fecha de hoy en formato `yyyy-mm-dd 00:00:00`
-      console.log("estamos en account");
+export const createAccount = ( id, emailAndPasword ) => {
+    return async function( dispatch ) {
+        // obtener la fecha de hoy en formato `yyyy-mm-dd 00:00:00`
+        
+         // get jwt from api
+         const authLogin = await fetchWalletApi.post( '/auth/login', emailAndPasword );
+         localStorage.setItem( 'token', authLogin.data.accessToken )
 
-      // get jwt from api
-      const authLogin = await fetchWalletApi.post(
-         "/auth/login",
-         emailAndPasword
-      );
+        const data = {
+            creationDate: `${dateStr}`,
+            money: 0,
+            isBlocked: false,
+            userId: id
+        }
+        
+        /* let token = localStorage.getItem('token');
+        console.log(token);
+        let tokenBody = { headers: { Authorization: `Bearer ${token}` }}
+        
+        console.log(tokenBody); */
 
-      localStorage.setItem("token", authLogin.data.accessToken);
+        //create the account whit this date
+        const account = await fetchWalletApi.post( "/accounts", data )
+        console.log("respuesta del account");
 
-      const data = {
-         creationDate: `${dateStr}`,
-         money: 230,
-         isBlocked: false,
-         userId: id,
-      };
+        const deposit = {
+            type: 'topup',
+            concept: 'initial',
+            amount: 0
+        }
 
-      // let token = localStorage.getItem("token");
-      // console.log(token);
-      // let tokenBody = { headers: { Authorization: `Bearer ${token}` } };
+        const initialTopup = await fetchWalletApi.post( `/accounts/${ account.data.id }`, deposit )
+        
+        const userDetail = await fetchWalletApi.get( '/auth/me' )
+        const accountDetail = await fetchWalletApi.get( `/accounts/${ account.data.id }` )
 
-      // console.log(tokenBody);
-      //create the account whit this date
+        return dispatch({
+            type: POST_ACCOUNT,
+            payload: { user: userDetail.data, account: accountDetail.data, active: true }
+        });
 
-      let account = await fetchWalletApi.post("/accounts", data);
-      console.log("respuesta del account");
-
-      return dispatch({
-         type: POST_ACCOUNT,
-         payload: account.data,
-      });
-   };
+    }
 };
+
 
 // * Function to login an user
-export const login = (user) => {
-   return async function (dispatch) {
-      try {
-         // get jwt from api
-         const response = await fetchWalletApi.post("/auth/login", user);
-         localStorage.setItem("token", response.data.accessToken);
+export const login = ( user ) => {
+    return async function( dispatch ) {
+        try {
+            // get jwt from api
+            const response = await fetchWalletApi.post("/auth/login", user);
+            localStorage.setItem( 'token', response.data.accessToken )
 
-         // get the user data and set on localsatorage
-         const { data } = await fetchWalletApi.get("/auth/me");
+            let info = await fetchWalletApi.get( '/auth/me' )
+            
+             //set info in local starage
+             const userDataStorage = { 
+                first_name: info.data.first_name,
+                last_name: info.data.last_name,
+                email: info.data.email,
+                roleId: info.data.roleId,
+                id: info.data.id
+            }
+            localStorage.setItem( 'user', JSON.stringify( userDataStorage ) )
 
-         //set info in local starage
-         const userDataStorage = {
-            first_name: data.first_name,
-            last_name: data.last_name,
-            email: data.email,
-            roleId: data.roleId,
-            id: data.id,
-         };
+            const transactionsUser = await fetchWalletApi.get( '/transactions' )
 
-         localStorage.setItem("user", JSON.stringify(userDataStorage));
+            const initialTopup = transactionsUser.data.data.find( transactions => 
+                transactions.concept === 'initial' && transactions.type === 'topup' )
+            
+            const idAccount = initialTopup.accountId;
+            const account = await fetchWalletApi.get( `/accounts/${ idAccount }` )
 
-         // set de user data on redux
-         return dispatch({
-            type: LOGIN,
-            payload: [true, data],
-         });
-      } catch (e) {
-         console.log(e);
-         return dispatch({
-            type: LOGIN,
-            payload: false,
-            userData: {},
-         });
-      }
-   };
+            
+            // set de user data on redux
+            return dispatch({
+                type: LOGIN,
+                payload: { active: true, user: info.data, account: account.data }
+            });
+        } catch (e) {
+            console.log(e)
+            return dispatch({
+                type: LOGIN,
+                payload: { active: false, user: {}, account: {} }
+            });
+        }
+    }
 };
+
 
 // * logout from the app. This will clear all data in localStorage
 export const logout = () => {
-   localStorage.clear();
-   return {
-      type: LOGOUT,
-   };
-};
+    localStorage.clear()
+    return ({
+        type: LOGOUT,
+    });
+}
+
+
+
+
+
 
 // * Function to add money to the account user.
 export const addMoneyToAccount = (amount, id) => {
@@ -173,25 +196,54 @@ export const addMoneyToAccount = (amount, id) => {
    };
 };
 
+
+
+export const addMoneyToAccount = ( amount, id ) => {
+    return async function( dispatch ) {
+        const deposit = {
+            type: 'topup',
+            concept: 'Add money',
+            amount: amount
+        }
+
+        /* const token = localStorage.getItem('token');
+        const tokenBody = { headers: { Authorization: `Bearer ${token}`} }; */
+
+        const depositMoneyToOwnUserAccount = await fetchWalletApi.post(
+            `/accounts/${ id }`,
+            deposit 
+        );
+
+        const detailAccount = await fetchWalletApi.get(`/accounts/${ id }` )
+
+        return dispatch({
+            type: POST_ADD_CASH,
+            payload: detailAccount.data
+        });
+    }
+};
+
+
 // * This balance function will get all data we need in "Movientos" and "Balance" views
 export const balance = () => {
-   return async function (dispatch) {
-      // const token = localStorage.getItem("token");
-      // const tokenBody = { headers: { Authorization: `Bearer ${token}` } };
+    return async function( dispatch ) {
+       /*  const token = localStorage.getItem('token');
+        const tokenBody = { headers: { Authorization: `Bearer ${token}`} }; */
 
-      const dataTransactions = await fetchWalletApi.get(
-         "/transactions"
-         // tokenBody
-      );
-      console.log(dataTransactions);
-      const topup = dataTransactions.data.data.filter(
-         (transaction) => transaction.type === "topup"
-      );
-      const payment = dataTransactions.data.data.filter(
-         (transaction) => transaction.type === "payment"
-      );
+        const dataTransactions = await fetchWalletApi.get(
+            "/transactions"
+            // tokenBody
+        );
+     
+        const topup = dataTransactions.data.data.filter(
+            (transaction) => transaction.type === "topup"
+        );
 
-      const initialValue = 0;
+        const payment = dataTransactions.data.data.filter(
+            (transaction) => transaction.type === "payment"
+        );
+
+        const initialValue = 0;
       const balanceTopup = topup.reduce(
          (previousAmount, currentAmount) =>
             Number(currentAmount.amount) + Number(previousAmount),
@@ -206,28 +258,43 @@ export const balance = () => {
 
       const totalBalance = balanceTopup - balancePayment;
 
-      return dispatch({
-         type: GET_BALANCE,
-         payload: {
-            topup: balanceTopup,
-            payments: balancePayment,
-            totalBalance,
-         },
-         topupList: topup,
-         paymentsList: payment,
-      });
-   };
+        return dispatch({
+            type: GET_BALANCE,
+            payload: { 
+                topup: balanceTopup,
+                payments: balancePayment,
+                totalBalance 
+            },
+            topupList: topup,
+            paymentsList: payment
+        });
+    }
 };
 
-// * Get all users
-export const userList = () => {
-   return async function (dispatch) {
-      // const api =
-      //    "http://wallet-main.eba-ccwdurgr.us-east-1.elasticbeanstalk.com/users";
-      const response = await fetchWalletApi.get("/users");
-      return dispatch({
-         type: GET_USER_LIST,
-         payload: response.data,
-      });
-   };
+
+
+
+export const userData = () => {
+    return async function( dispatch ) {
+
+        /* const token = localStorage.getItem('token');
+        const tokenBody = { headers: { Authorization: `Bearer ${token}`} }; */
+
+        const userDetail = await fetchWalletApi.get( '/auth/me' );
+
+        
+        const transactionsUser = await fetchWalletApi.get( '/transactions' );
+
+        const initialTopup = transactionsUser.data.data.find( transactions => 
+            transactions.concept === 'initial' && transactions.type === 'topup' )
+        
+        const idAccount = initialTopup.accountId;
+        const account = await fetchWalletApi.get( `/accounts/${idAccount}` )
+
+        
+        return dispatch({
+            type: GET_USER_DATA,
+            payload: { user: userDetail.data, account: account.data }
+        });
+    }
 };
