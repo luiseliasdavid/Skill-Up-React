@@ -29,7 +29,7 @@ const crearUsuario = () => {
     
     first_name: "dlocop",
     last_name: "ootobgss",
-    email: "ezhhhhhkk@ail.com",
+    email: "elopibemrr@ail.com",
     password: "123456",
     points: 0,
     roleId: 2,
@@ -38,7 +38,7 @@ const crearUsuario = () => {
 }
 const log=()=>{
  dispatch(login({
-  email: "ezewjkkkk@ail.com",
+  email: "elopibemrr@ail.com",
   password: "123456"
 }))
 }
