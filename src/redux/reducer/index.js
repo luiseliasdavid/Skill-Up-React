@@ -81,7 +81,7 @@ const rootReducer = (state = initialState, action) => {
       case GET_ALL_ACCOUNT_AND_USERS:
          return {
             ...state,
-            accountList: action.payload.accountList,
+            accountList: action.payload.accountsList,
             userList: action.payload.userList,
          };
       default:

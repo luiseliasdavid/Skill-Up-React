@@ -32,17 +32,17 @@ export const Estado = () => {
          createUser({
             first_name: "dlocop",
             last_name: "ootobgss",
-            email: "elopibemrr@ail.com",
+            email: "elogfdgmrr@ail.com",
             password: "123456",
             points: 0,
-            roleId: 2,
+            roleId: 1,
          })
       );
    };
    const log = () => {
       dispatch(
          login({
-            email: "elopibemrr@ail.com",
+            email: "elogfdgmrr@ail.com",
             password: "123456",
          })
       );

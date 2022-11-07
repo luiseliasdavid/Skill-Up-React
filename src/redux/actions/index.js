@@ -254,27 +254,43 @@ export const userData = () => {
 
 export const getAllAccountsAndUsers = () => {
    return async function (dispatch) {
-      let numberPage = 1;
+      let numberAccountPage = 1;
       let accountArray = [];
-      let userArray = [];
+
+      let condicionAccount = true;
 
       do {
-         const accountsLists = await fetchWalletApi.get(
-            `/accounts/?page=${numberPage}`
+         let accountsLists = await fetchWalletApi.get(
+            `/accounts/?page=${numberAccountPage}`
          );
-         accountArray.push(...accountsList.data.data);
-         numberPage++;
-      } while (accountsList.data.nextPage);
+         accountArray.push(...accountsLists.data.data);
+         accountsLists.data.nextPage ? condicionAccount=true : condicionAccount=false;
+         numberAccountPage++;
+      } while (condicionAccount);
 
       console.log(accountArray);
 
-      const usersList = await fetchWalletApi.get(`/users`);
+
+      let numberUserpage = 1;
+      let userArray = [];
+
+      let condicionUser = true;
+
+      do {
+         let userLists = await fetchWalletApi.get(
+            `/users/?page=${numberUserpage}`
+         );
+         userArray.push(...userLists.data.data);
+         userLists.data.nextPage ? condicionUser=true : condicionUser=false;
+         numberUserpage++;
+      } while (condicionUser);
+
 
       return dispatch({
          type: GET_ALL_ACCOUNT_AND_USERS,
          payload: {
             accountsList: accountArray,
-            usersList: usersList.data,
+            usersList: userArray,
          },
       });
    };
