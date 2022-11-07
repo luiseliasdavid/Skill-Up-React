@@ -7,14 +7,13 @@ import {
    POST_ACCOUNT,
    POST_ADD_CASH,
    GET_BALANCE,
-   GET_ALL_ACCOUNT_AND_USERS,
+   GET_ALL_USERS_WITH_ACCOUNT,
 } from "../actions";
 
 const initialState = {
    userActive: false,
    createUser: false,
    userData: {},
-   accountList: [],
    userList: [],
 };
 
@@ -78,11 +77,10 @@ const rootReducer = (state = initialState, action) => {
             },
          };
 
-      case GET_ALL_ACCOUNT_AND_USERS:
+      case GET_ALL_USERS_WITH_ACCOUNT:
          return {
             ...state,
-            accountList: action.payload.accountsList,
-            userList: action.payload.userList,
+            userList: action.payload,
          };
       default:
          return state;

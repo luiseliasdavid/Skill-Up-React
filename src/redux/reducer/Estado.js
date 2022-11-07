@@ -5,7 +5,7 @@ import {
    logout,
    addMoneyToAccount,
    balance,
-   getAllAccountsAndUsers,
+   getAllUsersWithAccount,
 } from "../actions";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -68,7 +68,7 @@ export const Estado = () => {
    };
 
    const getAccountListAndUserList = () => {
-      dispatch(getAllAccountsAndUsers());
+      dispatch(getAllUsersWithAccount());
    };
 
    /* const crearCuenta =()=> {

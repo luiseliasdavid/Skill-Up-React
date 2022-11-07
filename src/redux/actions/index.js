@@ -8,7 +8,7 @@ export const LOGOUT = "LOGOUT";
 export const POST_ADD_CASH = "POST_ADD_CASH";
 export const GET_BALANCE = "GET_BALANCE";
 export const GET_USER_DATA = "GET_USER_DATA";
-export const GET_ALL_ACCOUNT_AND_USERS = "GET_ALL_ACCOUNT_AND_USERS";
+export const GET_ALL_USERS_WITH_ACCOUNT = "GET_ALL_USERS_WITH_ACCOUNT";
 
 //const API_SWAGGER= 'http://wallet-main.eba-ccwdurgr.us-east-1.elasticbeanstalk.com'
 
@@ -252,7 +252,7 @@ export const userData = () => {
    };
 };
 
-export const getAllAccountsAndUsers = () => {
+export const getAllUsersWithAccount = () => {
    return async function (dispatch) {
       let numberAccountPage = 1;
       let accountArray = [];
@@ -268,35 +268,36 @@ export const getAllAccountsAndUsers = () => {
          numberAccountPage++;
       } while (condicionAccount);
 
-      console.log(accountArray);
 
+    accountArray = accountArray.filter( account => account.money !== null && account.isBlocked !== true 
+                                        && account.isBlocked !== null )
+    
+    accountArray = accountArray.flat();
+    console.log(accountArray);
+      
 
-      let numberUserpage = 1;
-      let userArray = [];
+    let arrayUsers = [];
 
-      let condicionUser = true;
+    accountArray.forEach( async (account) => {
+        let user = await fetchWalletApi.get(
+            `/users/${account.userId}`
+        );
+        
+    user.data.accountId = account.id; 
 
-      do {
-         let userLists = await fetchWalletApi.get(
-            `/users/?page=${numberUserpage}`
-         );
-         userArray.push(...userLists.data.data);
-         userLists.data.nextPage ? condicionUser=true : condicionUser=false;
-         numberUserpage++;
-      } while (condicionUser);
+    arrayUsers.push(user.data)
+    });                                    
 
+    console.log(arrayUsers + ' despues del forEach')
 
       return dispatch({
-         type: GET_ALL_ACCOUNT_AND_USERS,
-         payload: {
-            accountsList: accountArray,
-            usersList: userArray,
-         },
+         type: GET_ALL_USERS_WITH_ACCOUNT,
+         payload: arrayUsers,
       });
    };
 };
 
-// export const sendMoneyToUser = (id) => {
+// export const sendMoneyToUser = (id ) => {
 //    return async function (dispatch) {
 
 //       const userDetail = await fetchWalletApi.post(`/accounts/${id}`);
