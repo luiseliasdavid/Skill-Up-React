@@ -1,20 +1,25 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from 'react-redux';
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import swal from "../../../../utils/swal";
 import toast from "../../../../utils/toast";
+import { userData } from "../../../../redux/actions";
 
 const Login = () => {
     const API_ENDPOINT =
         "http://wallet-main.eba-ccwdurgr.us-east-1.elasticbeanstalk.com/";
     const navigate = useNavigate();
 
-    const [token, setToken] = useState(null);
+    const dispatch = useDispatch();
+
+
+    //const [token, setToken] = useState(null);
     
-    useEffect(() => {
+    /* useEffect(() => {
         // Esto es para que si el usuario se redirige al login (cambiando la ruta), lo desloguee
-        localStorage.getItem("token") && localStorage.removeItem("token");
+       localStorage.getItem("token") && localStorage.removeItem("token"); 
 
         if (!token) return;
 
@@ -32,7 +37,18 @@ const Login = () => {
                 navigate('/home', { redirect: true });
             })
             .catch((err) => console.log(err));
-    }, [token]);
+    }, [token]); */
+
+
+    const token = localStorage.getItem("token");
+    useEffect(() => {
+        if ( token !== null ) {
+            dispatch( userData() )
+        } else {
+            navigate('/register')
+        }
+    }, [dispatch, token, navigate ]) 
+    
 
     const initialValues = {
         email: "",
@@ -64,7 +80,7 @@ const Login = () => {
             .then((res) => res.json())
             .then((data) => {
                 if (data.accessToken) {
-                    setToken(data.accessToken);
+                    //setToken(data.accessToken);
                     toast("Todo bien", "success");
                 } else {
                     swal("Usuario o contraseña incorrecta.");
