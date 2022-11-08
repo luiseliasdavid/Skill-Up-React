@@ -1,39 +1,16 @@
-import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+
 import swal from "../../../../utils/swal";
 import toast from "../../../../utils/toast";
+import { userData } from "../../../../redux/actions";
 
 const Login = () => {
-    const API_ENDPOINT =
-        "http://wallet-main.eba-ccwdurgr.us-east-1.elasticbeanstalk.com/";
     const navigate = useNavigate();
 
-    const [token, setToken] = useState(null);
-    
-    useEffect(() => {
-        // Esto es para que si el usuario se redirige al login (cambiando la ruta), lo desloguee
-        localStorage.getItem("token") && localStorage.removeItem("token");
-
-        if (!token) return;
-
-        localStorage.setItem("token", token);
-
-        fetch(`${API_ENDPOINT}auth/me`, {
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`,
-            },
-        })
-            .then((res) => res.json())
-            .then((data) => {
-                localStorage.setItem('userData', JSON.stringify(data));
-                toast(`¡Bienvenido ${data.first_name}!`, "success");
-                navigate('/home', { redirect: true });
-            })
-            .catch((err) => console.log(err));
-    }, [token,navigate]);
+    const dispatch = useDispatch();
 
     const initialValues = {
         email: "",
@@ -50,7 +27,7 @@ const Login = () => {
     const onSubmit = () => {
         const { email, password } = values;
 
-        fetch(`${API_ENDPOINT}auth/login`, {
+        /* fetch(`${API_ENDPOINT}auth/login`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -63,17 +40,18 @@ const Login = () => {
             .then((res) => res.json())
             .then((data) => {
                 if (data.accessToken) {
-                    setToken(data.accessToken);
+                    toast(`¡Bienvenido nuevamente!`, "success");
                 } else {
                     swal("Usuario o contraseña incorrecta.");
                 }
             })
-            .catch((err) => console.log(err));
+            .catch((err) => console.log(err)); */
     };
 
     const formik = useFormik({ initialValues, validationSchema, onSubmit });
 
-    const { errors, touched, values, handleChange, handleBlur, handleSubmit } = formik;
+    const { errors, touched, values, handleChange, handleBlur, handleSubmit } =
+        formik;
 
     return (
         <div className="d-flex justify-content-center row">
