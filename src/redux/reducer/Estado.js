@@ -6,6 +6,7 @@ import {
    addMoneyToAccount,
    balance,
    getAllUsersWithAccount,
+   sendMoneyToUser,
 } from "../actions";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -30,9 +31,9 @@ export const Estado = () => {
       console.log("hoola");
       dispatch(
          createUser({
-            first_name: "dlocop",
-            last_name: "ootobgss",
-            email: "elogfdgmrr@ail.com",
+            first_name: "dtobiasssssop",
+            last_name: "oaazavaobgss",
+            email: "hazavaobg@ail.com",
             password: "123456",
             points: 0,
             roleId: 1,
@@ -42,14 +43,14 @@ export const Estado = () => {
    const log = () => {
       dispatch(
          login({
-            email: "elogfdgmrr@ail.com",
+            email: "hazavaobg@ail.com",
             password: "123456",
          })
       );
    };
 
    const cargasaldo = () => {
-      dispatch(addMoneyToAccount(740, data.userData.account.id));
+      dispatch(addMoneyToAccount(500, data.userData.account.id));
    };
 
    const balanceview = () => {
@@ -71,6 +72,10 @@ export const Estado = () => {
       dispatch(getAllUsersWithAccount());
    };
 
+   const mandarDineroAmigo = () => {
+      dispatch(sendMoneyToUser(7, 100,'pago de los botines', 
+               data.userData.account.money, data.userData.account.id, data.userData.id ));
+   }
    /* const crearCuenta =()=> {
   dispatch(createAccount(67))
 } */
@@ -82,9 +87,23 @@ export const Estado = () => {
          <button onClick={cargasaldo}>CARGAR SALDO</button>
          <button onClick={balanceview}>BALANCE</button>
          <button onClick={userLogout}>LOGOUT</button>
+         <button onClick={mandarDineroAmigo}>Enviar DINERO FRIEND</button>
          <button onClick={getAccountListAndUserList}>
             TRAER LIST DE USER AND ACCOUNTS
          </button>
       </div>
    );
 };
+
+
+
+
+
+/* const token = localStorage.getItem("token");
+    useEffect(() => {
+        if ( token !== null ) {
+            dispatch( userData() )
+        } else {
+            navigate('/register')
+        }
+    }, [dispatch, token, navigate ])  */

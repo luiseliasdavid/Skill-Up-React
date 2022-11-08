@@ -79,7 +79,7 @@ export const createAccount = (id, emailAndPasword) => {
 
       //create the account whit this date
       let account = await fetchWalletApi.post(`/accounts`, data);
-      console.log("respuesta del account");
+      console.log([account.data]);
 
       const deposit = {
          type: "topup",
@@ -133,10 +133,11 @@ export const login = (user) => {
          const transactionsUser = await fetchWalletApi.get(`/transactions`);
 
          const initialTopup = transactionsUser.data.data.find(
-            (transactions) =>
-               transactions.concept === "initial" &&
-               transactions.type === "topup"
+            (transactions) => transactions.type === "topup"
          );
+         
+         console.log(transactionsUser.data)
+         console.log(initialTopup);
 
          const idAccount = initialTopup.accountId;
          const account = await fetchWalletApi.get(`/accounts/${idAccount}`);
@@ -190,13 +191,28 @@ export const balance = () => {
       /* const token = localStorage.getItem('token');
         const tokenBody = { headers: { Authorization: `Bearer ${token}`} }; */
 
-      const dataTransactions = await fetchWalletApi.get(`/transactions`);
-      console.log(dataTransactions);
+      //const dataTransactions = await fetchWalletApi.get(`/transactions`);
 
-      const topup = dataTransactions.data.data.filter(
+      let numberTransactionsPage = 1;
+      let condicionTransactions = true;
+      
+      let transactionsArray = [];
+
+
+      do {
+         let dataTransactions = await fetchWalletApi.get(
+            `/transactions/?page=${numberTransactionsPage}`
+         );
+         transactionsArray.push(...dataTransactions.data.data);
+         dataTransactions.data.nextPage ? condicionTransactions=true : condicionTransactions=false;
+         numberTransactionsPage++;
+      } while (condicionTransactions);
+      
+
+      const topup = transactionsArray.filter(
          (transaction) => transaction.type === "topup"
       );
-      const payment = dataTransactions.data.data.filter(
+      const payment = transactionsArray.filter(
          (transaction) => transaction.type === "payment"
       );
 
@@ -238,8 +254,7 @@ export const userData = () => {
       const transactionsUser = await fetchWalletApi.get(`/transactions`);
 
       const initialTopup = transactionsUser.data.data.find(
-         (transactions) =>
-            transactions.concept === "initial" && transactions.type === "topup"
+         (transactions) => transactions.type === "topup"
       );
 
       const idAccount = initialTopup.accountId;
@@ -297,14 +312,28 @@ export const getAllUsersWithAccount = () => {
    };
 };
 
-// export const sendMoneyToUser = (id ) => {
-//    return async function (dispatch) {
 
-//       const userDetail = await fetchWalletApi.post(`/accounts/${id}`);
+export const sendMoneyToUser = (destinyAccountId,amountToSend,concept,moneyInMyAccount,idOfMyAccont, idMyUser ) => {
+   return async function (dispatch) {
+      
+     let paymentBody= {
+        type: "payment",
+        concept: concept,
+        amount: amountToSend
+      }
+      
+      await fetchWalletApi.post(`/accounts/${destinyAccountId}`,paymentBody);
 
-//       return dispatch({
-//          type:
-//          payload:
-//       });
-//    };
-// };
+      let NewAmount = Number( moneyInMyAccount) - Number(amountToSend)
+      
+      let putNewAmount = {
+         creationDate: dateStr,
+         money: NewAmount,
+         isBlocked: false,
+         userId: idMyUser
+       }
+       
+       await fetchWalletApi.put(`/accounts/${idOfMyAccont}`, putNewAmount);
+       dispatch(userData())           
+    };
+ };
