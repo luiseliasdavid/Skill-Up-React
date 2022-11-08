@@ -40,7 +40,7 @@ const Login = () => {
     }, [token]); */
 
 
-    const token = localStorage.getItem("token");
+    /* const token = localStorage.getItem("token");
     useEffect(() => {
         if ( token !== null ) {
             dispatch( userData() )
@@ -48,7 +48,7 @@ const Login = () => {
             navigate('/register')
         }
     }, [dispatch, token, navigate ]) 
-    
+     */
 
     const initialValues = {
         email: "",
