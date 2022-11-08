@@ -293,21 +293,43 @@ export const getAllUsersWithAccount = () => {
 
     let arrayUsers = [];
 
-    accountArray.forEach( async (account) => {
-        let user = await fetchWalletApi.get(
+    
+   for (const acc of accountArray ) {
+      const resultado = await fetchWalletApi.get(
+      `/users/${acc.userId}`
+   );
+      resultado.data.accountId = acc.id;  
+      arrayUsers.push(resultado.data);
+   }
+    
+
+   /* accountArray.forEach( async (account) => {
+      let user = await fetchWalletApi.get(
             `/users/${account.userId}`
-        );
-        
-    user.data.accountId = account.id; 
+      );
+ 
+      /*user.data.accountId = account.id; */
 
-    arrayUsers.push(user.data)
-    });                                    
+    /*   arrayUsers.push( {...user.data} );
+    });    */                                 
+   
 
-    console.log(arrayUsers + ' despues del forEach')
+   const setObj = new Set(); // creamos pares de clave y array
+
+   const unicos = arrayUsers.reduce((acc, user) => {
+   if (!setObj.has(user.id)){
+      setObj.add(user.id, user)
+      acc.push(user)
+   }
+   return acc;
+   },[]);
+
+
+   console.log(unicos); 
 
       return dispatch({
          type: GET_ALL_USERS_WITH_ACCOUNT,
-         payload: arrayUsers,
+         payload: unicos,
       });
    };
 };
