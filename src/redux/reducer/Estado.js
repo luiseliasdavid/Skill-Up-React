@@ -31,9 +31,9 @@ export const Estado = () => {
       console.log("hoola");
       dispatch(
          createUser({
-            first_name: "dtobiasssssop",
-            last_name: "oaazavaobgss",
-            email: "hazavaobg@ail.com",
+            first_name: "qwertyuiop",
+            last_name: "qwertyuiop",
+            email: "qwertyuiop@example.com",
             password: "123456",
             points: 0,
             roleId: 1,
@@ -43,7 +43,7 @@ export const Estado = () => {
    const log = () => {
       dispatch(
          login({
-            email: "hazavaobg@ail.com",
+            email: "qwertyuiop@example.com",
             password: "123456",
          })
       );
