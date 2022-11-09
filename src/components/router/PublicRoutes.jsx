@@ -5,6 +5,7 @@ import { lazy, Suspense } from "react";
 
 import Login from "../views/auth/Login/Login";
 import Register from "../views/auth/Register/Register";
+import Home from "../views/Home/Home";
 const Error404 = lazy(() => import("../views/Error404/Error404"));
 
 const PublicRoutes = () => {
@@ -49,7 +50,7 @@ const PublicRoutes = () => {
             />
 
             <Route
-                path="/"
+                path="/login"
                 element={
                     <motion.div
                         className="page"
@@ -62,6 +63,20 @@ const PublicRoutes = () => {
                     </motion.div>
                 }
             />
+
+        <Route
+            path="/home"
+            element={
+            <motion.div
+                className="page"
+                initial="initial"
+                animate="animate"
+                exit="exit"
+                variants={pageTransition}>
+                <Home />
+            </motion.div>
+            }
+        />
 
             <Route
                 path="*"

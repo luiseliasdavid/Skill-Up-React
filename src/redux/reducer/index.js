@@ -63,7 +63,7 @@ const rootReducer = (state = initialState, action) => {
          return {
             ...state,
             userData: {},
-            statusRequest: {}
+            statusRequest: { status: '0' }
          };
       case CLEAN_STATUS_REQUEST:
          return {
@@ -71,12 +71,17 @@ const rootReducer = (state = initialState, action) => {
             statusRequest: { status: '0' }
          }
       case POST_ADD_CASH:
-         let accountPayload = '';
-         action.payload === {} ? accountPayload = state.userData.account : accountPayload = action.payload;
-         return {
-            ...state,
-            statusRequest: action.status,
-            userData: { ...state.userData, account: accountPayload },
+         if( action.status.status === 200 ) {
+            return {
+               ...state,
+               statusRequest: action.status,
+               userData: { ...state.userData, account: action.payload },
+            };
+         }else {
+            return {
+               ...state,
+               statusRequest: action.status
+            };
          };
       case SEND_MONEY:
          if (action.status.status === 200) {

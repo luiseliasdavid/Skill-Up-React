@@ -9,6 +9,7 @@ import Transfers from "../views/Transfers/Transfers";
 import Register from "../views/auth/Register/Register";
 import Login from "../views/auth/Login/Login";
 import {lazy, Suspense} from "react";
+import Home from "../views/Home/Home";
 
 const PrivateRoutes = () => {
   const pageTransition = {
@@ -123,7 +124,7 @@ const PrivateRoutes = () => {
       />
 
       <Route
-        path="/"
+        path="/login"
         element={
           <motion.div
             className="page"
@@ -132,6 +133,20 @@ const PrivateRoutes = () => {
             exit="exit"
             variants={pageTransition}>
             <Login />
+          </motion.div>
+        }
+      />
+
+      <Route
+        path="/home"
+        element={
+          <motion.div
+            className="page"
+            initial="initial"
+            animate="animate"
+            exit="exit"
+            variants={pageTransition}>
+              <Home />
           </motion.div>
         }
       />

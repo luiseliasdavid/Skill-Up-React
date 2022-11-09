@@ -47,16 +47,16 @@ export const Estado = () => {
    /* useEffect(() => {
       console.log(request.status)
       if ( request.status === 200 ) {
-         alert('Creacion exitosa');
-         return window.location.replace('http://localhost:3000/home')
+          dispatch(cleanStatusRequest());
+          window.location.replace('http://localhost:3000/home')
+         //alert('');
       }
       if ( request.status === '0' ) return;
       if ( request.status !== 200 ) {
          alert(`code: ${request.status} message: ${request.message}`)
          dispatch(cleanStatusRequest());
       }   
-   }, [ dispatch, request ])  */
-   
+   }, [ dispatch, request ])   */
    
 
    const crearUsuario = () => {
@@ -65,7 +65,7 @@ export const Estado = () => {
          createUser({
             first_name: "dtobiasssssop",
             last_name: "oaazavaobgss",
-            email: "abasddhgfhññllllooood@aild.com",
+            email: "luis100@luis100.com",
             password: "123456",
             points: 0,
             roleId: 1,

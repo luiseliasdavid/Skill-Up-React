@@ -39,7 +39,6 @@ export const createUser = (user) => {
             email: user.email,
             password: user.password,
          };
-         /* dispatch( login(emailAndPasword) ) */
 
          //create the account
          console.log(response.data.id);
@@ -82,20 +81,17 @@ export const createAccount = (id, emailAndPasword) => {
          };
          localStorage.setItem("user", JSON.stringify(userDataStorage));
 
-
          const data = {
             creationDate: `${dateStr}`,
             money: 0,
             isBlocked: false,
             userId: id,
          };
-   
-         /* s */
-   
+         
          //create the account whit this date
          let account = await fetchWalletApi.post(`/accounts`, data);
          console.log([account.data]);
-   
+         
          const deposit = {
             type: "topup",
             concept: "initial",
@@ -139,9 +135,6 @@ export const login = (user) => {
          // get jwt from api
          const response = await fetchWalletApi.post(`/auth/login`, user);
          localStorage.setItem("token", response.data.accessToken);
-
-         // get the user data and set on localsatorage
-         /*  let tokenBody = { headers: { Authorization: `Bearer ${response.data.accessToken}` }} */
 
          let info = await fetchWalletApi.get(`/auth/me`);
 
@@ -205,10 +198,7 @@ export const addMoneyToAccount = (amount, id) => {
             concept: "Add money",
             amount: amount,
          };
-   
-         /* const token = localStorage.getItem('token');
-           const tokenBody = { headers: { Authorization: `Bearer ${token}`} }; */
-   
+
          const info = await fetchWalletApi.post(`/accounts/${id}`, deposit);
    
          const detailAccount = await fetchWalletApi.get(`/accounts/${id}`);
@@ -237,7 +227,6 @@ export const balance = () => {
             let condicionTransactions = true;
             
             let transactionsArray = [];
-      
       
             do {
                let dataTransactions = await fetchWalletApi.get(
@@ -295,9 +284,6 @@ export const balance = () => {
 export const userData = () => {
    return async function (dispatch) {
       try {
-         /*  const token = localStorage.getItem('token');
-           const tokenBody = { headers: { Authorization: `Bearer ${token}`} }; */
-   
          const userDetail = await fetchWalletApi.get(`/auth/me`);
    
          const transactionsUser = await fetchWalletApi.get(`/transactions`);
@@ -340,8 +326,7 @@ export const getAllUsersWithAccount = () => {
             accountArray.push(...accountsLists.data.data);
             accountsLists.data.nextPage ? condicionAccount=true : condicionAccount=false;
             numberAccountPage++;
-         } while (condicionAccount);
-   
+         } while (condicionAccount); 
    
        accountArray = accountArray.filter( account => account.money !== null && account.isBlocked !== true 
                                            && account.isBlocked !== null )
@@ -349,9 +334,7 @@ export const getAllUsersWithAccount = () => {
        accountArray = accountArray.flat();
        console.log(accountArray);
          
-   
        let arrayUsers = [];
-   
        
       for (const acc of accountArray ) {
          const resultado = await fetchWalletApi.get(
@@ -360,19 +343,7 @@ export const getAllUsersWithAccount = () => {
          resultado.data.accountId = acc.id;  
          arrayUsers.push(resultado.data);
       }
-       
-   
-      /* accountArray.forEach( async (account) => {
-         let user = await fetchWalletApi.get(
-               `/users/${account.userId}`
-         );
-    
-         /*user.data.accountId = account.id; */
-   
-       /*   arrayUsers.push( {...user.data} );
-       });    */                                 
       
-   
       const setObj = new Set(); // creamos pares de clave y array
    
       const unicos = arrayUsers.reduce((acc, user) => {
@@ -382,9 +353,6 @@ export const getAllUsersWithAccount = () => {
       }
       return acc;
       },[]);
-   
-   
-      console.log(unicos); 
    
          return dispatch({
             type: GET_ALL_USERS_WITH_ACCOUNT,
@@ -398,7 +366,6 @@ export const getAllUsersWithAccount = () => {
             status: { status: e.response.data.status, message: e.response.data.error },
          });
       }
-      
    };
 };
 
@@ -423,8 +390,7 @@ export const sendMoneyToUser = (destinyAccountId,amountToSend,concept,moneyInMyA
              userId: idMyUser
            }
            
-           await fetchWalletApi.put(`/accounts/${idOfMyAccont}`, putNewAmount);
-           /* dispatch(userData())   */        
+         await fetchWalletApi.put(`/accounts/${idOfMyAccont}`, putNewAmount);       
            
          const userDetail = await fetchWalletApi.get(`/auth/me`);
    
