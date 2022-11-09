@@ -6,13 +6,14 @@ import {
    LOGOUT,
    POST_ACCOUNT,
    POST_ADD_CASH,
+   SEND_MONEY,
    GET_BALANCE,
    GET_ALL_USERS_WITH_ACCOUNT,
+   CLEAN_STATUS_REQUEST,
 } from "../actions";
 
 const initialState = {
-   userActive: false,
-   createUser: false,
+   statusRequest: { status:'0' },
    userData: {},
    userList: [],
 };
@@ -22,31 +23,37 @@ const rootReducer = (state = initialState, action) => {
       case POST_NEW_USER:
          return {
             ...state,
-            createUser: action.payload,
+            statusRequest: action.payload,
          };
       case POST_ACCOUNT:
          return {
             ...state,
-            userActive: action.payload.active,
+            statusRequest: action.status,
             userData: {
                ...action.payload.user,
                account: action.payload.account,
             },
          };
       case GET_USER_DATA:
-         return {
-            ...state,
-            userActive: true,
-            userData: {
-               ...action.payload.user,
-               account: action.payload.account,
-            },
-         };
+         if (action.status.status === 200) {
+            return {
+               ...state,
+               statusRequest: action.status,
+               userData: {
+                  ...action.payload.user,
+                  account: action.payload.account,
+               },
+            };
+         }else {
+            return {
+               ...state,
+               statusRequest: action.status
+            }
+         }
       case LOGIN:
          return {
             ...state,
-            createUser: false,
-            userActive: action.payload.active,
+            statusRequest: action.status,
             userData: {
                ...action.payload.user,
                account: action.payload.account,
@@ -55,32 +62,68 @@ const rootReducer = (state = initialState, action) => {
       case LOGOUT:
          return {
             ...state,
-            createUser: false,
-            userActive: false,
             userData: {},
+            statusRequest: {}
          };
+      case CLEAN_STATUS_REQUEST:
+         return {
+            ...state,
+            statusRequest: { status: '0' }
+         }
       case POST_ADD_CASH:
+         let accountPayload = '';
+         action.payload === {} ? accountPayload = state.userData.account : accountPayload = action.payload;
          return {
             ...state,
-            userData: { ...state.userData, account: action.payload },
+            statusRequest: action.status,
+            userData: { ...state.userData, account: accountPayload },
          };
-      case GET_BALANCE:
-         return {
-            ...state,
-            userData: {
-               ...state.userData,
-               balance: action.payload,
-               transactions: {
-                  topup: action.topupList,
-                  payments: action.paymentsList,
+      case SEND_MONEY:
+         if (action.status.status === 200) {
+            return {
+               ...state,
+               userData: {
+                  ...action.payload.user,
+                  account: action.payload.account,
                },
-            },
+            };
+         }else {
+            return {
+               ...state,
+               statusRequest: action.status
+            }
+         }
+      case GET_BALANCE:
+         if( action.status.status === 200 ) {
+            return {
+               ...state,
+               userData: {
+                  ...state.userData,
+                  balance: action.payload,
+                  transactions: {
+                     topup: action.topupList,
+                     payments: action.paymentsList,
+                  },
+               },
+            };
+         }else {
+            return {
+               ...state,
+               statusRequest: action.status
+            };
          };
 
       case GET_ALL_USERS_WITH_ACCOUNT:
-         return {
-            ...state,
-            userList: action.payload,
+         if( action.status.status === 200 ) {
+            return {
+               ...state,
+               userList: action.payload,
+            };
+         }else {
+            return {
+               ...state,
+               statusRequest: action.status
+            };
          };
       default:
          return state;

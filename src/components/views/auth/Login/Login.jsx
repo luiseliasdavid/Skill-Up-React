@@ -47,7 +47,7 @@ const Login = () => {
         } else {
             navigate('/register')
         }
-    }, [dispatch, token, navigate ]) 
+    }, [dispatch, token, navigate ])  
     
 
     const initialValues = {
