@@ -137,7 +137,7 @@ export const login = (user) => {
          localStorage.setItem("token", response.data.accessToken);
 
          let info = await fetchWalletApi.get(`/auth/me`);
-
+         console.log(info);
          //set info in local starage
          const userDataStorage = {
             first_name: info.data.first_name,
@@ -149,12 +149,9 @@ export const login = (user) => {
          localStorage.setItem("user", JSON.stringify(userDataStorage));
 
          const transactionsUser = await fetchWalletApi.get(`/transactions`);
-
-         const initialTopup = transactionsUser.data.data.find(
-            (transactions) => transactions.type === "topup"
-         );
          
-         console.log(transactionsUser.data)
+         const initialTopup = transactionsUser.data.data[0];
+         
          console.log(initialTopup);
 
          const idAccount = initialTopup.accountId;
@@ -288,9 +285,7 @@ export const userData = () => {
    
          const transactionsUser = await fetchWalletApi.get(`/transactions`);
    
-         const initialTopup = transactionsUser.data.data.find(
-            (transactions) => transactions.type === "topup"
-         );
+         const initialTopup = transactionsUser.data.data[0]
    
          const idAccount = initialTopup.accountId;
          const account = await fetchWalletApi.get(`/accounts/${idAccount}`);
@@ -314,19 +309,19 @@ export const getAllUsersWithAccount = () => {
    return async function (dispatch) {
       try {
          
-         let numberAccountPage = 1;
+         let numberAccountPage = 20;
          let accountArray = [];
    
-         let condicionAccount = true;
+        /*  let condicionAccount = true; */
    
          do {
             let accountsLists = await fetchWalletApi.get(
                `/accounts/?page=${numberAccountPage}`
             );
             accountArray.push(...accountsLists.data.data);
-            accountsLists.data.nextPage ? condicionAccount=true : condicionAccount=false;
+           /*  accountsLists.data.nextPage ? condicionAccount=true : condicionAccount=false; */
             numberAccountPage++;
-         } while (condicionAccount); 
+         } while (numberAccountPage <= 22); 
    
        accountArray = accountArray.filter( account => account.money !== null && account.isBlocked !== true 
                                            && account.isBlocked !== null )
@@ -396,9 +391,7 @@ export const sendMoneyToUser = (destinyAccountId,amountToSend,concept,moneyInMyA
    
          const transactionsUser = await fetchWalletApi.get(`/transactions`);
    
-         const initialTopup = transactionsUser.data.data.find(
-            (transactions) => transactions.type === "topup"
-         );
+         const initialTopup = transactionsUser.data.data[0]
    
          const idAccount = initialTopup.accountId;
          const account = await fetchWalletApi.get(`/accounts/${idAccount}`);
@@ -410,6 +403,7 @@ export const sendMoneyToUser = (destinyAccountId,amountToSend,concept,moneyInMyA
          });
 
       } catch(e) {
+         console.log(e);
          return dispatch({
             type: SEND_MONEY,
             status: { status: e.response.data.status, message: e.response.data.error },

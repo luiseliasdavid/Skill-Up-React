@@ -40,6 +40,7 @@ const rootReducer = (state = initialState, action) => {
                ...state,
                statusRequest: action.status,
                userData: {
+                  ...state.userData,
                   ...action.payload.user,
                   account: action.payload.account,
                },
@@ -87,7 +88,9 @@ const rootReducer = (state = initialState, action) => {
          if (action.status.status === 200) {
             return {
                ...state,
+               statusRequest: action.status,
                userData: {
+                  ...state.userData,
                   ...action.payload.user,
                   account: action.payload.account,
                },

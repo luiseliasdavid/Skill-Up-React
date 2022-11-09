@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { cleanStatusRequest, userData } from "../../../redux/actions";
+import { cleanStatusRequest, getAllUsersWithAccount, userData } from "../../../redux/actions";
 
 
 
@@ -31,11 +31,19 @@ const Home = () => {
         }   
      }, [ dispatch, request ])  
      
+    
+
+     const getAccountListAndUserList = () => {
+        dispatch(getAllUsersWithAccount());
+     };
 
     return (
         <div className="App-header">
             <img src={"./alkemy_logo.svg"} className="App-logo" alt="logo" />
             <p>Bienvenido a AlkyBank</p>
+            <button onClick={getAccountListAndUserList}>
+                LIST DE USER AND ACCOUNTS
+            </button>
         </div>
     );
 };
