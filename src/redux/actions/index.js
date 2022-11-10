@@ -6,6 +6,7 @@ export const POST_ACCOUNT = "POST_ACCOUNT";
 export const LOGIN = "LOGIN";
 export const LOGOUT = "LOGOUT";
 export const CLEAN_STATUS_REQUEST = 'CLEAN_STATUS_REQUEST';
+export const CLEAN_STORE = 'CLEAN_STORE';
 export const POST_ADD_CASH = "POST_ADD_CASH";
 export const SEND_MONEY = 'SEND_MONEY';
 export const GET_BALANCE = "GET_BALANCE";
@@ -149,26 +150,25 @@ export const login = (user) => {
          };
          localStorage.setItem("user", JSON.stringify(userDataStorage));
 
-         const transactionsUser = await fetchWalletApi.get(`/transactions`);
+         /* const transactionsUser = await fetchWalletApi.get(`/transactions`);
          
          const initialTopup = transactionsUser.data.data[0];
          
          console.log(initialTopup);
 
          const idAccount = initialTopup.accountId;
-         const account = await fetchWalletApi.get(`/accounts/${idAccount}`);
+         const account = await fetchWalletApi.get(`/accounts/${idAccount}`); */
 
-         // set de user data on redux
          return dispatch({
             type: LOGIN,
-            payload: {  user: info.data, account: account.data },
+            /* payload: {  user: info.data, account: account.data }, */
             status: { status: 200, message:'OK' }
          });
       } catch (e) {
          console.log(e);
          return dispatch({
             type: LOGIN,
-            payload: { user: {}, account: {} },
+           /*  payload: { user: {}, account: {} }, */
             status: { status: e.response.data.status, message: e.response.data.error }
          });
       }
@@ -186,7 +186,13 @@ export const cleanStatusRequest = () => {
    return {
       type: CLEAN_STATUS_REQUEST,
    };
-}
+};
+
+export const cleanStore = () => {
+   return {
+      type: CLEAN_STORE
+   };
+};
 
 export const addMoneyToAccount = (amount, id) => {
    return async function (dispatch) {
