@@ -63,9 +63,9 @@ export const Estado = () => {
       console.log("hoola");
       dispatch(
          createUser({
-            first_name: "qwertyuiop",
-            last_name: "qwertyuiop",
-            email: "qwertyuiop@example.com",
+            first_name: "asdfghij",
+            last_name: "asdfghij",
+            email: "asdfghij@example.com",
             password: "123456",
             points: 0,
             roleId: 1,
@@ -80,7 +80,7 @@ export const Estado = () => {
    const log = () => {
       dispatch(
          login({
-            email: "qwertyuiop@example.com",
+            email: "asdfghij@example.com",
             password: "123456",
          })
       );
@@ -112,7 +112,7 @@ export const Estado = () => {
  /*   const mandarDineroAmigo = () => {
       dispatch(sendMoneyToUser(7, 100,'pago de los botines', 
                data.userData.account.money, data.userData.account.id, data.userData.id ));
-   } */
+   } 
    /* const crearCuenta =()=> {
   dispatch(createAccount(67))
 } */
