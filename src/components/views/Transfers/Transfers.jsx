@@ -40,7 +40,7 @@ const Transfers = () => {
         }
         if ( request.status === '0' ) return;
         if ( request.status !== 200 ) {
-           alert(`error al buscar el balance`)
+           alert(`error `)
            dispatch(cleanStatusRequest());
         }   
      }, [ dispatch, request, alertState ])   

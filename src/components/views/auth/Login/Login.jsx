@@ -53,10 +53,9 @@ const Login = () => {
     
 
     useEffect(() => {
-        console.log(request.status)
         if ( request.status === 200 ) {
             dispatch(cleanStatusRequest());
-            window.location.replace('http://localhost:3000/home')
+            navigate('/home')
            //alert('');
         }
         if ( request.status === '0' ) return;
@@ -64,7 +63,7 @@ const Login = () => {
            alert(`code: ${request.status} message: ${request.message}`)
            dispatch(cleanStatusRequest());
         }   
-     }, [ dispatch, request ])  
+     }, [ dispatch, request, navigate ])  
      
 
 
