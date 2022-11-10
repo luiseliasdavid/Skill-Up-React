@@ -9,6 +9,7 @@ export const CLEAN_STATUS_REQUEST = 'CLEAN_STATUS_REQUEST';
 export const POST_ADD_CASH = "POST_ADD_CASH";
 export const SEND_MONEY = 'SEND_MONEY';
 export const GET_BALANCE = "GET_BALANCE";
+export const GET_ALL_MOVEMENTS = "GET_ALL_MOVEMENTS";
 export const GET_USER_DATA = "GET_USER_DATA";
 export const GET_ALL_USERS_WITH_ACCOUNT = "GET_ALL_USERS_WITH_ACCOUNT";
 
@@ -277,6 +278,28 @@ export const balance = () => {
       }
    };
 };
+
+export const getAllMovements = ( numberPage ) => {
+   return async function (dispatch) {
+      try {
+
+         const dataMovements = await fetchWalletApi.get(
+            `/transactions/?page=${numberPage}`
+         );
+
+         return dispatch({
+            type: GET_ALL_MOVEMENTS,
+            payload: dataMovements.data,
+            status: { status: 200, message: 'OK' }
+         });
+      } catch(e) {
+         return dispatch({
+            type: GET_ALL_MOVEMENTS,
+            status: { status: e.response.data.status, message: e.response.data.error }
+         });
+      }
+   }
+}
 
 export const userData = () => {
    return async function (dispatch) {

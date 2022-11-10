@@ -8,6 +8,7 @@ import {
    POST_ADD_CASH,
    SEND_MONEY,
    GET_BALANCE,
+   GET_ALL_MOVEMENTS,
    GET_ALL_USERS_WITH_ACCOUNT,
    CLEAN_STATUS_REQUEST,
 } from "../actions";
@@ -16,6 +17,7 @@ const initialState = {
    statusRequest: { status:'0' },
    userData: {},
    userList: [],
+   movements: [],
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -120,7 +122,19 @@ const rootReducer = (state = initialState, action) => {
                statusRequest: action.status
             };
          };
-
+      case GET_ALL_MOVEMENTS:
+         if( action.status.status === 200 ) {
+            return {
+               ...state,
+               statusRequest: action.status,
+               movements: action.payload
+            };
+         } else {
+            return {
+               ...state,
+               statusRequest: action.status
+            };
+         };
       case GET_ALL_USERS_WITH_ACCOUNT:
          if( action.status.status === 200 ) {
             return {
