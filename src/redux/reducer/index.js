@@ -11,6 +11,8 @@ import {
    GET_ALL_MOVEMENTS,
    GET_ALL_USERS_WITH_ACCOUNT,
    CLEAN_STATUS_REQUEST,
+   GET_USER_DATA_DATA,
+   GET_ACCOUNT_DETAIL,
    /* CLEAN_STORE, */
 } from "../actions";
 
@@ -19,6 +21,7 @@ const initialState = {
    userData: {},
    userList: [],
    movements: [],
+   userAccount: {},
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -53,7 +56,36 @@ const rootReducer = (state = initialState, action) => {
                ...state,
                statusRequest: action.status
             }
-         }
+         };
+      case GET_USER_DATA_DATA: 
+         if (action.status.status === 200) {
+            return {
+               ...state,
+               statusRequest: action.status,
+               userData: {
+                  ...state.userData,
+                  ...action.payload.user,
+                  account: action.payload.account,
+               },
+               userAccount: action.payload.account,
+            };
+         }else if (action.status.status === 201) {
+            return {
+               ...state,
+               statusRequest: action.status,
+               userData: {
+                  ...state.userData,
+                  ...action.payload.user,
+                  account: action.payload.account,
+               },
+               userAccount: action.payload.account,
+            }
+         }else {
+            return {
+               ...state,
+               statusRequest: action.status
+            }
+         };
       case LOGIN:
          return {
             ...state,
@@ -69,6 +101,7 @@ const rootReducer = (state = initialState, action) => {
             userData: {},
             userList: [],
             movements: [],
+            userAccount: {},
             statusRequest: { status: '0' }
          };
       case CLEAN_STATUS_REQUEST:
@@ -88,7 +121,21 @@ const rootReducer = (state = initialState, action) => {
             return {
                ...state,
                statusRequest: action.status,
-               userData: { ...state.userData, account: action.payload },
+              userData: { ...state.userData, account: action.payload },
+              userAccount: action.payload
+            };
+         }else {
+            return {
+               ...state,
+               statusRequest: action.status
+            };
+         };
+      case GET_ACCOUNT_DETAIL:
+         if( action.status.status === 200 ) {
+            return {
+               ...state,
+               statusRequest: action.status,
+               userData: { ...state.userData, account: action.payload }, 
             };
          }else {
             return {

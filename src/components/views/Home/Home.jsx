@@ -76,6 +76,7 @@ const Home = () => {
             </button>
             <Link to={'/movements'}>llevar a movements</Link>
             <button onClick={desloguearse}>LOGOUT</button>
+            <Link to={'/charge'}>Cargar saldo</Link>
         </div>
     );
 };

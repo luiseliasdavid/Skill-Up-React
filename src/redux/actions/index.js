@@ -9,9 +9,11 @@ export const CLEAN_STATUS_REQUEST = 'CLEAN_STATUS_REQUEST';
 export const CLEAN_STORE = 'CLEAN_STORE';
 export const POST_ADD_CASH = "POST_ADD_CASH";
 export const SEND_MONEY = 'SEND_MONEY';
+export const GET_ACCOUNT_DETAIL = "GET_ACCOUNT_DETAIL";
 export const GET_BALANCE = "GET_BALANCE";
 export const GET_ALL_MOVEMENTS = "GET_ALL_MOVEMENTS";
 export const GET_USER_DATA = "GET_USER_DATA";
+export const GET_USER_DATA_DATA = "GET_USER_DATA_DATA";
 export const GET_ALL_USERS_WITH_ACCOUNT = "GET_ALL_USERS_WITH_ACCOUNT";
 
 //const API_SWAGGER= 'http://wallet-main.eba-ccwdurgr.us-east-1.elasticbeanstalk.com'
@@ -203,13 +205,13 @@ export const addMoneyToAccount = (amount, id) => {
             amount: amount,
          };
 
-         const info = await fetchWalletApi.post(`/accounts/${id}`, deposit);
+         const info = await fetchWalletApi.post(`/accounts/${id}`, deposit); 
    
-         const detailAccount = await fetchWalletApi.get(`/accounts/${id}`);
+         const detailAccount = await fetchWalletApi.get(`/accounts/${id}`); 
    
          return dispatch({
             type: POST_ADD_CASH,
-            payload: detailAccount.data,
+            payload: detailAccount.data, 
             status: { status: 200, message:'OK' }
          });
       } catch(e) {
@@ -222,6 +224,30 @@ export const addMoneyToAccount = (amount, id) => {
       }
    };
 };
+
+export const accountDetail = (id) => {
+   return async function (dispatch) {
+      try {
+
+         const detailAccount = await fetchWalletApi.get(`/accounts/${id}`);
+   
+         return dispatch({
+            type: GET_ACCOUNT_DETAIL,
+            payload: detailAccount.data,
+            status: { status: 202, message:'OK' }
+         });
+      } catch(e) {
+         console.log(e)
+         return dispatch({
+            type: GET_ACCOUNT_DETAIL,
+            payload: {},
+            status: { status: e.response.data.status, message: e.response.data.error }
+         });
+      }
+   };
+};
+
+
 
 export const balance = () => {
    return async function (dispatch) {
@@ -328,6 +354,33 @@ export const userData = () => {
       } catch(e) {
          return dispatch({
             type: GET_USER_DATA,
+            status: { status: e.response.data.status, message: e.response.data.error },
+         });
+      }
+   };
+};
+
+export const userDataData = () => {
+   return async function (dispatch) {
+      try {
+         const userDetail = await fetchWalletApi.get(`/auth/me`);
+   
+         const transactionsUser = await fetchWalletApi.get(`/transactions`);
+   
+         const initialTopup = transactionsUser.data.data[0]
+   
+         const idAccount = initialTopup.accountId;
+         const account = await fetchWalletApi.get(`/accounts/${idAccount}`);
+   
+         return dispatch({
+            type: GET_USER_DATA_DATA,
+            payload: { user: userDetail.data, account: account.data },
+            status: { status: 201, message:'OK' }
+         });
+
+      } catch(e) {
+         return dispatch({
+            type: GET_USER_DATA_DATA,
             status: { status: e.response.data.status, message: e.response.data.error },
          });
       }
