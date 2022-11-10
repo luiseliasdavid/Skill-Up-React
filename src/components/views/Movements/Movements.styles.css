@@ -1,0 +1,28 @@
+.movements {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.movement {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 30px;
+}
+
+.movement-left {
+    display: flex;
+    gap: 20px;
+}
+
+.movement-left-icon {
+    font-size: 3rem;
+}
+
+.movement-detail {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}

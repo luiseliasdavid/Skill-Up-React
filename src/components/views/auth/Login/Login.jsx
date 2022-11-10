@@ -1,16 +1,23 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { useDispatch, useSelector } from "react-redux";
 
+import { login } from "../../../../redux/actions/index"
 import swal from "../../../../utils/swal";
 import toast from "../../../../utils/toast";
-import { userData } from "../../../../redux/actions";
+import { useEffect } from "react";
 
 const Login = () => {
     const navigate = useNavigate();
-
     const dispatch = useDispatch();
+
+    const userData = useSelector((state) => state.userData);
+
+    useEffect(() => {
+        /* userData && navigate('/home'); */
+        console.log(userData);
+    }, [userData]);
 
     const initialValues = {
         email: "",
@@ -26,26 +33,7 @@ const Login = () => {
 
     const onSubmit = () => {
         const { email, password } = values;
-
-        /* fetch(`${API_ENDPOINT}auth/login`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                email,
-                password,
-            }),
-        })
-            .then((res) => res.json())
-            .then((data) => {
-                if (data.accessToken) {
-                    toast(`¡Bienvenido nuevamente!`, "success");
-                } else {
-                    swal("Usuario o contraseña incorrecta.");
-                }
-            })
-            .catch((err) => console.log(err)); */
+        dispatch( login({ email, password }) );
     };
 
     const formik = useFormik({ initialValues, validationSchema, onSubmit });
