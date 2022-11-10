@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link } from 'react-router-dom';
-import { cleanStatusRequest, getAllMovements } from '../../../redux/actions';
+import { Link, useNavigate } from 'react-router-dom';
+import { cleanStatusRequest, getAllMovements, logout } from '../../../redux/actions';
 
 
 const Movements = () => {
@@ -12,10 +12,15 @@ const Movements = () => {
   const [ loading, setLoading ] = useState(true);
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const token = localStorage.getItem("token"); 
+    
 
   useEffect(() => {
+    if ( token === null ) navigate('/login')  
     dispatch(getAllMovements(1))  
-  }, [dispatch])
+  }, [dispatch, navigate, token])
   
 
   useEffect(() => {
@@ -36,6 +41,11 @@ const Movements = () => {
     setLoading(true);   
   }
 
+  const desloguearse = () => {
+    dispatch(logout());
+    navigate('/login')
+ } 
+
   return (
     <div>
       <h1>Movements</h1>
@@ -47,6 +57,7 @@ const Movements = () => {
         loading ? <div>Loading...</div> : <div>{JSON.stringify(user.data[0])}</div>
       }
       <Link to={'/home'}>Ir al home</Link>
+      <button onClick={desloguearse}>LOGOUT</button>
     </div>
   )
 }

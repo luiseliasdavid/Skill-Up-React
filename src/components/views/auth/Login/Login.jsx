@@ -10,7 +10,7 @@ import { cleanStatusRequest, login, userData } from "../../../../redux/actions";
 const Login = () => {
     const API_ENDPOINT =
         "http://wallet-main.eba-ccwdurgr.us-east-1.elasticbeanstalk.com/"; 
-    const navigate = useNavigate();
+    const navigate = useNavigate(); 
     const dispatch = useDispatch();
 
     let data = useSelector((state) => state.userData);
@@ -44,23 +44,23 @@ const Login = () => {
     }, [token]); */
 
 
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("token"); 
     useEffect(() => {
         if ( token !== null ) {
             navigate('/home')
         }
-    }, [token, navigate ])  
+    }, [token, navigate ])    
     
 
     useEffect(() => {
         if ( request.status === 200 ) {
             dispatch(cleanStatusRequest());
-            navigate('/home')
+            navigate('/home') 
            //alert('');
         }
         if ( request.status === '0' ) return;
         if ( request.status !== 200 ) {
-           alert(`code: ${request.status} message: ${request.message}`)
+           /* alert(`code: ${request.status} message: ${request.message}`) */
            dispatch(cleanStatusRequest());
         }   
      }, [ dispatch, request, navigate ])  
@@ -118,6 +118,7 @@ const Login = () => {
     const { errors, touched, values, handleChange, handleBlur } = formik;
 
     return (
+
         <div className="d-flex justify-content-center row">
             <form
                 onSubmit={onSubmit}
