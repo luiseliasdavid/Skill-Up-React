@@ -155,7 +155,6 @@ export const login = (user) => {
          const initialTopup = transactionsUser.data.data[0];
          
          console.log(initialTopup);
-
          const idAccount = initialTopup.accountId;
          const account = await fetchWalletApi.get(`/accounts/${idAccount}`); */
 
