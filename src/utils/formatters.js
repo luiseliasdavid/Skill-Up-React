@@ -13,3 +13,7 @@ export const currencyFormatter = (price) => {
 
     return nf.format(price);
 };
+
+export const formatLargeString = (str, maxLength) => {
+    return str.length <= maxLength ? str : str.slice(0, maxLength) + "...";
+}

@@ -6,7 +6,7 @@ const MovementsPagination = ({
     next,
 }) => {
     return (
-        <nav aria-label="Page navigation example">
+        <nav className="align-self-center">
             <ul className="pagination">
                 <li className={"page-item"}>
                     <button className="page-link" onClick={prev}>
