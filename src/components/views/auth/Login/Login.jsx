@@ -3,7 +3,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 
-import { login } from "../../../../redux/actions/index"
+import { cleanStatusRequest, login } from "../../../../redux/actions";
 import swal from "../../../../utils/swal";
 import toast from "../../../../utils/toast";
 import { useEffect } from "react";
@@ -12,12 +12,13 @@ const Login = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    const userData = useSelector((state) => state.userData);
+    const data = useSelector((state) => state.userData);
+    const request = useSelector((state) => state.statusRequest);
+    const state = useSelector((state) => state);
 
     useEffect(() => {
-        /* userData && navigate('/home'); */
-        console.log(userData);
-    }, [userData]);
+        console.log(state);
+    }, [state]);
 
     const initialValues = {
         email: "",
@@ -33,7 +34,7 @@ const Login = () => {
 
     const onSubmit = () => {
         const { email, password } = values;
-        dispatch( login({ email, password }) );
+        dispatch(login({ email, password }));
     };
 
     const formik = useFormik({ initialValues, validationSchema, onSubmit });
