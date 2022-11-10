@@ -11,6 +11,7 @@ import {
    GET_ALL_MOVEMENTS,
    GET_ALL_USERS_WITH_ACCOUNT,
    CLEAN_STATUS_REQUEST,
+   /* CLEAN_STORE, */
 } from "../actions";
 
 const initialState = {
@@ -57,15 +58,17 @@ const rootReducer = (state = initialState, action) => {
          return {
             ...state,
             statusRequest: action.status,
-            userData: {
+           /*  userData: {
                ...action.payload.user,
                account: action.payload.account,
-            },
+            }, */
          };
       case LOGOUT:
          return {
             ...state,
             userData: {},
+            userList: [],
+            movements: [],
             statusRequest: { status: '0' }
          };
       case CLEAN_STATUS_REQUEST:
@@ -73,6 +76,13 @@ const rootReducer = (state = initialState, action) => {
             ...state,
             statusRequest: { status: '0' }
          }
+      /* case CLEAN_STORE:
+         return {
+            ...state,
+            userData: {},
+            movements: [],
+            statusRequest: { status: '0' }
+         } */
       case POST_ADD_CASH:
          if( action.status.status === 200 ) {
             return {
