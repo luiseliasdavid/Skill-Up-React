@@ -1,27 +1,32 @@
 import { useState } from "react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+//import { useNavigate } from "react-router-dom";
 import { cleanStatusRequest, getAllUsersWithAccount, userData } from "../../../redux/actions";
 
 
 
 const Home = () => {
     const dispatch = useDispatch();
-    const navigate = useNavigate();
+    //const navigate = useNavigate();
 
     let request = useSelector ( (state) => state.statusRequest );
     const [ loading, setLoading ] = useState(true);
 
 
-    const token = localStorage.getItem("token");
+    /* const token = localStorage.getItem("token");
     useEffect(() => {
         if ( token !== null ) {
             dispatch( userData() );
         } else {
             navigate('/login')
         }
-    }, [dispatch, token, navigate ])
+    }, [dispatch, token, navigate ]) */
+
+    useEffect(() => {
+        dispatch(userData());
+    }, [ dispatch ])
+    
     
     useEffect(() => {
         if ( request.status === 200 ) {

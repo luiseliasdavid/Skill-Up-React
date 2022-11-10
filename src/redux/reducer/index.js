@@ -57,10 +57,10 @@ const rootReducer = (state = initialState, action) => {
          return {
             ...state,
             statusRequest: action.status,
-            userData: {
+           /*  userData: {
                ...action.payload.user,
                account: action.payload.account,
-            },
+            }, */
          };
       case LOGOUT:
          return {

@@ -149,26 +149,25 @@ export const login = (user) => {
          };
          localStorage.setItem("user", JSON.stringify(userDataStorage));
 
-         const transactionsUser = await fetchWalletApi.get(`/transactions`);
+         /* const transactionsUser = await fetchWalletApi.get(`/transactions`);
          
          const initialTopup = transactionsUser.data.data[0];
          
          console.log(initialTopup);
 
          const idAccount = initialTopup.accountId;
-         const account = await fetchWalletApi.get(`/accounts/${idAccount}`);
+         const account = await fetchWalletApi.get(`/accounts/${idAccount}`); */
 
-         // set de user data on redux
          return dispatch({
             type: LOGIN,
-            payload: {  user: info.data, account: account.data },
+            /* payload: {  user: info.data, account: account.data }, */
             status: { status: 200, message:'OK' }
          });
       } catch (e) {
          console.log(e);
          return dispatch({
             type: LOGIN,
-            payload: { user: {}, account: {} },
+           /*  payload: { user: {}, account: {} }, */
             status: { status: e.response.data.status, message: e.response.data.error }
          });
       }
