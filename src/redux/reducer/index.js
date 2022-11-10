@@ -68,6 +68,7 @@ const rootReducer = (state = initialState, action) => {
             ...state,
             userData: {},
             userList: [],
+            movements: [],
             statusRequest: { status: '0' }
          };
       case CLEAN_STATUS_REQUEST:

@@ -13,7 +13,7 @@ const Layout = () => {
       <BrowserRouter>
         <NavBar />
         <AnimatePresence>
-          {localStorage.getItem("user") ? <> <PrivateRoutes /></> : <PublicRoutes />}
+          { /* localStorage.getItem("token")*/ true  ? <> <PrivateRoutes /></> : <PublicRoutes />}
         </AnimatePresence>
       </BrowserRouter>
       <Footer />
