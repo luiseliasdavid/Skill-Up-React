@@ -2,7 +2,7 @@ import {BrowserRouter, Routes, Route} from "react-router-dom";
 import {AnimatePresence} from "framer-motion";
 import {lazy, Suspense} from "react";
 import Footer from "../Footer/Footer";
-import NavBar from "../NavBar/NavBar";
+import Navbar from "../Navbar/Navbar";
 import {motion} from "framer-motion";
 import Register from "../views/auth/Register/Register";
 import Login from "../views/auth/Login/Login";
@@ -43,7 +43,7 @@ const Layout = () => {
   return (
     <>
       <BrowserRouter>
-        <NavBar />
+        <Navbar />
         <AnimatePresence>
           <Routes>
             <Route element={<PrivateRoutes />}>

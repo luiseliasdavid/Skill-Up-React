@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../redux/actions";
 import { useEffect } from "react";
 
-const NavBar = () => {
+const Navbar = () => {
     const dispatch = useDispatch();
 
     const isLogged = useSelector((state) => state.isLogged);
@@ -95,4 +95,4 @@ const NavBar = () => {
     );
 };
 
-export default NavBar;
+export default Navbar;
