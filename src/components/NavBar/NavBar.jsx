@@ -2,7 +2,6 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import { logout } from "../../redux/actions";
-import { useEffect } from "react";
 
 const Navbar = () => {
     const dispatch = useDispatch();
