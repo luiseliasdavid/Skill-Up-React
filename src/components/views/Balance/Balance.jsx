@@ -2,7 +2,24 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { balance, cleanStatusRequest, userData } from "../../../redux/actions";
-import balanceStyles from "./balanceStyles.scss";
+import styles from "./styles.css";
+import { GraphBalance } from "./GraphBalance";
+
+const dataGraph = {
+   labels: ["Cargas", "Transferencias"],
+   datasets: [
+      {
+         label: "# of Votes",
+         data: [3000, 1500],
+         backgroundColor: [
+            "rgba(255, 99, 132, 0.2)",
+            "rgba(54, 162, 235, 0.2)",
+         ],
+         borderColor: ["rgba(255, 99, 132, 1)", "rgba(54, 162, 235, 1)"],
+         borderWidth: 1,
+      },
+   ],
+};
 
 const Balance = () => {
    let data = useSelector((state) => state.userData);
@@ -35,9 +52,79 @@ const Balance = () => {
 
    return (
       <div className="container">
-         <h1>balance</h1>
+         <h1>Balance General de tu Cuenta</h1>
+
+         <div className="balance">
+            <div className="container-card">
+               <h2>Dinero en tu cuenta: $1.500</h2>
+
+               <h3>Cargas realizadas: 3</h3>
+               <p>Total: $3.000</p>
+
+               <h3>Cantidad de transferencias: 3</h3>
+               <p>Total: $1.500</p>
+            </div>
+            <div className="container-card">
+               <h2>Grafico de torta</h2>
+               <GraphBalance dataGraph={dataGraph} />
+            </div>
+         </div>
       </div>
    );
 };
 
 export default Balance;
+
+/*
+
+import React from 'react';
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
+import { Doughnut } from 'react-chartjs-2';
+
+ChartJS.register(ArcElement, Tooltip, Legend);
+
+export const data = {
+  labels: ['Red', 'Blue'],
+  datasets: [
+    {
+      label: 'Balance',
+      data: [3000, 1500],
+      backgroundColor: [
+        'rgba(255, 99, 132, 0.2)',
+        'rgba(54, 162, 235, 0.2)'
+      ],
+      borderColor: [
+        'rgba(255, 99, 132, 1)',
+        'rgba(54, 162, 235, 1)'
+      ],
+      borderWidth: 1,
+    },
+  ],
+};
+
+export function App() {
+  return <Doughnut data={data} />;
+}
+*/
+
+/*
+
+import React from "react";
+import { Doughnut } from "react-chartjs-2";
+
+const data = {
+  labels: ["I", "II", "III", "IIII"],
+  datasets: [
+    {
+      data: [500, 500, 500, 500],
+      backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"],
+      hoverBackgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"],
+      borderWidth: 2
+    }
+  ]
+};
+export default function App() {
+  return <Doughnut data={data} />;
+}
+
+*/
