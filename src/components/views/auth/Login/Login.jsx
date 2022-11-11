@@ -55,12 +55,12 @@ const Login = () => {
     useEffect(() => {
         if ( request.status === 200 ) {
             dispatch(cleanStatusRequest());
-            navigate('/home') 
-           //alert('');
+            navigate('/home');
+            toast('Bienvenido!')
         }
         if ( request.status === '0' ) return;
         if ( request.status !== 200 ) {
-           /* alert(`code: ${request.status} message: ${request.message}`) */
+           toast('El usuario o la contraseña son incorrectas. Intenta de nuevo.')
            dispatch(cleanStatusRequest());
         }   
      }, [ dispatch, request, navigate ])  

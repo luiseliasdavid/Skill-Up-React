@@ -20,19 +20,10 @@ const Charge = () => {
     if ( localStorage.getItem("token") === null ) navigate('/login');
   }, [ navigate, dispatch ])
   
-
   useEffect(() => {
     dispatch(userDataData()); 
   }, [ dispatch, data.money ])
 
-   /*  useEffect(() => {
-        if ( token !== null ) {
-            dispatch( userData() );
-        } else {
-            navigate('/login')
-        }
-    }, [dispatch, token, navigate ]) */
-    
     useEffect(() => {
       if ( request.status === 201 ) {
         setLoading(false);
@@ -41,7 +32,6 @@ const Charge = () => {
       } 
       if ( request.status === 200 ) {
         toast('Recarga realizada con éxito'); 
-
         dispatch(cleanStatusRequest());
         return;
       }
@@ -49,6 +39,7 @@ const Charge = () => {
       if ( request.status !== 200 ) {
           toast('Lo sentimos, ha ocurrido un error. Intenta de nuevo')
           setLoading(false); 
+          setAmount('');
           dispatch(cleanStatusRequest());
       }   
      }, [ dispatch, request ])
@@ -61,8 +52,9 @@ const Charge = () => {
     e.preventDefault();
     if (amount < 0) {
       toast('El monto debe ser mayor a $0');
+      setAmount('');
       return;
-    }  //agregar mensaje 'el monto tiene que ser mayor a '0''.
+    };
     dispatch(addMoneyToAccount( amount, data.id ));
     setLoading(true);
     setAmount('');
