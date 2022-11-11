@@ -1,0 +1,35 @@
+$fondo: rgb(237, 237, 237);
+$hover:rgb(247, 247, 247);
+
+
+@mixin hoverStyle {
+    &:hover{
+      background: $hover;
+    }
+ }
+ 
+
+.bgColor{
+    background-color: $fondo;
+}
+
+.cardHeight{
+    height: 90%;
+}
+
+.cardHeightLeft{
+    height:12.5%;
+    @include hoverStyle;
+}
+
+.regret{
+    height: 5%;
+    @include hoverStyle;
+    
+}
+
+.listCard{
+    margin-top: -0px;
+    @include hoverStyle;
+}
+
