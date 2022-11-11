@@ -13,6 +13,7 @@ import Movements from "../views/Movements/Movements";
 import Transfers from "../views/Transfers/Transfers";
 import PrivateRoutes from "../router/PrivateRoutes";
 import Home from "../views/Home/Home";
+import PublicRoutes from "../router/PublicRoutes";
 
 const Layout = () => {
   const pageTransition = {
@@ -148,7 +149,7 @@ const Layout = () => {
                 }
               />
             </Route>
-
+                <Route element={<PublicRoutes/>}>
             <Route
               path="/register"
               element={
@@ -208,6 +209,7 @@ const Layout = () => {
                 </motion.div>
               }
             />
+            </Route>
           </Routes>
         </AnimatePresence>
       </BrowserRouter>

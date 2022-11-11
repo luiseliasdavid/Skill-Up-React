@@ -4,7 +4,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {balance} from "../../../redux/actions";
 import {
   cleanStatusRequest,
-  userData
+  userData,
 } from "../../../redux/actions";
 import {dateFormatter} from "../../../utils/formatters";
 import {currencyFormatter} from "../../../utils/formatters";
@@ -38,6 +38,7 @@ const Home = () => {
       dispatch(cleanStatusRequest());
     }
   }, [dispatch, request]);
+
 
   useEffect(() => {
     dispatch(balance(setValue(data.userData.balance?.totalBalance)));
