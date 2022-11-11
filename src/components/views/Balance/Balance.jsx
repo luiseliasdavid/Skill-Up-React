@@ -5,25 +5,11 @@ import { balance, cleanStatusRequest, userData } from "../../../redux/actions";
 import styles from "./styles.css";
 import { GraphBalance } from "./GraphBalance";
 
-const dataGraph = {
-   labels: ["Cargas", "Transferencias"],
-   datasets: [
-      {
-         label: "# of Votes",
-         data: [3000, 1500],
-         backgroundColor: [
-            "rgba(255, 99, 132, 0.2)",
-            "rgba(54, 162, 235, 0.2)",
-         ],
-         borderColor: ["rgba(255, 99, 132, 1)", "rgba(54, 162, 235, 1)"],
-         borderWidth: 1,
-      },
-   ],
-};
-
 const Balance = () => {
-   let data = useSelector((state) => state.userData);
-   let request = useSelector((state) => state.statusRequest);
+   const userInformation = useSelector((state) => state.userData);
+   const request = useSelector((state) => state.statusRequest);
+
+   console.log(userInformation);
 
    const dispatch = useDispatch();
    const navigate = useNavigate();
@@ -32,7 +18,7 @@ const Balance = () => {
 
    useEffect(() => {
       if (token !== null) {
-         dispatch(userData());
+         // dispatch(userData());
          dispatch(balance());
       } else {
          navigate("/login");
@@ -54,21 +40,32 @@ const Balance = () => {
       <div className="container">
          <h1>Balance General de tu Cuenta</h1>
 
-         <div className="balance">
-            <div className="container-card">
-               <h2>Dinero en tu cuenta: $1.500</h2>
+         {!userInformation.balance ? (
+            "Loading..."
+         ) : (
+            <div className="balance">
+               <div className="container-card">
+                  <h2>
+                     Dinero en tu cuenta: $
+                     {userInformation.balance.totalBalance}
+                  </h2>
 
-               <h3>Cargas realizadas: 3</h3>
-               <p>Total: $3.000</p>
+                  <h3>Cargas realizadas: 3</h3>
+                  <p>Total: ${userInformation.balance.topup}</p>
 
-               <h3>Cantidad de transferencias: 3</h3>
-               <p>Total: $1.500</p>
+                  <h3>Cantidad de transferencias: 3</h3>
+                  <p>Total: ${userInformation.balance.payments}</p>
+                  <button className="btn btn-light">Volver al Home</button>
+               </div>
+               <div className="container-card">
+                  <h2>Grafico de torta</h2>
+                  <GraphBalance
+                     topup={userInformation.balance.topup}
+                     payments={userInformation.balance.payments}
+                  />
+               </div>
             </div>
-            <div className="container-card">
-               <h2>Grafico de torta</h2>
-               <GraphBalance dataGraph={dataGraph} />
-            </div>
-         </div>
+         )}
       </div>
    );
 };

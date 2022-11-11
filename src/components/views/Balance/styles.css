@@ -7,13 +7,19 @@
 } */
 
 .balance {
-   background-color: aquamarine;
+   margin-top: 20px;
+   display: flex;
+   flex-direction: column;
+   gap: 20px;
 }
 
 .container-card {
    border: 1px solid blue;
    border-radius: 15px;
    padding: 20px;
+   box-shadow: 7px 7px 12px -3px rgba(0, 0, 0, 0.61);
+   -webkit-box-shadow: 7px 7px 12px -3px rgba(0, 0, 0, 0.61);
+   -moz-box-shadow: 7px 7px 12px -3px rgba(0, 0, 0, 0.61);
 }
 
 @media (min-width: 768px) {
