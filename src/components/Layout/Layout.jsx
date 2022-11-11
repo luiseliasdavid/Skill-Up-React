@@ -5,7 +5,6 @@ import { lazy, Suspense } from "react";
 import PrivateRoutes from "../router/PrivateRoutes";
 // import Navbar from "../Navbar/NavBar";
 import Navbar from "../NavBar/NavBar";
-import Navbar from "../Navbar/Navbar";
 import Footer from "../Footer/Footer";
 import Register from "../views/auth/Register/Register";
 import Login from "../views/auth/Login/Login";
@@ -63,25 +62,6 @@ const Layout = () => {
                         </motion.div>
                      }
                   />
-  return (
-    <BrowserRouter>
-      <Navbar />
-      <AnimatePresence>
-        <Routes>
-          <Route element={<PrivateRoutes />}>
-            <Route
-              path="/charge"
-              element={
-                <motion.div
-                  className="page"
-                  initial="initial"
-                  animate="animate"
-                  exit="exit"
-                  variants={pageTransition}>
-                  <Charge />
-                </motion.div>
-              }
-            />
 
                   <Route
                      path="/spents"
@@ -97,19 +77,6 @@ const Layout = () => {
                         </motion.div>
                      }
                   />
-            <Route
-              path="/spents"
-              element={
-                <motion.div
-                  className="page"
-                  initial="initial"
-                  animate="animate"
-                  exit="exit"
-                  variants={pageTransition}>
-                  <Spents />
-                </motion.div>
-              }
-            />
 
                   <Route
                      path="/balance"
@@ -125,19 +92,6 @@ const Layout = () => {
                         </motion.div>
                      }
                   />
-            <Route
-              path="/balance"
-              element={
-                <motion.div
-                  className="page"
-                  initial="initial"
-                  animate="animate"
-                  exit="exit"
-                  variants={pageTransition}>
-                  <Balance />
-                </motion.div>
-              }
-            />
 
                   <Route
                      path="/movements"
@@ -153,19 +107,6 @@ const Layout = () => {
                         </motion.div>
                      }
                   />
-            <Route
-              path="/movements"
-              element={
-                <motion.div
-                  className="page"
-                  initial="initial"
-                  animate="animate"
-                  exit="exit"
-                  variants={pageTransition}>
-                  <Movements />
-                </motion.div>
-              }
-            />
 
                   <Route
                      path="/transfers"
@@ -181,118 +122,110 @@ const Layout = () => {
                         </motion.div>
                      }
                   />
-            <Route
-              path="/transfers"
-              element={
-                <motion.div
-                  className="page"
-                  initial="initial"
-                  animate="animate"
-                  exit="exit"
-                  variants={pageTransition}>
-                  <Transfers />
-                </motion.div>
-              }
-            />
 
-            <Route
-              path="/home"
-              exact
-              element={
-                <motion.div
-                  className="page"
-                  initial="initial"
-                  animate="animate"
-                  exit="exit"
-                  variants={pageTransition}>
-                  <Home />
-                </motion.div>
-              }
-            />
+                  <Route
+                     path="/home"
+                     exact
+                     element={
+                        <motion.div
+                           className="page"
+                           initial="initial"
+                           animate="animate"
+                           exit="exit"
+                           variants={pageTransition}
+                        >
+                           <Home />
+                        </motion.div>
+                     }
+                  />
 
-            <Route
-              path="*"
-              element={
-                <motion.div
-                  className="page"
-                  initial="initial"
-                  animate="animate"
-                  exit="exit"
-                  variants={pageTransition}>
-                  <Suspense fallback={<>...</>}>
-                    <Error404 />
-                  </Suspense>
-                </motion.div>
-              }
-            />
-          </Route>
-          <Route element={<PublicRoutes />}>
-            <Route
-              path="/register"
-              element={
-                <motion.div
-                  className="page"
-                  initial="initial"
-                  animate="animate"
-                  exit="exit"
-                  variants={pageTransition}>
-                  <Register />
-                </motion.div>
-              }
-            />
+                  <Route
+                     path="*"
+                     element={
+                        <motion.div
+                           className="page"
+                           initial="initial"
+                           animate="animate"
+                           exit="exit"
+                           variants={pageTransition}
+                        >
+                           <Suspense fallback={<>...</>}>
+                              <Error404 />
+                           </Suspense>
+                        </motion.div>
+                     }
+                  />
+               </Route>
+               <Route element={<PublicRoutes />}>
+                  <Route
+                     path="/register"
+                     element={
+                        <motion.div
+                           className="page"
+                           initial="initial"
+                           animate="animate"
+                           exit="exit"
+                           variants={pageTransition}
+                        >
+                           <Register />
+                        </motion.div>
+                     }
+                  />
 
-                    <Route
-                        path="/"
-                        exact
-                        element={
-                            <motion.div
-                                className="page"
-                                initial="initial"
-                                animate="animate"
-                                exit="exit"
-                                variants={pageTransition}
-                            >
-                                <Login />
-                            </motion.div>
-                        }
-                    />
+                  <Route
+                     path="/"
+                     exact
+                     element={
+                        <motion.div
+                           className="page"
+                           initial="initial"
+                           animate="animate"
+                           exit="exit"
+                           variants={pageTransition}
+                        >
+                           <Login />
+                        </motion.div>
+                     }
+                  />
 
-            <Route
-              path="/"
-              exact
-              element={
-                <motion.div
-                  className="page"
-                  initial="initial"
-                  animate="animate"
-                  exit="exit"
-                  variants={pageTransition}>
-                  <Login />
-                </motion.div>
-              }
-            />
+                  <Route
+                     path="/"
+                     exact
+                     element={
+                        <motion.div
+                           className="page"
+                           initial="initial"
+                           animate="animate"
+                           exit="exit"
+                           variants={pageTransition}
+                        >
+                           <Login />
+                        </motion.div>
+                     }
+                  />
 
-            <Route
-              path="*"
-              element={
-                <motion.div
-                  className="page"
-                  initial="initial"
-                  animate="animate"
-                  exit="exit"
-                  variants={pageTransition}>
-                  <Suspense fallback={<>...</>}>
-                    <Error404 />
-                  </Suspense>
-                </motion.div>
-              }
-            />
-          </Route>
-        </Routes>
-      </AnimatePresence>
-      <Footer />
-    </BrowserRouter>
-  );
+                  <Route
+                     path="*"
+                     element={
+                        <motion.div
+                           className="page"
+                           initial="initial"
+                           animate="animate"
+                           exit="exit"
+                           variants={pageTransition}
+                        >
+                           <Suspense fallback={<>...</>}>
+                              <Error404 />
+                           </Suspense>
+                        </motion.div>
+                     }
+                  />
+               </Route>
+            </Routes>
+         </AnimatePresence>
+         <Footer />
+      </BrowserRouter>
+   );
 };
 
 export default Layout;
