@@ -394,16 +394,32 @@ export const getAllUsersWithAccount = () => {
 
 
 export const sendMoneyToUser = (destinyAccountId,amountToSend,concept,moneyInMyAccount,idOfMyAccont, idMyUser ) => {
+   
    return async function (dispatch) {
-      try {
+       if(amountToSend > moneyInMyAccount) {
+         return dispatch({
+            type: SEND_MONEY,
+            status: { status: 500, message: 'Fondos insuficientes' },
+         });
+       }  
+         try{
          let paymentBody= {
             type: "payment",
             concept: concept,
             amount: amountToSend
           }
           
-          await fetchWalletApi.post(`/accounts/${destinyAccountId}`,paymentBody);
-    
+          let response= await fetchWalletApi.post(`/accounts/${destinyAccountId}`,paymentBody);
+          
+         }
+          catch(e){
+            
+            return dispatch({
+               type: SEND_MONEY,
+               status: { status: e.response.data.status, message: e.response.data.error },
+            });
+          }
+          try {
           let NewAmount = Number( moneyInMyAccount) - Number(amountToSend)
           
           let putNewAmount = {
@@ -413,7 +429,7 @@ export const sendMoneyToUser = (destinyAccountId,amountToSend,concept,moneyInMyA
              userId: idMyUser
            }
            
-         await fetchWalletApi.put(`/accounts/${idOfMyAccont}`, putNewAmount);       
+         let responsePut = await fetchWalletApi.put(`/accounts/${idOfMyAccont}`, putNewAmount);       
            
          const userDetail = await fetchWalletApi.get(`/auth/me`);
    
@@ -423,7 +439,7 @@ export const sendMoneyToUser = (destinyAccountId,amountToSend,concept,moneyInMyA
    
          const idAccount = initialTopup.accountId;
          const account = await fetchWalletApi.get(`/accounts/${idAccount}`);
-
+          console.log(responsePut)
          return dispatch({
             type: SEND_MONEY,
             payload: { user: userDetail.data, account: account.data },
@@ -431,7 +447,7 @@ export const sendMoneyToUser = (destinyAccountId,amountToSend,concept,moneyInMyA
          });
 
       } catch(e) {
-         console.log(e);
+         
          return dispatch({
             type: SEND_MONEY,
             status: { status: e.response.data.status, message: e.response.data.error },

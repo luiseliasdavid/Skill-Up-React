@@ -80,7 +80,7 @@ export const Estado = () => {
    const log = () => {
       dispatch(
          login({
-            email: "abasddhgfhññllllooood@aild.com",
+            email: "luis1000@luis1000.com",
             password: "123456",
          })
       );
