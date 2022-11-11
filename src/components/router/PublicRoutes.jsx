@@ -3,36 +3,40 @@ import { useDispatch, useSelector } from "react-redux";
 import { Navigate, Outlet } from "react-router-dom";
 import { userData } from "../../redux/actions";
 
-const PrivateRoutes = () => {
+const PublicRoutes = () => {
+
+    
 
 const data = useSelector((state) => state);
  const dispatch = useDispatch();
 
 useEffect(() => {
     dispatch(userData(data.userData));
+   
 }, [dispatch]);
 
 
 
 return(
 
-   data?.userData ? <Outlet/> :  <Navigate to="/login" />
+    data?.userData  ? <Outlet/> :  <Navigate to="/home" />
 
 )
 
 
 }
 
-export default PrivateRoutes; 
+export default PublicRoutes; 
+
+
  
 
 
+  /*  import { Outlet, Navigate } from "react-router-dom";
 
-/*  import { Outlet, Navigate } from "react-router-dom";
-
-const PrivateRoutes = () => {
-   return localStorage.getItem("token") ? <Outlet /> : <Navigate to="/Home" />;
+const PublicRoutes = () => {
+   return !localStorage.getItem("token") ? <Outlet /> : <Navigate to="/Home" />;
 };
 
-export default PrivateRoutes;
+export default PublicRoutes;
        */
