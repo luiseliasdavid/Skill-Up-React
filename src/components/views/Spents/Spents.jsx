@@ -5,20 +5,18 @@ import { balance, userData } from "../../../redux/actions";
 const Spents = () => {
   const data = useSelector((state) => state.userData);
 
-
-  if (data.transactions) console.log(data.transactions.payments);
   const dispatch = useDispatch();
-  
+
+  const [isDisabled, setIsDisabled] = useState(false);
 
   useEffect(() => {
     dispatch(userData());
     dispatch(balance());
   }, [dispatch]);
 
-  const EditConcept = (id) => {
-    console.log(id);
-  }
-  
+  const EditConcept = () => {
+    setIsDisabled(!isDisabled);
+  };
 
   return (
     <>
@@ -31,26 +29,33 @@ const Spents = () => {
       ) : (
         <>
           <h2>Gastos</h2>
+          <button
+            onClick={() => EditConcept()}
+            className="btn btn-info"
+          >
+            Editar Concepto
+          </button>
           <div className="d-flex flex-wrap align-items-center m-4">
-            {
-                data.transactions.payments?.map((item) => (
-                <div
-                  className="card text-bg-primary m-3"
-                  style={{ maxWidth: '15rem' }}
-                  key={item.id}
-                >
-                  <div className="card-body">
-                    <div className="card-header">
-                      <h5 className="card-title">{item.concept} <button onClick={(id) => EditConcept(item.id)} className="btn btn-light">Editar</button> </h5>
-                    </div>
-                    <ul className="list-group list-group-flush">
-                      <li className="list-group-item">Monto: {item.amount}</li>
-                      <li className="list-group-item">Fecha: {new Date(item.createdAt).toLocaleDateString('es-ES') }</li>
-                    </ul>
+            {data.transactions.payments?.map((item) => (
+              <div
+                className="card text-bg-primary m-3"
+                style={{ maxWidth: "15rem" }}
+                key={item.id}
+              >
+                <div className="card-body">
+                  <div className="card-header">
+                    <input placeholder={item.concept} disabled={isDisabled} />
                   </div>
+                  <ul className="list-group list-group-flush">
+                    <li className="list-group-item">Monto: {item.amount}</li>
+                    <li className="list-group-item">
+                      Fecha:{" "}
+                      {new Date(item.createdAt).toLocaleDateString("es-ES")}
+                    </li>
+                  </ul>
                 </div>
-                ))
-            }
+              </div>
+            ))}
           </div>
         </>
       )}
