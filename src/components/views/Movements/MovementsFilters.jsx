@@ -3,8 +3,7 @@ import { useFormik } from "formik";
 const MovementsFilters = ({ transactions, setFilteredTransactions }) => {
     const initialValues = {
         type: "",
-        concept: "", /* 
-        currency: "", */
+        concept: ""
     };
 
     const onSubmit = () => {
@@ -29,7 +28,6 @@ const MovementsFilters = ({ transactions, setFilteredTransactions }) => {
     const handleReset = () => {
         resetForm();
         setFilteredTransactions(transactions);
-        console.log(transactions);
     };
 
     return (
@@ -58,19 +56,6 @@ const MovementsFilters = ({ transactions, setFilteredTransactions }) => {
                         value={values.concept}
                     />
                 </li>
-
-                {/* <li className="movements-filter">
-                    <select
-                        className="form-select"
-                        name="currency"
-                        value={values.currency}
-                        onChange={handleChange}
-                    >
-                        <option value="">Moneda</option>
-                        <option value="ars">Pesos</option>
-                        <option value="usd">Dólares</option>
-                    </select>
-                </li> */}
             </ul>
 
             <button type="submit" className="btn btn-primary mt-3">
