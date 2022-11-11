@@ -20,9 +20,7 @@ const Register = () => {
         baseURL: 'http://wallet-main.eba-ccwdurgr.us-east-1.elasticbeanstalk.com',
     })
 
-    const handleRegister = (e) => {
-        e.preventDefault()
-
+    const onSubmit = () => {
         walletApi.post('/users', {
             first_name: values.firstName,
             last_name: values.lastName,
@@ -31,6 +29,8 @@ const Register = () => {
         })
         .then((res) => res.data )
         .then((res) => {
+            // Falta lógica para que se avise el status de la response. Si está duplicado se debe avisar también.
+            console.log("Form OK");
             localStorage.setItem("userData", JSON.stringify(res))
             navigate('/', { replace: true })
         })
@@ -38,7 +38,6 @@ const Register = () => {
             console.log(error);
         })
 
-        console.log("Form OK")
     }
 
     const required = "* Campo obligatorio.";
@@ -52,13 +51,14 @@ const Register = () => {
         password: Yup.string().required(required),
     });
 
-    const formik = useFormik({ initialValues, validationSchema, handleRegister });
+    // useFormik espera los parámetros initialValues, validationSchema y onSubmit.
+    const formik = useFormik({ initialValues, validationSchema, onSubmit });
 
-    const { errors, touched, values, handleChange, handleBlur } = formik;
-
+    const { errors, touched, values, handleChange, handleBlur, handleSubmit } = formik;
 
     return <div className="container">
-        <form onSubmit={handleRegister}>
+        {/* El que se encarga de hacer el submit es el handleSubmit */}
+        <form onSubmit={handleSubmit}>
             <div className="mb-3 row">
                 <label htmlFor="inputFirstName" className="col-sm-2 col-form-label">First Name</label>
                 <div className="col-sm-10">
@@ -115,7 +115,7 @@ const Register = () => {
                 <label htmlFor="inputEmail" className="col-sm-2 col-form-label">Email</label>
                 <div className="col-sm-10">
                     <input
-                        type="text"
+                        type="email"
                         name="email"
                         autoComplete="off"
                         value={values.email}
@@ -165,7 +165,7 @@ const Register = () => {
             </div>
             <div className="col-sm-12">
                 <button type="submit" className='btn btn-outline-primary'>Registrarse</button>
-                <Link to="/"><button type="submit" className='btn btn-outline-primary'>Iniciar Sesión</button></Link>
+                <Link to="/"><button type="button" className='btn btn-outline-primary'>Iniciar Sesión</button></Link>
             </div>
             
         </form>
