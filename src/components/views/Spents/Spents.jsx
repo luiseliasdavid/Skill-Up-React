@@ -7,7 +7,7 @@ const Spents = () => {
 
   const dispatch = useDispatch();
 
-  const [isDisabled, setIsDisabled] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(true);
 
   useEffect(() => {
     dispatch(userData());
