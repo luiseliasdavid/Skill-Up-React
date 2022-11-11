@@ -5,6 +5,7 @@ import { balance, cleanStatusRequest, userData } from "../../../redux/actions";
 import balanceStyles from "./balanceStyles.css";
 import buttonStyles from "./buttonStyles.css";
 import { GraphBalance } from "./GraphBalance";
+import { currencyFormatter } from "../../../utils/formatters";
 
 const Balance = () => {
    const userInformation = useSelector((state) => state.userData);
@@ -45,8 +46,8 @@ const Balance = () => {
             <div className="balance">
                <div className="container-card">
                   <h2>
-                     Dinero en tu cuenta: $
-                     {userInformation.balance.totalBalance}
+                     Dinero en tu cuenta:{" "}
+                     {currencyFormatter(userInformation.balance.totalBalance)}
                   </h2>
 
                   <hr className="shine" />
@@ -55,7 +56,9 @@ const Balance = () => {
                      Cargas realizadas:{" "}
                      {userInformation.transactions.topup.length}
                   </h3>
-                  <p>Total: ${userInformation.balance.topup}</p>
+                  <p>
+                     Total: {currencyFormatter(userInformation.balance.topup)}
+                  </p>
 
                   <hr className="shine" />
 
@@ -63,7 +66,10 @@ const Balance = () => {
                      Cantidad de transferencias:{" "}
                      {userInformation.transactions.payments.length}
                   </h3>
-                  <p>Total: ${userInformation.balance.payments}</p>
+                  <p>
+                     Total:{" "}
+                     {currencyFormatter(userInformation.balance.payments)}
+                  </p>
                   <button
                      className="btn-navigate"
                      onClick={() => navigate("/home")}
