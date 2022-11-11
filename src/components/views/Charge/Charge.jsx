@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { addMoneyToAccount, cleanStatusRequest, userDataData } from '../../../redux/actions';
 import toast from '../../../utils/toast';
 
@@ -14,7 +14,7 @@ const Charge = () => {
   const navigate = useNavigate();
 
   const [ loading, setLoading ] = useState(true);
-  const [ amount, setAmount ] = useState(0);
+  const [ amount, setAmount ] = useState('');
  
   useEffect(() => {
     if ( localStorage.getItem("token") === null ) navigate('/login');
@@ -45,20 +45,12 @@ const Charge = () => {
      }, [ dispatch, request ])
      
   const handleChange = (e) => {
-
-    let moneyformat = new Intl.NumberFormat('es-AR', { 
-      style: 'currency',
-      minimumFractionDigits: 2,
-      currency: 'ARG' 
-    })
-    let moneyConvert = moneyformat.format(e.target.value);
-    let result = moneyConvert.slice(4);
-    setAmount(result);
+    setAmount(e.target.value);
   };
 
   const OnTopup = (e) => {
     e.preventDefault();
-    if (amount < 0) {
+    if (Number(amount) < 0) {
       toast('El monto debe ser mayor a $0');
       setAmount('');
       return;
@@ -86,6 +78,7 @@ const Charge = () => {
           <span> Saldo en cuenta: </span>
           <h3>{ data !== {} ? `$${money(data.money)}` : ''}</h3>
           <h1>TOPUP</h1>
+
           <form onSubmit={OnTopup}>
             <label>AR $</label>
             <input 
@@ -97,9 +90,7 @@ const Charge = () => {
             />
             <button type={'submit'}>CARGAR SALDO</button>
           </form>
-          <div>
-            <Link to={'/home'}>ir al home</Link>
-          </div>
+
         </div>
       }
     </div>
