@@ -20,12 +20,12 @@ export const Estado = () => {
    // que tenemos en el store.
 
    let data = useSelector((state) => state.userData);
-   let request = useSelector ( (state) => state.statusRequest );
+   let request = useSelector((state) => state.statusRequest);
 
    const dispatch = useDispatch();
    /* const navigate = useNavigate(); */
 
-/* useEffect(() => {
+   /* useEffect(() => {
  if( request !== {} ){
    dispatch(cleanStatusRequest())
 }
@@ -37,12 +37,12 @@ export const Estado = () => {
          alert('Creacion exitosa');
          window.location.replace('http://localhost:3000/home')
       /*navigate('/home'); */
-      //}
-    /*  if ( request.status !== 200 && request !== {} ) {
+   //}
+   /*  if ( request.status !== 200 && request !== {} ) {
       //alert(`code: ${request.status} message: ${request.message}`)
       dispatch(cleanStatusRequest());
      } 
-   }, [ request, dispatch ]) */ 
+   }, [ request, dispatch ]) */
 
    /* useEffect(() => {
       console.log(request.status)
@@ -57,15 +57,14 @@ export const Estado = () => {
          dispatch(cleanStatusRequest());
       }   
    }, [ dispatch, request ])   */
-   
 
    const crearUsuario = () => {
       console.log("hoola");
       dispatch(
          createUser({
-            first_name: "dtobiasssssop",
-            last_name: "oaazavaobgss",
-            email: "luis100@luis100.com",
+            first_name: "santiago",
+            last_name: "balance",
+            email: "santiagoBalance@email.com",
             password: "123456",
             points: 0,
             roleId: 1,
@@ -80,7 +79,7 @@ export const Estado = () => {
    const log = () => {
       dispatch(
          login({
-            email: "abasddhgfhññllllooood@aild.com",
+            email: "santiagoBalance@email.com",
             password: "123456",
          })
       );
@@ -97,7 +96,7 @@ export const Estado = () => {
    const userLogout = () => {
       dispatch(logout());
    };
-    /* const consoleEstate = () => {
+   /* const consoleEstate = () => {
       console.log(data);
       console.log(JSON.parse(localStorage.getItem("user")));
       if (data.userdata) {
@@ -109,7 +108,7 @@ export const Estado = () => {
       dispatch(getAllUsersWithAccount());
    };
 
- /*   const mandarDineroAmigo = () => {
+   /*   const mandarDineroAmigo = () => {
       dispatch(sendMoneyToUser(7, 100,'pago de los botines', 
                data.userData.account.money, data.userData.account.id, data.userData.id ));
    } */
@@ -118,7 +117,7 @@ export const Estado = () => {
 } */
    return (
       <div>
-        {/*  <button onClick={consoleEstate}>Console.log estado</button> */}
+         {/*  <button onClick={consoleEstate}>Console.log estado</button> */}
          <button onClick={crearUsuario}>crear usuario </button>
          <button onClick={log}>login</button>
          <button onClick={cargasaldo}>CARGAR SALDO</button>
@@ -131,10 +130,6 @@ export const Estado = () => {
       </div>
    );
 };
-
-
-
-
 
 /* const token = localStorage.getItem("token");
     useEffect(() => {
