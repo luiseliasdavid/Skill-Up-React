@@ -1,0 +1,16 @@
+.balance {
+   display: flex;
+   flex-direction: row;
+   background-color: aquamarine;
+   justify-content: space-around;
+}
+
+.container-card {
+   border: 1px solid blue;
+   padding: 20px;
+   border-radius: 15px;
+}
+
+.container-card:first-child {
+   text-align: left;
+}
