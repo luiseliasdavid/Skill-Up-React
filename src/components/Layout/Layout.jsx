@@ -42,114 +42,113 @@ const Layout = () => {
   const Error404 = lazy(() => import("../views/Error404/Error404"));
 
   return (
-    <>
-      <BrowserRouter>
-        <NavBar />
-        <AnimatePresence>
-          <Routes>
-            <Route element={<PrivateRoutes />}>
-              <Route
-                path="/charge"
-                element={
-                  <motion.div
-                    className="page"
-                    initial="initial"
-                    animate="animate"
-                    exit="exit"
-                    variants={pageTransition}>
-                    <Charge />
-                  </motion.div>
-                }
-              />
+    <BrowserRouter>
+      <NavBar />
+      <AnimatePresence>
+        <Routes>
+          <Route element={<PrivateRoutes />}>
+            <Route
+              path="/charge"
+              element={
+                <motion.div
+                  className="page"
+                  initial="initial"
+                  animate="animate"
+                  exit="exit"
+                  variants={pageTransition}>
+                  <Charge />
+                </motion.div>
+              }
+            />
 
-              <Route
-                path="/spents"
-                element={
-                  <motion.div
-                    className="page"
-                    initial="initial"
-                    animate="animate"
-                    exit="exit"
-                    variants={pageTransition}>
-                    <Spents />
-                  </motion.div>
-                }
-              />
+            <Route
+              path="/spents"
+              element={
+                <motion.div
+                  className="page"
+                  initial="initial"
+                  animate="animate"
+                  exit="exit"
+                  variants={pageTransition}>
+                  <Spents />
+                </motion.div>
+              }
+            />
 
-              <Route
-                path="/balance"
-                element={
-                  <motion.div
-                    className="page"
-                    initial="initial"
-                    animate="animate"
-                    exit="exit"
-                    variants={pageTransition}>
-                    <Balance />
-                  </motion.div>
-                }
-              />
+            <Route
+              path="/balance"
+              element={
+                <motion.div
+                  className="page"
+                  initial="initial"
+                  animate="animate"
+                  exit="exit"
+                  variants={pageTransition}>
+                  <Balance />
+                </motion.div>
+              }
+            />
 
-              <Route
-                path="/movements"
-                element={
-                  <motion.div
-                    className="page"
-                    initial="initial"
-                    animate="animate"
-                    exit="exit"
-                    variants={pageTransition}>
-                    <Movements />
-                  </motion.div>
-                }
-              />
+            <Route
+              path="/movements"
+              element={
+                <motion.div
+                  className="page"
+                  initial="initial"
+                  animate="animate"
+                  exit="exit"
+                  variants={pageTransition}>
+                  <Movements />
+                </motion.div>
+              }
+            />
 
-              <Route
-                path="/transfers"
-                element={
-                  <motion.div
-                    className="page"
-                    initial="initial"
-                    animate="animate"
-                    exit="exit"
-                    variants={pageTransition}>
-                    <Transfers />
-                  </motion.div>
-                }
-              />
+            <Route
+              path="/transfers"
+              element={
+                <motion.div
+                  className="page"
+                  initial="initial"
+                  animate="animate"
+                  exit="exit"
+                  variants={pageTransition}>
+                  <Transfers />
+                </motion.div>
+              }
+            />
 
-              <Route
-                path="/home"
-                exact
-                element={
-                  <motion.div
-                    className="page"
-                    initial="initial"
-                    animate="animate"
-                    exit="exit"
-                    variants={pageTransition}>
-                    <Home />
-                  </motion.div>
-                }
-              />
+            <Route
+              path="/home"
+              exact
+              element={
+                <motion.div
+                  className="page"
+                  initial="initial"
+                  animate="animate"
+                  exit="exit"
+                  variants={pageTransition}>
+                  <Home />
+                </motion.div>
+              }
+            />
 
-              <Route
-                path="*"
-                element={
-                  <motion.div
-                    className="page"
-                    initial="initial"
-                    animate="animate"
-                    exit="exit"
-                    variants={pageTransition}>
-                    <Suspense fallback={<>...</>}>
-                      <Error404 />
-                    </Suspense>
-                  </motion.div>
-                }
-              />
-            </Route>
-                <Route element={<PublicRoutes/>}>
+            <Route
+              path="*"
+              element={
+                <motion.div
+                  className="page"
+                  initial="initial"
+                  animate="animate"
+                  exit="exit"
+                  variants={pageTransition}>
+                  <Suspense fallback={<>...</>}>
+                    <Error404 />
+                  </Suspense>
+                </motion.div>
+              }
+            />
+          </Route>
+          <Route element={<PublicRoutes />}>
             <Route
               path="/register"
               element={
@@ -209,12 +208,11 @@ const Layout = () => {
                 </motion.div>
               }
             />
-            </Route>
-          </Routes>
-        </AnimatePresence>
-      </BrowserRouter>
+          </Route>
+        </Routes>
+      </AnimatePresence>
       <Footer />
-    </>
+    </BrowserRouter>
   );
 };
 
