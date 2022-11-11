@@ -1,24 +1,15 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
-import { cleanStatusRequest, login } from "../../../../redux/actions";
+import { login } from "../../../../redux/actions";
 import swal from "../../../../utils/swal";
 import toast from "../../../../utils/toast";
-import { useEffect } from "react";
 
 const Login = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-
-    const data = useSelector((state) => state.userData);
-    const request = useSelector((state) => state.statusRequest);
-    const state = useSelector((state) => state);
-
-    useEffect(() => {
-        console.log(state);
-    }, [state]);
 
     const initialValues = {
         email: "",
@@ -34,7 +25,30 @@ const Login = () => {
 
     const onSubmit = () => {
         const { email, password } = values;
-        dispatch(login({ email, password }));
+        dispatch(login({ email, password }))
+            .then((res) => {
+                const { status, message } = res.status;
+
+                if (status === 200) {
+                    const userData = JSON.parse(localStorage.getItem("user"));
+                    toast(`¡Bienvenido ${userData?.first_name}!`, "success");
+                    navigate("/home");
+                } else {
+                    swal(
+                        "Hubo un error.",
+                        `Detalle del error: ${message}`,
+                        "error"
+                    );
+                }
+            })
+            .catch((err) => {
+                swal(
+                    "Hubo un error inesperado. Recarga la página e intenta nuevamente.",
+                    "",
+                    "error"
+                );
+                console.log(err);
+            });
     };
 
     const formik = useFormik({ initialValues, validationSchema, onSubmit });

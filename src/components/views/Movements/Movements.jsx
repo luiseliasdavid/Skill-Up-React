@@ -100,7 +100,7 @@ const Movements = () => {
 
                             <div className="dropdown-center">
                                 <button
-                                    class="btn btn-primary dropdown-toggle"
+                                    className="btn btn-primary dropdown-toggle"
                                     type="button"
                                     data-bs-toggle="dropdown"
                                     aria-expanded="false"
@@ -108,7 +108,7 @@ const Movements = () => {
                                     Filtrar
                                 </button>
 
-                                <div class="dropdown-menu">
+                                <div className="dropdown-menu">
                                     <MovementsFilters
                                         transactions={transactions}
                                         setFilteredTransactions={
