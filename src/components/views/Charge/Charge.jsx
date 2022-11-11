@@ -14,7 +14,7 @@ const Charge = () => {
   const navigate = useNavigate();
 
   const [ loading, setLoading ] = useState(true);
-  const [ amount, setAmount ] = useState('');
+  const [ amount, setAmount ] = useState(0);
  
   useEffect(() => {
     if ( localStorage.getItem("token") === null ) navigate('/login');
@@ -45,8 +45,16 @@ const Charge = () => {
      }, [ dispatch, request ])
      
   const handleChange = (e) => {
-    setAmount(e.target.value);
-  }   
+
+    let moneyformat = new Intl.NumberFormat('es-AR', { 
+      style: 'currency',
+      minimumFractionDigits: 2,
+      currency: 'ARG' 
+    })
+    let moneyConvert = moneyformat.format(e.target.value);
+    let result = moneyConvert.slice(4);
+    setAmount(result);
+  };
 
   const OnTopup = (e) => {
     e.preventDefault();
@@ -60,6 +68,15 @@ const Charge = () => {
     setAmount('');
   };
 
+  const money = (value) => {
+    let moneyFormat = new Intl.NumberFormat('es-AR', { 
+      style: 'currency',
+      minimumFractionDigits: 2,
+      currency: 'ARG' 
+  })
+  return String(moneyFormat.format(value)); 
+  };
+
   return (
     <div>
       {
@@ -67,7 +84,7 @@ const Charge = () => {
         : 
         <div>
           <span> Saldo en cuenta: </span>
-          <h3>{ data !== {} ? `$${data.money}` : ''}</h3>
+          <h3>{ data !== {} ? `$${money(data.money)}` : ''}</h3>
           <h1>TOPUP</h1>
           <form onSubmit={OnTopup}>
             <label>AR $</label>
