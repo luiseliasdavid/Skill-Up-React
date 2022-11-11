@@ -1,4 +1,3 @@
-//import axios from "axios";
 import fetchWalletApi from "../../api/fetchWalletApi";
 
 export const POST_NEW_USER = "POST_NEW_USER";
@@ -14,10 +13,8 @@ export const GET_ALL_MOVEMENTS = "GET_ALL_MOVEMENTS";
 export const GET_USER_DATA = "GET_USER_DATA";
 export const GET_ALL_USERS_WITH_ACCOUNT = "GET_ALL_USERS_WITH_ACCOUNT";
 
-//const API_SWAGGER= 'http://wallet-main.eba-ccwdurgr.us-east-1.elasticbeanstalk.com'
-
-let date = new Date();
-let dateStr =
+const date = new Date();
+const dateStr = 
     date.getFullYear() +
     "-" +
     ("00" + (date.getMonth() + 1)).slice(-2) +
@@ -43,7 +40,6 @@ export const createUser = (user) => {
             };
 
             //create the account
-            console.log(response.data.id);
             dispatch(createAccount(response.data.id, emailAndPasword));
 
             return dispatch({
@@ -51,7 +47,6 @@ export const createUser = (user) => {
                 payload: { status: 200, message: 'OK' }
             });
         } catch (e) {
-            console.log(e)
             return dispatch({
                 type: POST_NEW_USER,
                 payload: { status: e.response.data.status, message: e.response.data.error },

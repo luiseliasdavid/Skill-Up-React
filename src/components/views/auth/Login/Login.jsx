@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { useDispatch } from "react-redux";
 
 import { login } from "../../../../redux/actions";
 import swal from "../../../../utils/swal";
@@ -66,7 +66,7 @@ const Login = () => {
                 <h1>Iniciar sesión</h1>
 
                 <label className="col-6 d-flex flex-column mb-3">
-                    <span className="form-label">Email</span>
+                    <span className="form-label col-form-label">Email</span>
                     <input
                         type="email"
                         name="email"
@@ -91,7 +91,7 @@ const Login = () => {
                 </label>
 
                 <label className="col-6 d-flex flex-column mb-3">
-                    <span className="form-label">Contraseña </span>
+                    <span className="form-label  col-form-label">Contraseña </span>
                     <input
                         type="password"
                         name="password"
