@@ -1,18 +1,22 @@
 import { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import swal from "../../../../utils/swal";
 import toast from "../../../../utils/toast";
-import { userData } from "../../../../redux/actions";
+import { cleanStatusRequest, login, userData } from "../../../../redux/actions";
 
 const Login = () => {
     const API_ENDPOINT =
-        "http://wallet-main.eba-ccwdurgr.us-east-1.elasticbeanstalk.com/";
-    const navigate = useNavigate();
-
+        "http://wallet-main.eba-ccwdurgr.us-east-1.elasticbeanstalk.com/"; 
+    const navigate = useNavigate(); 
     const dispatch = useDispatch();
+
+    let data = useSelector((state) => state.userData);
+    let request = useSelector ( (state) => state.statusRequest );
+
+  
 
 
     //const [token, setToken] = useState(null);
@@ -20,11 +24,8 @@ const Login = () => {
     /* useEffect(() => {
         // Esto es para que si el usuario se redirige al login (cambiando la ruta), lo desloguee
        localStorage.getItem("token") && localStorage.removeItem("token"); 
-
         if (!token) return;
-
         localStorage.setItem("token", token);
-
         fetch(`${API_ENDPOINT}auth/me`, {
             headers: {
                 "Content-Type": "application/json",
@@ -40,15 +41,28 @@ const Login = () => {
     }, [token]); */
 
 
-    /* const token = localStorage.getItem("token");
+    const token = localStorage.getItem("token"); 
     useEffect(() => {
         if ( token !== null ) {
-            dispatch( userData() )
-        } else {
-            navigate('/register')
+            navigate('/home')
         }
-    }, [dispatch, token, navigate ]) 
-     */
+    }, [token, navigate ])    
+    
+
+    useEffect(() => {
+        if ( request.status === 200 ) {
+            dispatch(cleanStatusRequest());
+            navigate('/home') 
+           //alert('');
+        }
+        if ( request.status === '0' ) return;
+        if ( request.status !== 200 ) {
+           /* alert(`code: ${request.status} message: ${request.message}`) */
+           dispatch(cleanStatusRequest());
+        }   
+     }, [ dispatch, request, navigate ])  
+     
+
 
     const initialValues = {
         email: "",
@@ -67,7 +81,14 @@ const Login = () => {
 
         const { email, password } = values;
 
-        fetch(`${API_ENDPOINT}auth/login`, {
+        dispatch(
+            login({
+               email: email,
+               password: password,
+            })
+         );
+         
+        /* fetch(`${API_ENDPOINT}auth/login`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -86,14 +107,15 @@ const Login = () => {
                     swal("Usuario o contraseña incorrecta.");
                 }
             })
-            .catch((err) => console.log(err));
-    };
+            .catch((err) => console.log(err));  */
+    }; 
 
     const formik = useFormik({ initialValues, validationSchema, onSubmit });
 
     const { errors, touched, values, handleChange, handleBlur } = formik;
 
     return (
+
         <div className="d-flex justify-content-center row">
             <form
                 onSubmit={onSubmit}
