@@ -10,8 +10,6 @@ const Balance = () => {
    const userInformation = useSelector((state) => state.userData);
    const request = useSelector((state) => state.statusRequest);
 
-   console.log(userInformation);
-
    const dispatch = useDispatch();
    const navigate = useNavigate();
 
@@ -51,17 +49,27 @@ const Balance = () => {
                      {userInformation.balance.totalBalance}
                   </h2>
 
-                  <h3>Cargas realizadas: 3</h3>
+                  <hr className="shine" />
+
+                  <h3>
+                     Cargas realizadas:{" "}
+                     {userInformation.transactions.topup.length}
+                  </h3>
                   <p>Total: ${userInformation.balance.topup}</p>
 
-                  <h3>Cantidad de transferencias: 3</h3>
+                  <hr className="shine" />
+
+                  <h3>
+                     Cantidad de transferencias:{" "}
+                     {userInformation.transactions.payments.length}
+                  </h3>
                   <p>Total: ${userInformation.balance.payments}</p>
                   <button onClick={() => navigate("/home")}>
                      Volver al Home
                   </button>
                </div>
                <div className="container-card">
-                  <h2>Grafico de torta</h2>
+                  <h2>Gráfica</h2>
                   <GraphBalance
                      topup={userInformation.balance.topup}
                      payments={userInformation.balance.payments}
@@ -69,6 +77,8 @@ const Balance = () => {
                </div>
             </div>
          )}
+
+         {!userInformation.balance ? <></> : ""}
       </div>
    );
 };
