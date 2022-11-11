@@ -39,13 +39,12 @@ export const Footer = () => {
         <li className="list-group-item">SkillUp - Noviembre 2022</li>
         {developers.map((dev, i) => {
           return (
-            <li className="list-group-item" style={{ textDecoration: "none" }}>
-              <a
-                href={`${dev.email}`}
-                target="_blank"
-                key={i}
-                className="text-muted"
-              >
+            <li
+              className="list-group-item"
+              style={{ textDecoration: "none" }}
+              key={i}
+            >
+              <a href={`${dev.email}`} target="_blank" className="text-muted">
                 {dev.name}
               </a>
             </li>

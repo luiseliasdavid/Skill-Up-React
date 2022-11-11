@@ -2,8 +2,12 @@ import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { logout } from "../../redux/actions";
+import { useDispatch, useSelector } from "react-redux";
 import Title from "../Title/Title";
 export const NavBar = () => {
+  const dispatch = useDispatch();
+
   const [isLogin, setIsLogin] = useState(false);
   const [firstName, setFirstName] = useState(null);
 
@@ -18,11 +22,11 @@ export const NavBar = () => {
     }
   }, []);
 
-  const clearStorage = () => {
-    localStorage.removeItem("userData");
-    navigate("/", { redirect: true });
-    setIsLogin(false);
-    setFirstName(null);
+  const handleLogOut = () => {
+    dispatch(logout()).then((res) => {
+      setIsLogin(true);
+      navigate("/", { redirect: true });
+    });
   };
 
   return (
@@ -91,7 +95,7 @@ export const NavBar = () => {
                 </li>
                 <Link to="/">
                   <button
-                    onClick={() => clearStorage()}
+                    onClick={() => handleLogOut()}
                     className="btn btn-danger"
                   >
                     LogOut
