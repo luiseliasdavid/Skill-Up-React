@@ -53,7 +53,7 @@ const Register = () => {
                         `Detalle del error: Ese email ya está registrado.`,
                         "error"
                     );
-                } 
+                }
             })
             .catch((err) => {
                 swal(
@@ -72,145 +72,134 @@ const Register = () => {
         formik;
 
     return (
-        <div className="container">
+        <div className="d-flex justify-content-center row">
             {/* El que se encarga de hacer el submit es el handleSubmit */}
-            <form onSubmit={handleSubmit}>
-                <div className="mb-3 row">
-                    <label
-                        htmlFor="inputFirstName"
-                        className="col-sm-2 col-form-label"
-                    >
-                        First Name
-                    </label>
-                    <div className="col-sm-10">
-                        <input
-                            type="text"
-                            name="firstName"
-                            autoComplete="off"
-                            value={values.firstName}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            className={
-                                errors.firstName && touched.firstName
-                                    ? "form-control is-invalid"
-                                    : "form-control"
-                            }
-                        />
-                        {errors.firstName && touched.firstName && (
-                            <div
-                                id="validationServerUsernameFeedback"
-                                className="invalid-feedback"
-                            >
-                                {errors.firstName}
-                            </div>
-                        )}
-                    </div>
-                </div>
-                <div className="mb-3 row">
-                    <label
-                        htmlFor="inputLastName"
-                        className="col-sm-2 col-form-label"
-                    >
-                        Last Name
-                    </label>
-                    <div className="col-sm-10">
-                        <input
-                            type="text"
-                            name="lastName"
-                            autoComplete="off"
-                            value={values.lastName}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            className={
-                                errors.lastName && touched.lastName
-                                    ? "form-control is-invalid"
-                                    : "form-control"
-                            }
-                        />
-                        {errors.lastName && touched.lastName && (
-                            <div
-                                id="validationServerUsernameFeedback"
-                                className="invalid-feedback"
-                            >
-                                {errors.lastName}
-                            </div>
-                        )}
-                    </div>
-                </div>
-                <div className="mb-3 row">
-                    <label
-                        htmlFor="inputEmail"
-                        className="col-sm-2 col-form-label"
-                    >
-                        Email
-                    </label>
-                    <div className="col-sm-10">
-                        <input
-                            type="email"
-                            name="email"
-                            autoComplete="off"
-                            value={values.email}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            className={
-                                errors.email && touched.email
-                                    ? "form-control is-invalid"
-                                    : "form-control"
-                            }
-                        />
-                        {errors.email && touched.email && (
-                            <div
-                                id="validationServerUsernameFeedback"
-                                className="invalid-feedback"
-                            >
-                                {errors.email}
-                            </div>
-                        )}
-                    </div>
-                </div>
-                <div className="mb-3 row">
-                    <label
-                        htmlFor="inputPassword"
-                        className="col-sm-2 col-form-label"
-                    >
-                        Password
-                    </label>
-                    <div className="col-sm-10">
-                        <input
-                            type="password"
-                            name="password"
-                            autoComplete="off"
-                            value={values.password}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            className={
-                                errors.password && touched.password
-                                    ? "form-control is-invalid"
-                                    : "form-control"
-                            }
-                        />
-                        {errors.password && touched.password && (
-                            <div
-                                id="validationServerUsernameFeedback"
-                                className="invalid-feedback"
-                            >
-                                {errors.password}
-                            </div>
-                        )}
-                    </div>
-                </div>
+            <form
+                onSubmit={handleSubmit}
+                className="col-10 d-flex flex-column align-items-center g-3"
+            >
+                <h1>Creá tu cuenta</h1>
+
+                <label
+                    htmlFor="inputFirstName"
+                    className="col-6 d-flex flex-column mb-3"
+                >
+                    <span className="label-color form-label">Nombre</span>
+                    <input
+                        type="text"
+                        name="firstName"
+                        autoComplete="off"
+                        value={values.firstName}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        className={
+                            errors.firstName && touched.firstName
+                                ? "form-control is-invalid"
+                                : "form-control"
+                        }
+                    />
+                    {errors.firstName && touched.firstName && (
+                        <div
+                            id="validationServerUsernameFeedback"
+                            className="invalid-feedback"
+                        >
+                            {errors.firstName}
+                        </div>
+                    )}
+                </label>
+
+                <label
+                    htmlFor="inputLastName"
+                    className="col-6 d-flex flex-column mb-3"
+                >
+                    <span className="label-color form-label">Apellido</span>
+                    <input
+                        type="text"
+                        name="lastName"
+                        autoComplete="off"
+                        value={values.lastName}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        className={
+                            errors.lastName && touched.lastName
+                                ? "form-control is-invalid"
+                                : "form-control"
+                        }
+                    />
+                    {errors.lastName && touched.lastName && (
+                        <div
+                            id="validationServerUsernameFeedback"
+                            className="invalid-feedback"
+                        >
+                            {errors.lastName}
+                        </div>
+                    )}
+                </label>
+
+                <label
+                    htmlFor="inputEmail"
+                    className="col-6 d-flex flex-column mb-3"
+                >
+                    <span className="label-color form-label">Email</span>
+                    <input
+                        type="email"
+                        name="email"
+                        autoComplete="off"
+                        value={values.email}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        className={
+                            errors.email && touched.email
+                                ? "form-control is-invalid"
+                                : "form-control"
+                        }
+                    />
+                    {errors.email && touched.email && (
+                        <div
+                            id="validationServerUsernameFeedback"
+                            className="invalid-feedback"
+                        >
+                            {errors.email}
+                        </div>
+                    )}
+                </label>
+
+                <label
+                    htmlFor="inputPassword"
+                    className="col-6 d-flex flex-column mb-3"
+                >
+                    <span className="label-color form-label">Contraseña</span>
+                    <input
+                        type="password"
+                        name="password"
+                        autoComplete="off"
+                        value={values.password}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        className={
+                            errors.password && touched.password
+                                ? "form-control is-invalid"
+                                : "form-control"
+                        }
+                    />
+                    {errors.password && touched.password && (
+                        <div
+                            id="validationServerUsernameFeedback"
+                            className="invalid-feedback"
+                        >
+                            {errors.password}
+                        </div>
+                    )}
+                </label>
+
                 <div className="col-sm-12">
                     <button type="submit" className="btn btn-outline-primary">
                         Registrarse
                     </button>
-                    <Link to="/">
-                        <button
-                            type="button"
-                            className="btn btn-outline-primary"
-                        >
-                            Iniciar Sesión
-                        </button>
-                    </Link>
+                </div>
+
+                <div className="mt-3">
+                    <Link to="/">Iniciar Sesión</Link>
                 </div>
             </form>
         </div>
