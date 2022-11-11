@@ -2,7 +2,8 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { balance, cleanStatusRequest, userData } from "../../../redux/actions";
-import styles from "./styles.css";
+import balanceStyles from "./balanceStyles.css";
+import buttonStyles from "./buttonStyles.css";
 import { GraphBalance } from "./GraphBalance";
 
 const Balance = () => {
@@ -55,7 +56,9 @@ const Balance = () => {
 
                   <h3>Cantidad de transferencias: 3</h3>
                   <p>Total: ${userInformation.balance.payments}</p>
-                  <button className="btn btn-light">Volver al Home</button>
+                  <button onClick={() => navigate("/home")}>
+                     Volver al Home
+                  </button>
                </div>
                <div className="container-card">
                   <h2>Grafico de torta</h2>
