@@ -1,49 +1,49 @@
-import {BrowserRouter, Routes, Route} from "react-router-dom";
-import {AnimatePresence} from "framer-motion";
-import {lazy, Suspense} from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { AnimatePresence, motion } from "framer-motion";
+import { lazy, Suspense } from "react";
+
+import PrivateRoutes from "../router/PrivateRoutes";
+import Navbar from "../Navbar/Navbar";
 import Footer from "../Footer/Footer";
-import {NavBar} from "../NavBar/NavBar";
-import {motion} from "framer-motion";
 import Register from "../views/auth/Register/Register";
 import Login from "../views/auth/Login/Login";
+import Home from "../views/Home/Home";
 import Charge from "../views/Charge/Charge";
 import Spents from "../views/Spents/Spents";
 import Balance from "../views/Balance/Balance";
 import Movements from "../views/Movements/Movements";
 import Transfers from "../views/Transfers/Transfers";
-import PrivateRoutes from "../router/PrivateRoutes";
-import Home from "../views/Home/Home";
 import PublicRoutes from "../router/PublicRoutes";
 
 const Layout = () => {
-  const pageTransition = {
-    initial: {
-      opacity: 0,
-      x: "-100vw",
-    },
-    animate: {
-      x: 0,
-      opacity: 1,
-      transition: {
-        duration: 1,
-        ease: [0.6, -0.05, 0.01, 0.99],
-      },
-    },
-    exit: {
-      x: "-100vw",
-      opacity: 0,
-      transition: {
-        duration: 1,
-        ease: [0.6, -0.05, 0.01, 0.99],
-      },
-    },
-  };
+    const pageTransition = {
+        initial: {
+            opacity: 0,
+            x: "-100vw",
+        },
+        animate: {
+            x: 0,
+            opacity: 1,
+            transition: {
+                duration: 1,
+                ease: [0.6, -0.05, 0.01, 0.99],
+            },
+        },
+        exit: {
+            x: "-100vw",
+            opacity: 0,
+            transition: {
+                duration: 1,
+                ease: [0.6, -0.05, 0.01, 0.99],
+            },
+        },
+    };
 
-  const Error404 = lazy(() => import("../views/Error404/Error404"));
+    const Error404 = lazy(() => import("../views/Error404/Error404"));
 
   return (
     <BrowserRouter>
-      <NavBar />
+      <Navbar />
       <AnimatePresence>
         <Routes>
           <Route element={<PrivateRoutes />}>
@@ -163,20 +163,21 @@ const Layout = () => {
               }
             />
 
-            <Route
-              path="/login"
-              exact
-              element={
-                <motion.div
-                  className="page"
-                  initial="initial"
-                  animate="animate"
-                  exit="exit"
-                  variants={pageTransition}>
-                  <Login />
-                </motion.div>
-              }
-            />
+                    <Route
+                        path="/"
+                        exact
+                        element={
+                            <motion.div
+                                className="page"
+                                initial="initial"
+                                animate="animate"
+                                exit="exit"
+                                variants={pageTransition}
+                            >
+                                <Login />
+                            </motion.div>
+                        }
+                    />
 
             <Route
               path="/"

@@ -1,13 +1,17 @@
-import { useNavigate, Link } from 'react-router-dom';
-import axios from 'axios'
+import { useNavigate, Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import './Register.css'
+
+import "../auth.css";
+
+import { createUser, login } from "../../../../redux/actions";
+import toast from "../../../../utils/toast";
+import swal from "../../../../utils/swal";
 
 const Register = () => {
-
-    const navigate = useNavigate()
-
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const initialValues = {
         firstName: "",
@@ -15,30 +19,6 @@ const Register = () => {
         email: "",
         password: "",
     };
-
-    const walletApi = axios.create({
-        baseURL: 'http://wallet-main.eba-ccwdurgr.us-east-1.elasticbeanstalk.com',
-    })
-
-    const onSubmit = () => {
-        walletApi.post('/users', {
-            first_name: values.firstName,
-            last_name: values.lastName,
-            email: values.email,
-            password: values.password,
-        })
-        .then((res) => res.data )
-        .then((res) => {
-            // Falta lógica para que se avise el status de la response. Si está duplicado se debe avisar también.
-            console.log("Form OK");
-            localStorage.setItem("userData", JSON.stringify(res))
-            navigate('/', { replace: true })
-        })
-        .catch((error) => {
-            console.log(error);
-        })
-
-    }
 
     const required = "* Campo obligatorio.";
 
@@ -51,17 +31,60 @@ const Register = () => {
         password: Yup.string().required(required),
     });
 
+    const onSubmit = () => {
+        const userData = {
+            first_name: values.firstName,
+            last_name: values.lastName,
+            email: values.email,
+            password: values.password,
+            roleId: 1,
+            points: 0,
+        };
+
+        dispatch(createUser(userData))
+            .then((res) => {
+                const { status, message } = res.payload;
+                if (status === 200) {
+                    toast(`¡Bienvenido ${userData.first_name}!`, "success");
+                    navigate("/home");
+                } else {
+                    swal(
+                        "Hubo un error.",
+                        `Detalle del error: Ese email ya está registrado.`,
+                        "error"
+                    );
+                }
+            })
+            .catch((err) => {
+                swal(
+                    "Hubo un error inesperado. Recarga la página e intenta nuevamente.",
+                    "",
+                    "error"
+                );
+                console.log(err);
+            });
+    };
+
     // useFormik espera los parámetros initialValues, validationSchema y onSubmit.
     const formik = useFormik({ initialValues, validationSchema, onSubmit });
 
-    const { errors, touched, values, handleChange, handleBlur, handleSubmit } = formik;
+    const { errors, touched, values, handleChange, handleBlur, handleSubmit } =
+        formik;
 
-    return <div className="container">
-        {/* El que se encarga de hacer el submit es el handleSubmit */}
-        <form onSubmit={handleSubmit}>
-            <div className="mb-3 row">
-                <label htmlFor="inputFirstName" className="col-sm-2 col-form-label">First Name</label>
-                <div className="col-sm-10">
+    return (
+        <div className="d-flex justify-content-center row">
+            {/* El que se encarga de hacer el submit es el handleSubmit */}
+            <form
+                onSubmit={handleSubmit}
+                className="col-10 d-flex flex-column align-items-center g-3"
+            >
+                <h1>Creá tu cuenta</h1>
+
+                <label
+                    htmlFor="inputFirstName"
+                    className="col-6 d-flex flex-column mb-3"
+                >
+                    <span className="label-color form-label">Nombre</span>
                     <input
                         type="text"
                         name="firstName"
@@ -83,11 +106,13 @@ const Register = () => {
                             {errors.firstName}
                         </div>
                     )}
-                </div>
-            </div>
-            <div className="mb-3 row">
-                <label htmlFor="inputLastName" className="col-sm-2 col-form-label">Last Name</label>
-                <div className="col-sm-10">
+                </label>
+
+                <label
+                    htmlFor="inputLastName"
+                    className="col-6 d-flex flex-column mb-3"
+                >
+                    <span className="label-color form-label">Apellido</span>
                     <input
                         type="text"
                         name="lastName"
@@ -109,11 +134,13 @@ const Register = () => {
                             {errors.lastName}
                         </div>
                     )}
-                </div>
-            </div>
-            <div className="mb-3 row">
-                <label htmlFor="inputEmail" className="col-sm-2 col-form-label">Email</label>
-                <div className="col-sm-10">
+                </label>
+
+                <label
+                    htmlFor="inputEmail"
+                    className="col-6 d-flex flex-column mb-3"
+                >
+                    <span className="label-color form-label">Email</span>
                     <input
                         type="email"
                         name="email"
@@ -135,11 +162,13 @@ const Register = () => {
                             {errors.email}
                         </div>
                     )}
-                </div>
-            </div>
-            <div className="mb-3 row">
-                <label htmlFor="inputPassword" className="col-sm-2 col-form-label">Password</label>
-                <div className="col-sm-10">
+                </label>
+
+                <label
+                    htmlFor="inputPassword"
+                    className="col-6 d-flex flex-column mb-3"
+                >
+                    <span className="label-color form-label">Contraseña</span>
                     <input
                         type="password"
                         name="password"
@@ -161,16 +190,20 @@ const Register = () => {
                             {errors.password}
                         </div>
                     )}
-                </div>
-            </div>
-            <div className="col-sm-12">
-                <button type="submit" className='btn btn-outline-primary'>Registrarse</button>
-                <Link to="/"><button type="button" className='btn btn-outline-primary'>Iniciar Sesión</button></Link>
-            </div>
-            
-        </form>
-  </div>
+                </label>
 
+                <div className="col-sm-12">
+                    <button type="submit" className="btn btn-outline-primary">
+                        Registrarse
+                    </button>
+                </div>
+
+                <div className="mt-3">
+                    <Link to="/">Iniciar Sesión</Link>
+                </div>
+            </form>
+        </div>
+    );
 };
 
 export default Register;
