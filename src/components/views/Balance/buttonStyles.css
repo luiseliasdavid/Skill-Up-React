@@ -1,4 +1,4 @@
-button {
+.btn-navigate {
    --color: #560bad;
    font-family: inherit;
    display: inline-block;
@@ -18,7 +18,7 @@ button {
    color: var(--color);
 }
 
-button:before {
+.btn-navigate:before {
    content: "";
    position: absolute;
    z-index: -1;
@@ -28,22 +28,22 @@ button:before {
    border-radius: 50%;
 }
 
-button:hover {
+.btn-navigate:hover {
    color: #fff;
 }
 
-button:before {
+.btn-navigate:before {
    top: 100%;
    left: 100%;
    transition: all 0.7s;
 }
 
-button:hover:before {
+.btn-navigate:hover:before {
    top: -30px;
    left: -30px;
 }
 
-button:active:before {
+.btn-navigate:active:before {
    background: #3a0ca3;
    transition: background 0s;
 }

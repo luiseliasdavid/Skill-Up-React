@@ -64,7 +64,10 @@ const Balance = () => {
                      {userInformation.transactions.payments.length}
                   </h3>
                   <p>Total: ${userInformation.balance.payments}</p>
-                  <button onClick={() => navigate("/home")}>
+                  <button
+                     className="btn-navigate"
+                     onClick={() => navigate("/home")}
+                  >
                      Volver al Home
                   </button>
                </div>
@@ -77,8 +80,6 @@ const Balance = () => {
                </div>
             </div>
          )}
-
-         {!userInformation.balance ? <></> : ""}
       </div>
    );
 };
