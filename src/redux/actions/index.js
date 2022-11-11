@@ -225,7 +225,7 @@ export const addMoneyToAccount = (amount, id) => {
    };
 };
 
-export const accountDetail = (id) => {
+/* export const accountDetail = (id) => {
    return async function (dispatch) {
       try {
 
@@ -245,7 +245,7 @@ export const accountDetail = (id) => {
          });
       }
    };
-};
+}; */
 
 
 

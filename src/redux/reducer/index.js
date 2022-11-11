@@ -12,7 +12,7 @@ import {
    GET_ALL_USERS_WITH_ACCOUNT,
    CLEAN_STATUS_REQUEST,
    GET_USER_DATA_DATA,
-   GET_ACCOUNT_DETAIL,
+   /* GET_ACCOUNT_DETAIL, */
    /* CLEAN_STORE, */
 } from "../actions";
 
@@ -130,7 +130,7 @@ const rootReducer = (state = initialState, action) => {
                statusRequest: action.status
             };
          };
-      case GET_ACCOUNT_DETAIL:
+      /* case GET_ACCOUNT_DETAIL:
          if( action.status.status === 200 ) {
             return {
                ...state,
@@ -142,7 +142,7 @@ const rootReducer = (state = initialState, action) => {
                ...state,
                statusRequest: action.status
             };
-         };
+         }; */
       case SEND_MONEY:
          if (action.status.status === 200) {
             return {

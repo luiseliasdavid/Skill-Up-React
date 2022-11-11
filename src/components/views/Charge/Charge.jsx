@@ -88,6 +88,8 @@ const Charge = () => {
               onChange={handleChange} 
               placeholder='Ingresa un monto...'
             />
+
+            {/* Inhabilitar el botton de CARGAR si amount es '' */}
             <button type={'submit'}>CARGAR SALDO</button>
           </form>
 
