@@ -3,6 +3,8 @@ import { useDispatch } from "react-redux";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 
+import "../auth.css";
+
 import { login } from "../../../../redux/actions";
 import swal from "../../../../utils/swal";
 import toast from "../../../../utils/toast";
