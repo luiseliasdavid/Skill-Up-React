@@ -1,9 +1,10 @@
 import Swal from 'sweetalert2'
 
-const swal = (title, text = '') => {
+const swal = (title, text = '', icon = '') => {
     Swal.fire({
         title,
         text,
+        icon,
         confirmButtonText: 'Aceptar',
         width: '400px',
         timer: 10000,

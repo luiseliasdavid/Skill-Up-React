@@ -13,11 +13,11 @@ import { useDispatch, useSelector } from "react-redux";
 /* import { useNavigate } from "react-router-dom"; */
 
 export const Estado = () => {
-   // El 'useEffect' en el componente Login era el que borraba el token
-   // del localStorage.
+    // El 'useEffect' en el componente Login era el que borraba el token
+    // del localStorage.
 
-   // Ahora queda solucionar que al recargar la pagina no se pierdan los datos
-   // que tenemos en el store.
+    // Ahora queda solucionar que al recargar la pagina no se pierdan los datos
+    // que tenemos en el store.
 
    let data = useSelector((state) => state.userData);
    let request = useSelector ( (state) => state.statusRequest );
@@ -86,13 +86,13 @@ export const Estado = () => {
       );
    };
 
-   const cargasaldo = () => {
-      dispatch(addMoneyToAccount(500, data.userData.account.id));
-   };
+    const cargasaldo = () => {
+        dispatch(addMoneyToAccount(500, data.userData.account.id));
+    };
 
-   const balanceview = () => {
-      dispatch(balance());
-   };
+    const balanceview = () => {
+        dispatch(balance());
+    };
 
    const userLogout = () => {
       dispatch(logout());
@@ -105,9 +105,9 @@ export const Estado = () => {
       }
    };  */
 
-   const getAccountListAndUserList = () => {
-      dispatch(getAllUsersWithAccount());
-   };
+    const getAccountListAndUserList = () => {
+        dispatch(getAllUsersWithAccount());
+    };
 
  /*   const mandarDineroAmigo = () => {
       dispatch(sendMoneyToUser(7, 100,'pago de los botines', 

@@ -1,54 +1,17 @@
-import { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch } from 'react-redux';
+import { useDispatch } from "react-redux";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+
+import "../auth.css";
+
+import { login } from "../../../../redux/actions";
 import swal from "../../../../utils/swal";
 import toast from "../../../../utils/toast";
-import { userData } from "../../../../redux/actions";
 
 const Login = () => {
-    const API_ENDPOINT =
-        "http://wallet-main.eba-ccwdurgr.us-east-1.elasticbeanstalk.com/";
     const navigate = useNavigate();
-
     const dispatch = useDispatch();
-
-
-    //const [token, setToken] = useState(null);
-    
-    /* useEffect(() => {
-        // Esto es para que si el usuario se redirige al login (cambiando la ruta), lo desloguee
-       localStorage.getItem("token") && localStorage.removeItem("token"); 
-
-        if (!token) return;
-
-        localStorage.setItem("token", token);
-
-        fetch(`${API_ENDPOINT}auth/me`, {
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`,
-            },
-        })
-            .then((res) => res.json())
-            .then((data) => {
-                localStorage.setItem('userData', JSON.stringify(data));
-                navigate('/home', { redirect: true });
-            })
-            .catch((err) => console.log(err));
-    }, [token]); */
-
-
-    /* const token = localStorage.getItem("token");
-    useEffect(() => {
-        if ( token !== null ) {
-            dispatch( userData() )
-        } else {
-            navigate('/register')
-        }
-    }, [dispatch, token, navigate ]) 
-     */
 
     const initialValues = {
         email: "",
@@ -62,49 +25,52 @@ const Login = () => {
         password: Yup.string().required("Debe ingresar una contraseña"),
     });
 
-    const onSubmit = (e) => {
-        e.preventDefault();
-
+    const onSubmit = () => {
         const { email, password } = values;
+        dispatch(login({ email, password }))
+            .then((res) => {
+                const { status, message } = res.status;
 
-        fetch(`${API_ENDPOINT}auth/login`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                email,
-                password,
-            }),
-        })
-            .then((res) => res.json())
-            .then((data) => {
-                if (data.accessToken) {
-                    //setToken(data.accessToken);
-                    toast("Todo bien", "success");
+                if (status === 200) {
+                    const userData = JSON.parse(localStorage.getItem("user"));
+                    toast(`¡Bienvenido ${userData?.first_name}!`, "success");
+                    navigate("/home");
                 } else {
-                    swal("Usuario o contraseña incorrecta.");
+                    swal(
+                        "Hubo un error.",
+                        `Detalle del error: ${message}`,
+                        "error"
+                    );
                 }
             })
-            .catch((err) => console.log(err));
+            .catch((err) => {
+                swal(
+                    "Hubo un error inesperado. Recarga la página e intenta nuevamente.",
+                    "",
+                    "error"
+                );
+                console.log(err);
+            });
     };
 
     const formik = useFormik({ initialValues, validationSchema, onSubmit });
 
-    const { errors, touched, values, handleChange, handleBlur } = formik;
+    const { errors, touched, values, handleChange, handleBlur, handleSubmit } =
+        formik;
 
     return (
+
         <div className="d-flex justify-content-center row">
             <form
-                onSubmit={onSubmit}
+                onSubmit={handleSubmit}
                 className="col-6 d-flex flex-column align-items-center g-3"
             >
                 <h1>Iniciar sesión</h1>
 
                 <label className="col-6 d-flex flex-column mb-3">
-                    <span className="form-label">Email</span>
+                    <span className="form-label col-form-label">Email</span>
                     <input
-                        type="text"
+                        type="email"
                         name="email"
                         autoComplete="off"
                         value={values.email}
@@ -127,7 +93,7 @@ const Login = () => {
                 </label>
 
                 <label className="col-6 d-flex flex-column mb-3">
-                    <span className="form-label">Contraseña </span>
+                    <span className="form-label  col-form-label">Contraseña </span>
                     <input
                         type="password"
                         name="password"

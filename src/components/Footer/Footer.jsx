@@ -2,20 +2,61 @@ import React from "react";
 import "./Footer.css";
 
 export const Footer = () => {
-  return (
-    <footer className="container d-flex mt-5 bg-light ">
-      <span>SkillUp - Noviembre 2022</span>
-      <ul id="footer-list" className="container d-flex justify-content-between">
-        <li className="footer-item">Daiana Gimenez</li>
-        <li className="footer-item">Facundo Alvarez</li>
-        <li className="footer-item">Juan Manuel Monaco</li>
-        <li className="footer-item">Lucas C.</li>
-        <li className="footer-item">Luis Davi</li>
-        <li className="footer-item">Santiago</li>
-        <li className="footer-item">Tobias Zavallo</li>
-      </ul>
-    </footer>
-  );
+    const developers = [
+        {
+            name: "Daiana Gimenez",
+            email: "",
+        },
+        {
+            name: "Santiago Zibecchini",
+            email: "https://www.linkedin.com/in/santiago-zibecchi-7996971a5/",
+        },
+        {
+            name: "Tobias Zavallo",
+            email: "https://www.linkedin.com/in/tobias-zavallo-066994222/",
+        },
+        {
+            name: "Lucas Cabral Silvero",
+            email: "https://www.linkedin.com/in/lucas-cabral-silvero/",
+        },
+        {
+            name: "Juan Gutierrez",
+            email: "https://www.linkedin.com/in/juangutierrezmonaco/",
+        },
+        {
+            name: "Facundo N. Alvarez",
+            email: "https://www.linkedin.com/in/facundon-alvarez/",
+        },
+        {
+            name: "Luis David",
+            email: "",
+        },
+    ];
+
+    return (
+        <footer className="container">
+            <ul id="footer-list" className="list-group list-group-horizontal ">
+                <li className="list-group-item">SkillUp - Noviembre 2022</li>
+                {developers.map((dev, i) => {
+                    return (
+                        <li
+                            className="list-group-item"
+                            style={{ textDecoration: "none" }}
+                            key={i}
+                        >
+                            <a
+                                href={`${dev.email}`}
+                                target="_blank"
+                                className="text-muted"
+                            >
+                                {dev.name}
+                            </a>
+                        </li>
+                    );
+                })}
+            </ul>
+        </footer>
+    );
 };
 
 export default Footer;

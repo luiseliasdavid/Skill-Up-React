@@ -1,8 +1,8 @@
-import './App.css';
+import './App.min.css';
 import Layout from './components/Layout/Layout';
 import { Estado } from './redux/reducer/Estado';
 
-function App() {
+function App() {    
     return (
         <div className="App">
             <Layout />

@@ -1,9 +1,9 @@
-import React from "react";
-
-export const Title = ({ type = "h1", text = "Probando" }) => {
-  const title = `<${type}>${text}</${type}>`;
-
-  return <div dangerouslySetInnerHTML={{ __html: title }}></div>;
+const Title = ({ Type = "h1", text, className }) => {
+    return (
+        <Type className={className}>
+            {text}
+        </Type>
+    );
 };
 
 export default Title;
