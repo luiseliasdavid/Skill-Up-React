@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { balance, updateSpentConcept, userData } from "../../../redux/actions";
 
-import swal from "../../../utils/swal";
+import toast from "../../../utils/toast";
 
 const Spents = () => {
   const data = useSelector((state) => state.userData);
@@ -10,63 +10,48 @@ const Spents = () => {
   const dispatch = useDispatch();
 
   const [isDisabled, setIsDisabled] = useState(false);
-  const [updateData, setUpdateData] = useState([]);
-  const [newConcept, setNewConcept] = useState('');
+  const [paymentState, setPaymentState] = useState([]);
 
   useEffect(() => {
     dispatch(userData());
-    dispatch(balance());
-    setUpdateData(data.transactions);
+    dispatch(balance()).then((res) => {
+      setPaymentState(res.paymentsList);
+    });
   }, [dispatch]);
 
-  //console.log(updateData);
-
   const handleChange = (e) => {
-    setNewConcept( prev => [e.target.name]: e.target.value);
+    setPaymentState(
+      paymentState.map((spent) =>
+        spent.id === +e.target.id
+          ? { ...spent, concept: e.target.value }
+          : spent
+      )
+    );
   };
-
-  //crear funcion que envie un ok o un error para facilitar la funcion de redux
 
   const EditConcept = (id) => {
     setIsDisabled(!isDisabled);
-    console.log(id);
 
-    const prueba = updateData.payments.find((payment) => payment.id === id);
-    setNewConcept(prueba)
-    console.log(prueba);
+    const spentById = paymentState.find((payment) => payment.id === id);
 
     const updateSpents = {
-      amount: "",
-      concept: "Pago de honorarios",
-      date: "2022-10-26 15:00:00",
-      type: "topup|payment",
-      accountId: 1,
-      userId: 4,
-      to_account_id: 5,
+      amount: spentById.amount,
+      concept: spentById.concept,
+      date: spentById.date,
+      type: spentById.type,
+      accountId: spentById.accountId,
+      userId: spentById.userId,
+      to_account_id: spentById.to_account_id,
     };
 
-    dispatch(updateSpentConcept(id))
-      .then((res) => {
-        const { status } = res;
+    dispatch(updateSpentConcept(id, updateSpents)).then((res) => {
+      const { status } = res.status;
 
-        /* if (status.status !== 200) {
-          swal(
-            "Hubo un error.",
-            `Detalle del error: ${status.message}`,
-            "error"
-          );
-        } else {
-          //setIsDisabled(isDisabled);
-        } */
-      })
-      .catch((err) => {
-        /* swal(
-          "Hubo un error inesperado. Recarga la página e intenta nuevamente.",
-          "",
-          "error"
-        ); */
-        console.log(err);
-      });
+      if (status === 200) {
+        toast(`Concepto Actualizado`, "success");
+        setIsDisabled(isDisabled);
+      }
+    });
   };
 
   return (
@@ -82,11 +67,11 @@ const Spents = () => {
           <h2>Gastos</h2>
 
           <div className="d-flex flex-wrap align-items-center m-4">
-            {data.transactions.payments?.map((item) => (
+            {paymentState.map((item) => (
               <table className="table table-sm" key={item.id}>
                 <thead>
                   <tr>
-                    <th scope="col">Button</th>
+                    <th scope="col">Actualizar concepto</th>
                     <th scope="col">Concepto</th>
                     <th scope="col">Monto</th>
                     <th scope="col">Fecha</th>
@@ -99,17 +84,28 @@ const Spents = () => {
                         onClick={() => EditConcept(item.id)}
                         className="btn btn-info"
                       >
-                        Editar Concepto
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="16"
+                          height="16"
+                          fill="currentColor"
+                          className="bi bi-upload"
+                          viewBox="0 0 16 16"
+                        >
+                          <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z" />
+                          <path d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708l3-3z" />
+                        </svg>
                       </button>
                     </td>
                     <td>
                       <input
+                        id={item.id}
                         type="text"
-                        name={item.id}
-                        value={newConcept}
+                        name="concept"
+                        value={item.concept}
                         placeholder={item.concept}
                         disabled={isDisabled}
-                        onChange={(e) => handleChange(e)}
+                        onChange={handleChange}
                       />
                     </td>
                     <td>{item.amount}</td>
