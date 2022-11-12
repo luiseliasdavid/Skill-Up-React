@@ -3,8 +3,8 @@ import { AnimatePresence, motion } from "framer-motion";
 import { lazy, Suspense } from "react";
 
 import PrivateRoutes from "../router/PrivateRoutes";
-// import Navbar from "../Navbar/NavBar";
-import Navbar from "../NavBar/NavBar";
+
+import Navbar from "../Navbar/Navbar";
 import Footer from "../Footer/Footer";
 import Register from "../views/auth/Register/Register";
 import Login from "../views/auth/Login/Login";

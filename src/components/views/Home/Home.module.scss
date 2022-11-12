@@ -33,3 +33,25 @@ $hover:rgb(247, 247, 247);
     @include hoverStyle;
 }
 
+
+@media only screen and (max-width: 958px) {
+    .cardHeightLeft{
+        height: 15%;
+    }
+    .regret{
+        height: 5%;
+    }
+    .listCard{
+        margin-top: -0px;
+    }
+}
+
+@media only screen and (max-width: 767px) {
+    .cardHeight{
+        height: 50%;
+    }
+
+    .cardHeightLeft{
+        height: 75%;
+    }
+}
