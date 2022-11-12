@@ -15,7 +15,7 @@ export const GET_USER_DATA_DATA = "GET_USER_DATA_DATA";
 export const GET_ALL_USERS_WITH_ACCOUNT = "GET_ALL_USERS_WITH_ACCOUNT";
 
 const date = new Date();
-const dateStr = 
+const dateStr =
     date.getFullYear() +
     "-" +
     ("00" + (date.getMonth() + 1)).slice(-2) +
@@ -329,32 +329,31 @@ export const userData = () => {
     };
 };
 
-
 export const userDataData = () => {
-   return async function (dispatch) {
-      try {
-         const userDetail = await fetchWalletApi.get(`/auth/me`);
-   
-         const transactionsUser = await fetchWalletApi.get(`/transactions`);
-   
-         const initialTopup = transactionsUser.data.data[0]
-   
-         const idAccount = initialTopup.accountId;
-         const account = await fetchWalletApi.get(`/accounts/${idAccount}`);
-   
-         return dispatch({
-            type: GET_USER_DATA_DATA,
-            payload: { user: userDetail.data, account: account.data },
-            status: { status: 201, message:'OK' }
-         });
+    return async function (dispatch) {
+        try {
+            const userDetail = await fetchWalletApi.get(`/auth/me`);
 
-      } catch(e) {
-         return dispatch({
-            type: GET_USER_DATA_DATA,
-            status: { status: e.response.data.status, message: e.response.data.error },
-         });
-      }
-   };
+            const transactionsUser = await fetchWalletApi.get(`/transactions`);
+
+            const initialTopup = transactionsUser.data.data[0]
+
+            const idAccount = initialTopup.accountId;
+            const account = await fetchWalletApi.get(`/accounts/${idAccount}`);
+
+            return dispatch({
+                type: GET_USER_DATA_DATA,
+                payload: { user: userDetail.data, account: account.data },
+                status: { status: 201, message: 'OK' }
+            });
+
+        } catch (e) {
+            return dispatch({
+                type: GET_USER_DATA_DATA,
+                status: { status: e.response.data.status, message: e.response.data.error },
+            });
+        }
+    };
 };
 
 

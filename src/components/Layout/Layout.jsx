@@ -3,7 +3,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { lazy, Suspense } from "react";
 
 import PrivateRoutes from "../router/PrivateRoutes";
-// import Navbar from "../Navbar/Navbar";
+import PublicRoutes from "../router/PublicRoutes";
 import Navbar from "../Navbar/Navbar";
 import Footer from "../Footer/Footer";
 import Register from "../views/auth/Register/Register";
@@ -14,7 +14,6 @@ import Spents from "../views/Spents/Spents";
 import Balance from "../views/Balance/Balance";
 import Movements from "../views/Movements/Movements";
 import Transfers from "../views/Transfers/Transfers";
-import PublicRoutes from "../router/PublicRoutes";
 
 const Layout = () => {
    const pageTransition = {

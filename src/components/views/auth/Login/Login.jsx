@@ -2,11 +2,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-<<<<<<< HEAD
-=======
 
 import "../auth.css";
->>>>>>> development
 
 import { login } from "../../../../redux/actions";
 import swal from "../../../../utils/swal";

@@ -1,13 +1,10 @@
 import { useEffect, useState } from "react";
 import styles from "./Home.module.scss";
-import {useDispatch, useSelector} from "react-redux";
-import {balance} from "../../../redux/actions";
-import {
-  cleanStatusRequest,
-  userData,
-} from "../../../redux/actions";
-import {dateFormatter} from "../../../utils/formatters";
-import {currencyFormatter} from "../../../utils/formatters";
+import { useDispatch, useSelector } from "react-redux";
+import { balance } from "../../../redux/actions";
+import { userData } from "../../../redux/actions";
+import { dateFormatter } from "../../../utils/formatters";
+import { currencyFormatter } from "../../../utils/formatters";
 
 const Home = () => {
     let data = useSelector((state) => state);
@@ -25,24 +22,11 @@ const Home = () => {
 
     useEffect(() => {
         dispatch(userData());
+    }, []);
+
+    useEffect(() => {
+        dispatch(balance()).then(() => {setValue(data.userData.balance?.totalBalance)})
     }, [dispatch]);
-
-    useEffect(() => {
-        if (request.status === 200) {
-            setLoading(false);
-            dispatch(cleanStatusRequest());
-        }
-        if (request.status === "0") return;
-        if (request.status !== 200) {
-            alert(`Ha ocurrido un error, intenta más tarde`);
-            dispatch(cleanStatusRequest());
-        }
-    }, [dispatch, request]);
-
-
-    useEffect(() => {
-        dispatch(balance(setValue(data.userData.balance?.totalBalance)));
-    }, [dispatch, data.userData.balance?.totalBalance]);
 
     useEffect(() => {
         dispatch(
