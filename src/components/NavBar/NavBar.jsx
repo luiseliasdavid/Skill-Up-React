@@ -18,7 +18,7 @@ const Navbar = () => {
             <nav className="navbar navbar-expand-lg bg-light">
                 <div className="container-fluid ">
                     <div id="nav-left-container">
-                        <Link to="/" className="nav-link">
+                        <Link to={isLogged ? "/home" : "/"} className="nav-link">
                             <img
                                 src="/assets/img/logo.png"
                                 alt="brand-logo"
@@ -39,7 +39,7 @@ const Navbar = () => {
                     >
                         {!isLogged ? (
                             <div>
-                                <Link to="/login">
+                                <Link to="/">
                                     <button className="btn btn-primary">
                                         Login
                                     </button>
