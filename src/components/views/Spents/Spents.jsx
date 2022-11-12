@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { balance, userData } from "../../../redux/actions";
+import { balance, updateSpentConcept, userData } from "../../../redux/actions";
 
 import swal from "../../../utils/swal";
 
@@ -10,21 +10,46 @@ const Spents = () => {
   const dispatch = useDispatch();
 
   const [isDisabled, setIsDisabled] = useState(false);
+  const [updateData, setUpdateData] = useState([]);
+  const [newConcept, setNewConcept] = useState('');
 
   useEffect(() => {
     dispatch(userData());
     dispatch(balance());
+    setUpdateData(data.transactions);
   }, [dispatch]);
 
-  //crear funcion que envie un ok o un error para facilitar la funcion de redux
-  const EditConcept = () => {
-    setIsDisabled(!isDisabled);
+  //console.log(updateData);
 
-    dispatch()
+  const handleChange = (e) => {
+    setNewConcept( prev => [e.target.name]: e.target.value);
+  };
+
+  //crear funcion que envie un ok o un error para facilitar la funcion de redux
+
+  const EditConcept = (id) => {
+    setIsDisabled(!isDisabled);
+    console.log(id);
+
+    const prueba = updateData.payments.find((payment) => payment.id === id);
+    setNewConcept(prueba)
+    console.log(prueba);
+
+    const updateSpents = {
+      amount: "",
+      concept: "Pago de honorarios",
+      date: "2022-10-26 15:00:00",
+      type: "topup|payment",
+      accountId: 1,
+      userId: 4,
+      to_account_id: 5,
+    };
+
+    dispatch(updateSpentConcept(id))
       .then((res) => {
         const { status } = res;
 
-        if (status.status !== 200) {
+        /* if (status.status !== 200) {
           swal(
             "Hubo un error.",
             `Detalle del error: ${status.message}`,
@@ -32,14 +57,14 @@ const Spents = () => {
           );
         } else {
           //setIsDisabled(isDisabled);
-        }
+        } */
       })
       .catch((err) => {
-        swal(
+        /* swal(
           "Hubo un error inesperado. Recarga la página e intenta nuevamente.",
           "",
           "error"
-        );
+        ); */
         console.log(err);
       });
   };
@@ -55,14 +80,13 @@ const Spents = () => {
       ) : (
         <>
           <h2>Gastos</h2>
-          <button onClick={() => EditConcept()} className="btn btn-info">
-            Editar Concepto
-          </button>
+
           <div className="d-flex flex-wrap align-items-center m-4">
             {data.transactions.payments?.map((item) => (
               <table className="table table-sm" key={item.id}>
                 <thead>
                   <tr>
+                    <th scope="col">Button</th>
                     <th scope="col">Concepto</th>
                     <th scope="col">Monto</th>
                     <th scope="col">Fecha</th>
@@ -71,7 +95,22 @@ const Spents = () => {
                 <tbody>
                   <tr>
                     <td>
-                      <input type="text" placeholder={item.concept} disabled={isDisabled} />
+                      <button
+                        onClick={() => EditConcept(item.id)}
+                        className="btn btn-info"
+                      >
+                        Editar Concepto
+                      </button>
+                    </td>
+                    <td>
+                      <input
+                        type="text"
+                        name={item.id}
+                        value={newConcept}
+                        placeholder={item.concept}
+                        disabled={isDisabled}
+                        onChange={(e) => handleChange(e)}
+                      />
                     </td>
                     <td>{item.amount}</td>
                     <td>
