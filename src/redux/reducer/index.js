@@ -11,6 +11,7 @@ import {
     GET_ALL_MOVEMENTS,
     GET_ALL_USERS_WITH_ACCOUNT,
     CLEAN_STATUS_REQUEST,
+    GET_USER_DATA_DATA,
     /* CLEAN_STORE, */
 } from "../actions";
 
@@ -19,6 +20,7 @@ const initialState = {
     userData: {},
     userList: [],
     movements: [],
+    userAccount: {},
     isLogged: false,
 };
 
@@ -54,7 +56,36 @@ const rootReducer = (state = initialState, action) => {
                     ...state,
                     statusRequest: action.status
                 }
-            }
+            };
+            case GET_USER_DATA_DATA: 
+            if (action.status.status === 200) {
+               return {
+                  ...state,
+                  statusRequest: action.status,
+                  userData: {
+                     ...state.userData,
+                     ...action.payload.user,
+                     account: action.payload.account,
+                  },
+                  userAccount: action.payload.account,
+               };
+            }else if (action.status.status === 201) {
+               return {
+                  ...state,
+                  statusRequest: action.status,
+                  userData: {
+                     ...state.userData,
+                     ...action.payload.user,
+                     account: action.payload.account,
+                  },
+                  userAccount: action.payload.account,
+               }
+            }else {
+               return {
+                  ...state,
+                  statusRequest: action.status
+               }
+            };
         case LOGIN:
             return {
                 ...state,
@@ -71,6 +102,7 @@ const rootReducer = (state = initialState, action) => {
                 userData: {},
                 userList: [],
                 movements: [],
+                userAccount: {},
                 statusRequest: { status: '0' },
                 isLogged: false,
             };
@@ -92,6 +124,7 @@ const rootReducer = (state = initialState, action) => {
                     ...state,
                     statusRequest: action.status,
                     userData: { ...state.userData, account: action.payload },
+                    userAccount: action.payload
                 };
             } else {
                 return {
