@@ -8,6 +8,7 @@ import {
 } from "../../../redux/actions";
 import {dateFormatter} from "../../../utils/formatters";
 import {currencyFormatter} from "../../../utils/formatters";
+import Skeleton from "react-loading-skeleton";
 
 const Home = () => {
   let data = useSelector((state) => state);
@@ -109,7 +110,13 @@ const Home = () => {
                 <p>Todavía no hay movimientos en la cuenta</p>
               )
             ) : (
-              <p>Loading...</p>
+              <Skeleton
+                        count={5}
+                        width="600px"
+                        borderRadius="0.5rem"
+                        height="100px"
+                        style={{ marginBottom: "50px" }}
+                    />
             )}
           </div>
         </div>
