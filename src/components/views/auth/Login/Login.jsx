@@ -8,10 +8,15 @@ import "../auth.css";
 import { login } from "../../../../redux/actions";
 import swal from "../../../../utils/swal";
 import toast from "../../../../utils/toast";
+import { useEffect } from "react";
 
 const Login = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        localStorage.getItem("token") && navigate('/home');
+    }, [])    
 
     const initialValues = {
         email: "",
