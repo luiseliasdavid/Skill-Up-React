@@ -517,18 +517,6 @@ export const sendMoneyToUser = (
 
 export const updateSpentConcept = (idTransaction, spentDetails) => {
    return async function (dispatch) {
-      /*
-            {
-              "amount": 500,
-              "concept": "Pago de honorarios",
-              "date": "2022-10-26 15:00:00",
-              "type": "topup|payment",
-              "accountId": 1,
-              "userId": 4,
-              "to_account_id": 5
-            }
-        */
-
       try {
          const spendtUpdated = await fetchWalletApi.put(
             `/transactions/${idTransaction}`,
