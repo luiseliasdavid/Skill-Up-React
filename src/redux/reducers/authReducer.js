@@ -1,4 +1,4 @@
-import { AUTH_REQUEST, AUTH_SUCCESS, AUTH_FAILURE } from "../types/authTypes"
+import { AUTH_REQUEST, AUTH_FAILURE, AUTH_LOGIN, AUTH_LOGOUT } from "../types/authTypes";
 
 const initialState = {
     loading: false,
@@ -15,7 +15,15 @@ export const authReducer = (state = initialState, action) => {
                 loading: true,
             }
         }
-        case AUTH_SUCCESS: {
+        case AUTH_FAILURE: {
+            return {
+                loading: false,
+                errorInfo: action.payload,
+                userData: {},
+                isLogged: false
+            }
+        }
+        case AUTH_LOGIN: {
             return {
                 loading: false,
                 errorInfo: {},
@@ -23,10 +31,10 @@ export const authReducer = (state = initialState, action) => {
                 isLogged: true
             }
         }
-        case AUTH_FAILURE: {
+        case AUTH_LOGOUT: {
             return {
                 loading: false,
-                errorInfo: action.payload,
+                errorInfo: {},
                 userData: {},
                 isLogged: false
             }

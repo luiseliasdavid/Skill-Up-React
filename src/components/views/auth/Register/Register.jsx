@@ -5,7 +5,7 @@ import * as Yup from "yup";
 
 import "../auth.css";
 
-import { createUser, login } from "../../../../redux/actions";
+import { createUser } from "../../../../redux/actions/userActions";
 import toast from "../../../../utils/toast";
 import swal from "../../../../utils/swal";
 
@@ -42,6 +42,7 @@ const Register = () => {
         };
 
         dispatch(createUser(userData))
+        /* 
             .then((res) => {
                 const { status, message } = res.payload;
                 if (status === 200) {
@@ -62,7 +63,7 @@ const Register = () => {
                     "error"
                 );
                 console.log(err);
-            });
+            }); */
     };
 
     // useFormik espera los parámetros initialValues, validationSchema y onSubmit.

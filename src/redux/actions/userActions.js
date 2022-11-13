@@ -34,13 +34,14 @@ export const createUser = (userData) => async (dispatch) => {
 
     try {
         const response = await fetchWalletApi.post(`/users`, userData);
-        localStorage.setItem("token", response?.data?.accessToken);
+        console.log(response);
 
         // get user data
-        const userData = await fetchWalletApi.get(`/user/me`);
-        return dispatch(userSuccess(userData.data)).payload;
+        /* const userData = await fetchWalletApi.get(`/user/me`);
+        return dispatch(userSuccess(userData.data)).payload; */
     } catch (error) {
-        return dispatch(userFailure(error.response?.data)).payload;
+        console.log(error)
+        /* return dispatch(userFailure(error.response?.data)).payload; */
     }
 };
 
