@@ -10,15 +10,16 @@ import { currencyFormatter, dateFormatter } from "../../../utils/formatters";
 import toast from "../../../utils/toast";
 import swal from "../../../utils/swal";
 import Loader from "../../Loader/Loader";
+import { useRef } from "react";
 
 const Spents = () => {
     const dispatch = useDispatch();
+    let currentInputRef = useRef(null);
 
     const { loading, paymentList } = useSelector(
         (state) => state.transactionReducer
     );
 
-    const [isDisabled, setIsDisabled] = useState(false);
     const [spents, setSpents] = useState([]);
 
     useEffect(() => {
@@ -32,22 +33,7 @@ const Spents = () => {
         });
     }, []);
 
-    const handleChange = (e) => {
-        setSpents((prevState) => {
-            const newState = prevState.map((spent) =>
-                spent.id === e.target.id
-                    ? { ...spent, concept: e.target.value }
-                    : spent
-            );
-            return newState;
-        });
-    };
-
-    const EditConcept = (id) => {
-        setIsDisabled(!isDisabled);
-
-        const currentSpent = spents.find((spent) => spent.id === id);
-
+    const EditConcept = (currentSpent) => {
         const updatedSpent = {
             amount: currentSpent.amount,
             concept: currentSpent.concept,
@@ -58,15 +44,49 @@ const Spents = () => {
             to_account_id: currentSpent.to_account_id,
         };
 
-        dispatch(updateSpentConcept(id, updatedSpent)).then((res) => {
-            const { status, error } = res;
-            if (!error) {
-                setSpents(paymentList);
-            } else {
-                swal("Hubo un error.", `Error ${status}: ${error}`, "error");
+        dispatch(updateSpentConcept(currentSpent.id, updatedSpent)).then(
+            (res) => {
+                const { status, error } = res;
+                if (!error) {
+                    setSpents(res.paymentList);                    
+                } else {
+                    swal(
+                        "Hubo un error.",
+                        `Error ${status}: ${error}`,
+                        "error"
+                    );
+                }
             }
-        });
+        );
     };
+    
+
+    const handleClick = (e) => {
+        const currentInput = e.target.parentElement.querySelector("input");
+        currentInput.removeAttribute("disabled");
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        currentInputRef.setAttribute("disabled", "");
+        const { value, id } = currentInputRef;
+
+        const modifiedSpent = {
+            ...spents.find((spent) => spent.id === +id),
+            concept: value,
+        };
+        EditConcept(modifiedSpent);
+    };
+
+    const handleChange = (e) => {
+        currentInputRef = e.target;
+        
+    };
+    
+    useEffect(() => {
+        console.log(spents)
+    }, [spents])
+    
 
     return (
         <div className="container">
@@ -109,15 +129,26 @@ const Spents = () => {
                                         </button>
                                     </td>
                                     <td>
-                                        <input
-                                            id={spent.id}
-                                            type="text"
-                                            name="concept"
-                                            value={spent.concept}
-                                            placeholder={spent.concept}
-                                            disabled={isDisabled}
-                                            onChange={handleChange}
-                                        />
+                                        <form onSubmit={handleSubmit}>
+                                            <input
+                                                id={spent.id}
+                                                type="text"
+                                                name="concept"
+                                                value={spent.concept}
+                                                disabled
+                                                onChange={handleChange}
+                                            />
+                                            <span>{spent.concept}</span>
+                                            <button
+                                                type="button"
+                                                onClick={handleClick}
+                                            >
+                                                Editar Concepto
+                                            </button>
+                                            <button type="submit">
+                                                Actualizar
+                                            </button>
+                                        </form>
                                     </td>
                                     <td>{currencyFormatter(spent.amount)}</td>
                                     <td>{dateFormatter(spent.createdAt)}</td>
