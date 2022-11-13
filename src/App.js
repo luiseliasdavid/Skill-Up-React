@@ -1,6 +1,6 @@
 import './App.min.css';
 import Layout from './components/Layout/Layout';
-import { Estado } from './redux/reducer/Estado';
+import { Estado } from './redux/reducers/Estado';
 
 function App() {   
      
