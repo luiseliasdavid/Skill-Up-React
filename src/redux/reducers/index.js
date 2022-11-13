@@ -57,34 +57,34 @@ const rootReducer = (state = initialState, action) => {
                     statusRequest: action.status
                 }
             };
-            case GET_USER_DATA_DATA: 
+        case GET_USER_DATA_DATA:
             if (action.status.status === 200) {
-               return {
-                  ...state,
-                  statusRequest: action.status,
-                  userData: {
-                     ...state.userData,
-                     ...action.payload.user,
-                     account: action.payload.account,
-                  },
-                  userAccount: action.payload.account,
-               };
-            }else if (action.status.status === 201) {
-               return {
-                  ...state,
-                  statusRequest: action.status,
-                  userData: {
-                     ...state.userData,
-                     ...action.payload.user,
-                     account: action.payload.account,
-                  },
-                  userAccount: action.payload.account,
-               }
-            }else {
-               return {
-                  ...state,
-                  statusRequest: action.status
-               }
+                return {
+                    ...state,
+                    statusRequest: action.status,
+                    userData: {
+                        ...state.userData,
+                        ...action.payload.user,
+                        account: action.payload.account,
+                    },
+                    userAccount: action.payload.account,
+                };
+            } else if (action.status.status === 201) {
+                return {
+                    ...state,
+                    statusRequest: action.status,
+                    userData: {
+                        ...state.userData,
+                        ...action.payload.user,
+                        account: action.payload.account,
+                    },
+                    userAccount: action.payload.account,
+                }
+            } else {
+                return {
+                    ...state,
+                    statusRequest: action.status
+                }
             };
         case LOGIN:
             return {

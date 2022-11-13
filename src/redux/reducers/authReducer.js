@@ -4,6 +4,7 @@ const initialState = {
     loading: false,
     userData: {},
     errorInfo: {},
+    isLogged: false
 }
 
 export const authReducer = (state = initialState, action) => {
@@ -19,6 +20,7 @@ export const authReducer = (state = initialState, action) => {
                 loading: false,
                 errorInfo: {},
                 userData: action.payload,
+                isLogged: true
             }
         }
         case AUTH_FAILURE: {
@@ -26,6 +28,7 @@ export const authReducer = (state = initialState, action) => {
                 loading: false,
                 errorInfo: action.payload,
                 userData: {},
+                isLogged: false
             }
         }
         default:

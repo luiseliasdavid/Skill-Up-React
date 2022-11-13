@@ -1,19 +1,13 @@
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
-import { logout, userData } from "../../redux/actions";
-import { useEffect } from "react";
+import { logout } from "../../redux/actions/authActions";
 
 const Navbar = () => {
     const dispatch = useDispatch();
 
-    const isLogged = true;
-    const firstName = useSelector((state) => state.userData?.first_name);
-
-    /* useEffect(() => {
-        localStorage.getItem('token') && dispatch(userData());
-    }, []) */
-   
+    const { isLogged, userData } = useSelector((state) => state.authReducer);
+    const firstName = userData.first_name;
 
     const handleLogout = () => {
         dispatch(logout());
