@@ -48,7 +48,7 @@ const Spents = () => {
             (res) => {
                 const { status, error } = res;
                 if (!error) {
-                    setSpents(res.paymentList);                    
+                    setSpents(res.paymentList);
                 } else {
                     swal(
                         "Hubo un error.",
@@ -59,7 +59,6 @@ const Spents = () => {
             }
         );
     };
-    
 
     const handleClick = (e) => {
         const currentInput = e.target.parentElement.querySelector("input");
@@ -68,7 +67,7 @@ const Spents = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        currentInputRef.setAttribute("disabled", "");
+        /* currentInputRef.setAttribute("disabled", ""); */
         const { value, id } = currentInputRef;
 
         const modifiedSpent = {
@@ -78,15 +77,20 @@ const Spents = () => {
         EditConcept(modifiedSpent);
     };
 
-    const handleChange = (e) => {
+    const handleChange = (e) => {        
         currentInputRef = e.target;
-        
+        setSpents(
+            spents.map((spent) =>
+                spent.id === +e.target.id
+                    ? { ...spent, concept: e.target.value }
+                    : spent
+            )
+        );
     };
-    
+
     useEffect(() => {
-        console.log(spents)
-    }, [spents])
-    
+        console.log(spents);
+    }, [spents]);
 
     return (
         <div className="container">
@@ -135,7 +139,7 @@ const Spents = () => {
                                                 type="text"
                                                 name="concept"
                                                 value={spent.concept}
-                                                disabled
+                                                
                                                 onChange={handleChange}
                                             />
                                             <span>{spent.concept}</span>
