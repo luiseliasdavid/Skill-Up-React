@@ -9,7 +9,7 @@ import { balance } from "../../../redux/actions";
 import {
     dateFormatter,
     currencyFormatter,
-    formatLargeString,
+    largeStringFormatter,
 } from "../../../utils/formatters";
 import swal from "../../../utils/swal";
 import MovementsPagination from "./MovementsPagination";
@@ -166,7 +166,7 @@ const Movements = () => {
                                                     )}
                                                 </span>
 
-                                                {formatLargeString(
+                                                {largeStringFormatter(
                                                     transaction.concept,
                                                     10
                                                 )}

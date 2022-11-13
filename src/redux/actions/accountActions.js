@@ -1,5 +1,5 @@
 import fetchWalletApi from "../../api/fetchWalletApi";
-import { ACCOUNT_REQUEST, ACCOUNT_FAILURE, ACCOUNT_CREATE, ACCOUNT_GET_DETAIL, ACCOUNT_GET_ALL } from "../types/accountTypes";
+import { ACCOUNT_REQUEST, ACCOUNT_FAILURE, ACCOUNT_CREATE, ACCOUNT_GET_DATA,ACCOUNT_GET_DETAIL, ACCOUNT_GET_ALL } from "../types/accountTypes";
 
 const accountRequest = () => ({
     type: ACCOUNT_REQUEST,
@@ -51,6 +51,28 @@ export const createAccount = (userId) => async (dispatch) => {
         return dispatch(accountFailure(error.response?.data)).payload;
     }
 };
+
+export const getUserAccount = () => async (dispatch) => {
+    dispatch(accountRequest());
+
+    try {
+        const account = await fetchWalletApi.get(`/accounts/me`);
+        return dispatch(accountSuccess(ACCOUNT_GET_DATA, account?.data[0])).payload;
+    } catch (error) {
+        return dispatch(accountFailure(error.response?.data)).payload;
+    }
+}
+
+export const getAccountDetail = (accountId) => async (dispatch) => {
+    dispatch(accountRequest());
+
+    try {
+        const response = await fetchWalletApi.get(`/users/${accountId}`);
+        return dispatch(accountSuccess(ACCOUNT_GET_DETAIL, response?.data)).payload;
+    } catch (error) {
+        return dispatch(accountFailure(error.response?.data)).payload;
+    }
+}
 
 /* export const addMoneyToAccount = (amount, id) => {
     return async function (dispatch) {

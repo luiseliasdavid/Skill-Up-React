@@ -1,87 +1,88 @@
-export const balance = () => {
-    return async function (dispatch) {
-        try {
+import fetchWalletApi from "../../api/fetchWalletApi";
+import { TRANSACTION_REQUEST, TRANSACTION_FAILURE, TRANSACTION_CREATE, TRANSACTION_GET_DETAIL, TRANSACTION_GET_LIST, TRANSACTION_GET_ALL } from "../types/transactionTypes";
 
-            let numberTransactionsPage = 1;
-            let condicionTransactions = true;
+const transactionRequest = () => ({
+    type: TRANSACTION_REQUEST,
+});
 
-            let transactionsArray = [];
+const transactionSuccess = (type, data) => ({
+    type,
+    payload: data,
+});
 
-            do {
-                let dataTransactions = await fetchWalletApi.get(
-                    `/transactions/?page=${numberTransactionsPage}`
-                );
-                transactionsArray.push(...dataTransactions.data.data);
-                dataTransactions.data.nextPage ? condicionTransactions = true : condicionTransactions = false;
-                numberTransactionsPage++;
-            } while (condicionTransactions);
+const transactionFailure = (errorInfo) => ({
+    type: TRANSACTION_FAILURE,
+    payload: errorInfo,
+});
 
+export const getMovements = (pageNumber = 1) => async (dispatch) => {
+    dispatch(transactionRequest());
 
-            const topup = transactionsArray.filter(
-                (transaction) => transaction.type === "topup"
-            );
-            const payment = transactionsArray.filter(
-                (transaction) => transaction.type === "payment"
-            );
-
-            const initialValue = 0;
-            const balanceTopup = topup.reduce(
-                (previousAmount, currentAmount) =>
-                    Number(currentAmount.amount) + Number(previousAmount),
-                initialValue
-            );
-
-            const balancePayment = payment.reduce(
-                (previousAmount, currentAmount) =>
-                    Number(currentAmount.amount) + Number(previousAmount),
-                initialValue
-            );
-
-            const totalBalance = balanceTopup - balancePayment;
-
-            return dispatch({
-                type: GET_BALANCE,
-                payload: {
-                    topup: balanceTopup,
-                    payments: balancePayment,
-                    totalBalance,
-                },
-                topupList: topup,
-                paymentsList: payment,
-                status: { status: 200, message: 'OK' },
-            });
-
-        } catch (e) {
-            return dispatch({
-                type: GET_BALANCE,
-                status: { status: e.response.data.status, message: e.response.data.error }
-            });
-        }
-    };
-};
-
-export const getAllMovements = (numberPage) => {
-    return async function (dispatch) {
-        try {
-
-            const dataMovements = await fetchWalletApi.get(
-                `/transactions/?page=${numberPage}`
-            );
-
-            return dispatch({
-                type: GET_ALL_MOVEMENTS,
-                payload: dataMovements.data,
-                status: { status: 200, message: 'OK' }
-            });
-        } catch (e) {
-            return dispatch({
-                type: GET_ALL_MOVEMENTS,
-                status: { status: e.response.data.status, message: e.response.data.error }
-            });
-        }
+    try {
+        const transactions = await fetchWalletApi.get(`/transactions/?pages=${pageNumber}`);
+        return dispatch(transactionSuccess(TRANSACTION_GET_LIST, transactions?.data?.data)).payload;
+    } catch (error) {
+        return dispatch(transactionFailure(error.response?.data)).payload;
     }
 }
 
+/* export const getAllMovements = () => async (dispatch) => {
+       try {
+           let nextPage = null;
+           const transactions = [];
+
+           do {
+               const dataTransactions = await fetchWalletApi.get(
+                   `/transactions/?page=${numberTransactionsPage}`
+               );
+               transactionsArray.push(...dataTransactions.data.data);
+               dataTransactions.data.nextPage ? condicionTransactions = true : condicionTransactions = false;
+               numberTransactionsPage++;
+           } while (nextPage);
+
+
+           const topup = transactionsArray.filter(
+               (transaction) => transaction.type === "topup"
+           );
+           const payment = transactionsArray.filter(
+               (transaction) => transaction.type === "payment"
+           );
+
+           const initialValue = 0;
+           const balanceTopup = topup.reduce(
+               (previousAmount, currentAmount) =>
+                   Number(currentAmount.amount) + Number(previousAmount),
+               initialValue
+           );
+
+           const balancePayment = payment.reduce(
+               (previousAmount, currentAmount) =>
+                   Number(currentAmount.amount) + Number(previousAmount),
+               initialValue
+           );
+
+           const totalBalance = balanceTopup - balancePayment;
+
+           return dispatch({
+               type: GET_BALANCE,
+               payload: {
+                   topup: balanceTopup,
+                   payments: balancePayment,
+                   totalBalance,
+               },
+               topupList: topup,
+               paymentsList: payment,
+               status: { status: 200, message: 'OK' },
+           });
+
+       } catch (e) {
+           return dispatch({
+               type: GET_BALANCE,
+               status: { status: e.response.data.status, message: e.response.data.error }
+           });
+       }
+}; */
+/*
 export const sendMoneyToUser = (destinyAccountId, amountToSend, concept, moneyInMyAccount, idOfMyAccont, idMyUser) => {
 
     return async function (dispatch) {
@@ -187,4 +188,4 @@ export const updateSpentConcept = (idTransaction, spentDetails) => {
             });
         }
     };
-};
+}; */

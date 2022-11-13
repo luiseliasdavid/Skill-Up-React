@@ -14,6 +14,10 @@ export const currencyFormatter = (price) => {
     return nf.format(price);
 };
 
-export const formatLargeString = (str, maxLength) => {
+export const largeStringFormatter = (str, maxLength) => {
     return str.length <= maxLength ? str : str.slice(0, maxLength) + "...";
+}
+
+export const hideNumbersFormatter = (str) => {
+    return str.replace(/[0-9]/g, "*").replace('.', '');
 }

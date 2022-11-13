@@ -1,11 +1,10 @@
 import { Outlet, Navigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const PublicRoutes = () => {
-    return !localStorage.getItem("token") ? (
-        <Outlet />
-    ) : (
-        <Navigate to="/home" />
-    );
+    const { isLogged } = useSelector((store) => store.authReducer);
+
+    return !isLogged ? <Outlet /> : <Navigate to="/home" />;
 };
 
 export default PublicRoutes;

@@ -48,6 +48,16 @@ export const createUser = (userData) => async (dispatch) => {
     }
 };
 
+export const getUserDetail = (userId) => async (dispatch) => {
+    try {
+        const response = await fetchWalletApi.get(`/users/${userId}`);
+        console.log(response)
+        /* return dispatch(userSuccess(USER_GET_DETAIL, response?.data)).payload; */
+    } catch (error) {
+        return dispatch(userFailure(error.response?.data)).payload;
+    }
+}
+
 export const deleteUser = (userId) => async (dispatch) => {
     try {
         const response = await fetchWalletApi.delete(`/users`, userId);

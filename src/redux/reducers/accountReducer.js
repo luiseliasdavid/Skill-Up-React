@@ -1,4 +1,4 @@
-import { ACCOUNT_REQUEST, ACCOUNT_FAILURE, ACCOUNT_CREATE, ACCOUNT_GET_DETAIL, ACCOUNT_GET_ALL } from "../types/accountTypes";
+import { ACCOUNT_REQUEST, ACCOUNT_FAILURE, ACCOUNT_CREATE, ACCOUNT_GET_DATA, ACCOUNT_GET_DETAIL, ACCOUNT_GET_ALL } from "../types/accountTypes";
 
 const initialState = {
     loading: false,
@@ -23,7 +23,8 @@ export const accountReducer = (state = initialState, action) => {
                 accountsList: []
             }
         }
-        case ACCOUNT_CREATE: {
+        case ACCOUNT_CREATE:
+        case ACCOUNT_GET_DATA: {
             return {
                 loading: false,
                 accountData: action.payload,
@@ -33,10 +34,7 @@ export const accountReducer = (state = initialState, action) => {
         }
         case ACCOUNT_GET_DETAIL: {
             return {
-                loading: false,
-                accountData: action.payload,
-                errorInfo: {},
-                accountList: []
+                ...state
             }
         }
         case ACCOUNT_GET_ALL: {
