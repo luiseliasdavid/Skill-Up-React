@@ -57,7 +57,7 @@ export const transactionReducer = (state = initialState, action) => {
                 loading: false,
                 transactionData: {},
                 errorInfo: {},
-                balanceData: action.payload.balanceDate,
+                balanceData: action.payload.balanceData,
                 paymentList: action.payload.paymentList,
                 topupList: action.payload.topupList,
                 transactionList: action.payload.transactionList

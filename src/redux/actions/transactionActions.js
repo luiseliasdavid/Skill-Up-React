@@ -26,62 +26,53 @@ export const getMovements = (pageNumber = 1) => async (dispatch) => {
     }
 }
 
-/* export const getAllMovements = () => async (dispatch) => {
-       try {
-           let nextPage = null;
-           const transactions = [];
+export const getAllMovements = () => async (dispatch) => {
+    dispatch(transactionRequest());
+    try {
+        const transactionList = [];
+        let nextPage = null;
+        let pageNumber = 1;
 
-           do {
-               const dataTransactions = await fetchWalletApi.get(
-                   `/transactions/?page=${numberTransactionsPage}`
-               );
-               transactionsArray.push(...dataTransactions.data.data);
-               dataTransactions.data.nextPage ? condicionTransactions = true : condicionTransactions = false;
-               numberTransactionsPage++;
-           } while (nextPage);
+        do {
+            const dataTransactions = await fetchWalletApi.get(`/transactions/?page=${pageNumber}`);
+            transactionList.push(...dataTransactions.data.data);
 
+            nextPage = dataTransactions?.data?.nextPage ? true : false;
+            pageNumber++;
+        } while (nextPage);
 
-           const topup = transactionsArray.filter(
-               (transaction) => transaction.type === "topup"
-           );
-           const payment = transactionsArray.filter(
-               (transaction) => transaction.type === "payment"
-           );
+        // Sort transactions before doing anything
+        transactionList.sort((d1, d2) => new Date(d2.date) - new Date(d1.date));
 
-           const initialValue = 0;
-           const balanceTopup = topup.reduce(
-               (previousAmount, currentAmount) =>
-                   Number(currentAmount.amount) + Number(previousAmount),
-               initialValue
-           );
+        const topupList = transactionList.filter(
+            (transaction) => transaction.type === "topup"
+        );
 
-           const balancePayment = payment.reduce(
-               (previousAmount, currentAmount) =>
-                   Number(currentAmount.amount) + Number(previousAmount),
-               initialValue
-           );
+        const paymentList = transactionList.filter(
+            (transaction) => transaction.type === "payment"
+        );
 
-           const totalBalance = balanceTopup - balancePayment;
+        const topupBalance = topupList.reduce((ac, { amount }) => Number(amount) + ac, 0);
+        const paymentBalance = paymentList.reduce((ac, { amount }) => Number(amount) + ac, 0);
 
-           return dispatch({
-               type: GET_BALANCE,
-               payload: {
-                   topup: balanceTopup,
-                   payments: balancePayment,
-                   totalBalance,
-               },
-               topupList: topup,
-               paymentsList: payment,
-               status: { status: 200, message: 'OK' },
-           });
+        const totalBalance = topupBalance - paymentBalance;
 
-       } catch (e) {
-           return dispatch({
-               type: GET_BALANCE,
-               status: { status: e.response.data.status, message: e.response.data.error }
-           });
-       }
-}; */
+        const transactionData = {
+            balanceData: {
+                topupBalance,
+                paymentBalance,
+                totalBalance
+            },
+            paymentList,
+            topupList,
+            transactionList
+        }
+
+        return dispatch(transactionSuccess(TRANSACTION_GET_ALL, transactionData)).payload;
+    } catch (error) {
+        return dispatch(transactionFailure(error.response?.data)).payload;
+    }
+};
 /*
 export const sendMoneyToUser = (destinyAccountId, amountToSend, concept, moneyInMyAccount, idOfMyAccont, idMyUser) => {
 

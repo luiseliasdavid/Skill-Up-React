@@ -15,10 +15,6 @@ const Charge = () => {
 
   const [ loading, setLoading ] = useState(true);
   const [ amount, setAmount ] = useState('');
- 
-  useEffect(() => {
-    if ( localStorage.getItem("token") === null ) navigate('/login');
-  }, [ navigate, dispatch ])
   
   useEffect(() => {
     dispatch(userDataData()); 
