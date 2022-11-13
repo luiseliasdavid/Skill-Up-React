@@ -1,16 +1,16 @@
 import fetchWalletApi from "../../api/fetchWalletApi";
-import { ACCOUNT_REQUEST, ACCOUNT_FAILURE, ACCOUNT_CREATE, ACCOUNT_GET_DETAIL, ACCOUNT_GET_ALL } from "../types/userTypes";
+import { ACCOUNT_REQUEST, ACCOUNT_FAILURE, ACCOUNT_CREATE, ACCOUNT_GET_DETAIL, ACCOUNT_GET_ALL } from "../types/accountTypes";
 
-const userRequest = () => ({
+const accountRequest = () => ({
     type: ACCOUNT_REQUEST,
 });
 
-const userSuccess = (type, data) => ({
+const accountSuccess = (type, data) => ({
     type,
     payload: data,
 });
 
-const userFailure = (errorInfo) => ({
+const accountFailure = (errorInfo) => ({
     type: ACCOUNT_FAILURE,
     payload: errorInfo,
 });
@@ -34,47 +34,25 @@ const getCurrentDate = () => {
 }
 
 export const createAccount = (userId) => async (dispatch) => {
+    dispatch(accountRequest());
+
     try {
-        
+        // create a new account to this user
         const accountData = {
-            creationDate: `${getCurrentDate()}`,
+            creationDate: getCurrentDate(),
             money: 0,
             isBlocked: false,
-            userId: response?.data?.id,
-        };
+            userId
+        }
 
         const account = await fetchWalletApi.post(`/accounts`, accountData);
-        console.log(account);
-        /* const deposit = {
-            type: "topup",
-            concept: "initial",
-            amount: 0,
-        };
-
-        const initialTopup = await fetchWalletApi.post(
-            `/accounts/${account.data.id}`,
-            deposit
-        );
-
-        const userDetail = await fetchWalletApi.get(`/auth/me`);
-        const accountDetail = await fetchWalletApi.get(
-            `/accounts/${account.data.id}`
-        );
-
-        return dispatch({
-            type: POST_ACCOUNT,
-            payload: {
-                user: userDetail.data,
-                account: accountDetail.data,
-            },
-            status: { status: 200, message: 'OK' }
-        }); */
+        return dispatch(accountSuccess(ACCOUNT_CREATE, account?.data)).payload;
     } catch (error) {
-        console.log(error.response?.data);
+        return dispatch(accountFailure(error.response?.data)).payload;
     }
 };
 
-export const addMoneyToAccount = (amount, id) => {
+/* export const addMoneyToAccount = (amount, id) => {
     return async function (dispatch) {
         try {
             const deposit = {
@@ -101,4 +79,4 @@ export const addMoneyToAccount = (amount, id) => {
             });
         }
     };
-};
+}; */

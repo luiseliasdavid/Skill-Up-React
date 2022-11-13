@@ -1,5 +1,8 @@
 import fetchWalletApi from "../../api/fetchWalletApi";
-import { USER_REQUEST, USER_FAILURE, USER_CREATE, USER_GET_DETAIL, USER_GET_ALL } from "../types/userTypes";
+import { USER_REQUEST, USER_FAILURE, USER_CREATE, USER_GET_DETAIL, USER_GET_ALL, USER_DELETE } from "../types/userTypes";
+
+import { login, logout } from "./authActions";
+import { createAccount } from "./accountActions";
 
 const userRequest = () => ({
     type: USER_REQUEST,
@@ -21,49 +24,35 @@ export const createUser = (userData) => async (dispatch) => {
     try {
         // create a new user
         const response = await fetchWalletApi.post(`/users`, userData);
-        console.log(response?.data?.id,);
+
+        // dispatch a login action to set the token in local storage
+        const { email, password } = userData;
+        await dispatch(login({ email, password }));
+
         // automatically create a new account to this user
-        console.log(account);
+        const accountData = await dispatch(createAccount(response?.data?.id))
+        const { status, error } = accountData;
+        if (!error) {
+            return dispatch(userSuccess(USER_CREATE, response?.data)).payload;
+        } else {
+            // if there's an error with the creation of the account, i must delete the user (it's a user that won't work properly)
+            await dispatch(deleteUser(response?.data?.id));
 
-        /* // get user data
-        return dispatch(userSuccess(userData.data)).payload; */
-    } catch (error) {
-        console.log(error.response?.data);
-        /* return dispatch(userFailure(error.response?.data)).payload; */
-    }
-};
-
-export const creaateUser = (user) => {
-    return async function (dispatch) {
-        try {
-            //create the user
-            const response = await fetchWalletApi.post(`/users`, user);
-            console.log(response);
-
-            //create the account
-            /* dispatch(createAccount(response.data.id, emailAndPasword)); */
-
-            /* return dispatch({
-                type: POST_NEW_USER,
-                payload: { status: 200, message: 'OK' }
-            }) */;
-        } catch (e) {/* 
-            return dispatch({
-                type: POST_NEW_USER,
-                payload: { status: e.response.data.status, message: e.response.data.error },
-            }); */
+            // and the login state setted must be erased
+            await dispatch(logout());
+            
+            return dispatch(userFailure({ error, status })).payload;
         }
-    };
-};
-
-export const userUser = () => async (dispatch) => {
-    dispatch(userRequest());
-
-    try {
-        // get user data
-        const userData = await fetchWalletApi.get(`/user/me`);
-        return dispatch(userSuccess(userData.data)).payload;
     } catch (error) {
         return dispatch(userFailure(error.response?.data)).payload;
     }
 };
+
+export const deleteUser = (userId) => async (dispatch) => {
+    try {
+        const response = await fetchWalletApi.delete(`/users`, userId);
+        return dispatch(userSuccess(USER_DELETE, response?.data)).payload;
+    } catch (error) {
+        return dispatch(userFailure(error.response?.data)).payload;
+    }
+}

@@ -50,3 +50,5 @@ export const logout = () => async dispatch => {
     localStorage.clear();
     dispatch(authSuccess(AUTH_LOGOUT, {}));
 }
+
+/* NOTE: On logout it probably would be a smart practice to reset the store completely  */

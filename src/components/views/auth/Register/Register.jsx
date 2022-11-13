@@ -41,32 +41,21 @@ const Register = () => {
             points: 0,
         };
 
-        dispatch(createUser(userData))
-        /* 
-            .then((res) => {
-                const { status, message } = res.payload;
-                if (status === 200) {
-                    toast(`¡Bienvenido ${userData.first_name}!`, "success");
-                    navigate("/home");
-                } else {
-                    swal(
-                        "Hubo un error.",
-                        `Detalle del error: Ese email ya está registrado.`,
-                        "error"
-                    );
-                }
-            })
-            .catch((err) => {
-                swal(
-                    "Hubo un error inesperado. Recarga la página e intenta nuevamente.",
-                    "",
-                    "error"
+        dispatch(createUser(userData)).then((res) => {
+            console.log(res);
+            const { status, error } = res;
+            if (!error) {
+                toast(
+                    `¡Te registraste correctamente ${res?.first_name}!`,
+                    "success"
                 );
-                console.log(err);
-            }); */
+                navigate("/home");
+            } else {
+                swal("Hubo un error.", `Error ${status}: ${error}`, "error");
+            }
+        });
     };
 
-    // useFormik espera los parámetros initialValues, validationSchema y onSubmit.
     const formik = useFormik({ initialValues, validationSchema, onSubmit });
 
     const { errors, touched, values, handleChange, handleBlur, handleSubmit } =
@@ -74,7 +63,6 @@ const Register = () => {
 
     return (
         <div className="d-flex justify-content-center row">
-            {/* El que se encarga de hacer el submit es el handleSubmit */}
             <form
                 onSubmit={handleSubmit}
                 className="col-10 d-flex flex-column align-items-center g-3"

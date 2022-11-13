@@ -1,9 +1,11 @@
-import { USER_REQUEST, USER_SUCCESS, USER_FAILURE } from "../types/userTypes";
+
+import { USER_REQUEST, USER_FAILURE, USER_CREATE, USER_GET_DETAIL, USER_GET_ALL, USER_DELETE } from "../types/userTypes";
 
 const initialState = {
     loading: false,
     userData: {},
     errorInfo: {},
+    userList: []
 }
 
 export const userReducer = (state = initialState, action) => {
@@ -14,18 +16,37 @@ export const userReducer = (state = initialState, action) => {
                 loading: true,
             }
         }
-        case USER_SUCCESS: {
-            return {
-                loading: false,
-                errorInfo: {},
-                userData: action.payload,
-            }
-        }
         case USER_FAILURE: {
             return {
                 loading: false,
-                errorInfo: action.payload,
                 userData: {},
+                errorInfo: action.payload,
+                userList: []
+            }
+        }
+        case USER_CREATE:
+        case USER_GET_DETAIL: {
+            return {
+                loading: false,
+                userData: action.payload,
+                errorInfo: {},
+                userList: []
+            }
+        }
+        case USER_GET_ALL: {
+            return {
+                loading: false,
+                userData: {},
+                errorInfo: {},
+                userList: action.payload
+            }
+        }
+        case USER_DELETE: {
+            return {
+                loading: false,
+                userData: {},
+                errorInfo: {},
+                userList: []
             }
         }
         default:
