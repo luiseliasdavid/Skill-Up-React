@@ -1,5 +1,5 @@
 import fetchWalletApi from "../../api/fetchWalletApi";
-import { ACCOUNT_REQUEST, ACCOUNT_FAILURE, ACCOUNT_CREATE, ACCOUNT_GET_DATA,ACCOUNT_GET_DETAIL, ACCOUNT_GET_ALL } from "../types/accountTypes";
+import { ACCOUNT_REQUEST, ACCOUNT_FAILURE, ACCOUNT_CREATE, ACCOUNT_GET_DATA, ACCOUNT_GET_DETAIL, ACCOUNT_GET_ALL, ACCOUNT_DEPOSIT } from "../types/accountTypes";
 
 const accountRequest = () => ({
     type: ACCOUNT_REQUEST,
@@ -63,42 +63,19 @@ export const getUserAccount = () => async (dispatch) => {
     }
 }
 
-export const getAccountDetail = (accountId) => async (dispatch) => {
-    dispatch(accountRequest());
-
+export const accountDeposit = (amount, accountId) => async (dispatch) => {
     try {
-        const response = await fetchWalletApi.get(`/users/${accountId}`);
-        return dispatch(accountSuccess(ACCOUNT_GET_DETAIL, response?.data)).payload;
+        const deposit = {
+            type: "topup",
+            concept: "Add money",
+            amount: amount,
+        };
+
+        const response = await fetchWalletApi.post(`/accounts/${accountId}`, deposit);
+
+        // dispatch an update of the account
+        return dispatch(getUserAccount());
     } catch (error) {
         return dispatch(accountFailure(error.response?.data)).payload;
     }
-}
-
-/* export const addMoneyToAccount = (amount, id) => {
-    return async function (dispatch) {
-        try {
-            const deposit = {
-                type: "topup",
-                concept: "Add money",
-                amount: amount,
-            };
-
-            const info = await fetchWalletApi.post(`/accounts/${id}`, deposit);
-
-            const detailAccount = await fetchWalletApi.get(`/accounts/${id}`);
-
-            return dispatch({
-                type: POST_ADD_CASH,
-                payload: detailAccount.data,
-                status: { status: 200, message: 'OK' }
-            });
-        } catch (e) {
-            console.log(e)
-            return dispatch({
-                type: POST_ADD_CASH,
-                payload: {},
-                status: { status: e.response.data.status, message: e.response.data.error }
-            });
-        }
-    };
-}; */
+};

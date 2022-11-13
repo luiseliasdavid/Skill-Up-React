@@ -45,7 +45,7 @@ const Login = () => {
         formik;
 
     return (
-        <div className="d-flex justify-content-center row">
+        <div className="d-flex justify-content-center">
             <form
                 onSubmit={handleSubmit}
                 className="col-6 d-flex flex-column align-items-center g-3"

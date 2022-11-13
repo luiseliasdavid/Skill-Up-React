@@ -66,3 +66,4 @@ export const deleteUser = (userId) => async (dispatch) => {
         return dispatch(userFailure(error.response?.data)).payload;
     }
 }
+

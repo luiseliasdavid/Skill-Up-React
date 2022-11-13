@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 
 import './App.min.css';
 import Layout from './components/Layout/Layout';
+import { getUserAccount } from './redux/actions/accountActions';
 
 import { authUser, logout } from './redux/actions/authActions';
 import toast from './utils/toast';
@@ -22,6 +23,7 @@ function App() {
                     dispatch(logout());
                 }
             });
+            dispatch(getUserAccount());
         }
     }, []);
 

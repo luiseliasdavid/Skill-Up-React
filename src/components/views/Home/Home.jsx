@@ -23,8 +23,6 @@ const Home = () => {
     };
 
     useEffect(() => {
-        dispatch(getUserAccount());
-
         dispatch(getMovements());
     }, []);
 

@@ -1,4 +1,4 @@
-import { ACCOUNT_REQUEST, ACCOUNT_FAILURE, ACCOUNT_CREATE, ACCOUNT_GET_DATA, ACCOUNT_GET_DETAIL, ACCOUNT_GET_ALL } from "../types/accountTypes";
+import { ACCOUNT_REQUEST, ACCOUNT_FAILURE, ACCOUNT_CREATE, ACCOUNT_GET_DATA, ACCOUNT_GET_DETAIL, ACCOUNT_GET_ALL, ACCOUNT_DEPOSIT } from "../types/accountTypes";
 
 const initialState = {
     loading: false,
@@ -43,6 +43,13 @@ export const accountReducer = (state = initialState, action) => {
                 accountData: {},
                 errorInfo: {},
                 accountList: action.payload
+            }
+        }
+        case ACCOUNT_DEPOSIT: {
+            return {
+                ...state,
+                loading: false,
+                accountData: action.payload,
             }
         }
         default:

@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import "./balanceStyles.css";
 import "./buttonStyles.css";
 
+import Loader from "../../Loader/Loader"
 import { GraphBalance } from "./GraphBalance";
 import { currencyFormatter } from "../../../utils/formatters";
 import { getAllMovements } from "../../../redux/actions/transactionActions";
@@ -27,7 +28,7 @@ const Balance = () => {
             <h1>Balance General de tu Cuenta</h1>
 
             {loading ? (
-                "Loading..."
+                <Loader />
             ) : (
                 <div className="balance">
                     <div className="container-card">
