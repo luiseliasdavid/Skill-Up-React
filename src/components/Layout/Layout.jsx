@@ -146,8 +146,7 @@ const Layout = () => {
                                         exit="exit"
                                         variants={pageTransition}
                                     >
-                                        {/* <Home /> */}
-                                        <Spents />
+                                        <Home />
                                     </motion.div>
                                 </main>
                             }
