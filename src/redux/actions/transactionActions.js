@@ -28,6 +28,7 @@ export const getMovements = (pageNumber = 1) => async (dispatch) => {
 
 export const getAllMovements = () => async (dispatch) => {
     dispatch(transactionRequest());
+
     try {
         const transactionList = [];
         let nextPage = null;
@@ -69,6 +70,22 @@ export const getAllMovements = () => async (dispatch) => {
         }
 
         return dispatch(transactionSuccess(TRANSACTION_GET_ALL, transactionData)).payload;
+    } catch (error) {
+        return dispatch(transactionFailure(error.response?.data)).payload;
+    }
+};
+
+export const updateSpentConcept = (idTransaction, spentDetails) => async (dispatch) => {
+    dispatch(transactionRequest());
+
+    try {
+        const spentUpdated = await fetchWalletApi.put(
+            `/transactions/${idTransaction}`,
+            spentDetails
+        );
+
+        // dispatch an update of the transactions
+        return dispatch(getAllMovements());
     } catch (error) {
         return dispatch(transactionFailure(error.response?.data)).payload;
     }
