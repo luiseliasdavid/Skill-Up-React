@@ -1,26 +1,12 @@
 import fetchWalletApi from "../../api/fetchWalletApi";
-import { USER_REQUEST, USER_SUCCESS, USER_FAILURE } from "../types/userTypes";
-
-const date = new Date();
-const dateStr =
-    date.getFullYear() +
-    "-" +
-    ("00" + (date.getMonth() + 1)).slice(-2) +
-    "-" +
-    ("00" + date.getDate()).slice(-2) +
-    " " +
-    ("00" + date.getHours()).slice(-2) +
-    ":" +
-    ("00" + date.getMinutes()).slice(-2) +
-    ":" +
-    ("00" + date.getSeconds()).slice(-2);
+import { USER_REQUEST, USER_FAILURE, USER_CREATE, USER_GET_DETAIL, USER_GET_ALL } from "../types/userTypes";
 
 const userRequest = () => ({
     type: USER_REQUEST,
 });
 
-const userSuccess = (data) => ({
-    type: USER_SUCCESS,
+const userSuccess = (type, data) => ({
+    type,
     payload: data,
 });
 
@@ -33,14 +19,16 @@ export const createUser = (userData) => async (dispatch) => {
     dispatch(userRequest());
 
     try {
+        // create a new user
         const response = await fetchWalletApi.post(`/users`, userData);
-        console.log(response);
+        console.log(response?.data?.id,);
+        // automatically create a new account to this user
+        console.log(account);
 
-        // get user data
-        /* const userData = await fetchWalletApi.get(`/user/me`);
+        /* // get user data
         return dispatch(userSuccess(userData.data)).payload; */
     } catch (error) {
-        console.log(error)
+        console.log(error.response?.data);
         /* return dispatch(userFailure(error.response?.data)).payload; */
     }
 };

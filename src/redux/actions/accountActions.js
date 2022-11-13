@@ -1,72 +1,77 @@
-export const createAccount = (id, emailAndPasword) => {
-    return async function (dispatch) {
-        try {
-            // obtener la fecha de hoy en formato `yyyy-mm-dd 00:00:00`
-            console.log("estamos en account");
+import fetchWalletApi from "../../api/fetchWalletApi";
+import { ACCOUNT_REQUEST, ACCOUNT_FAILURE, ACCOUNT_CREATE, ACCOUNT_GET_DETAIL, ACCOUNT_GET_ALL } from "../types/userTypes";
 
-            // get jwt from api
-            const authLogin = await fetchWalletApi.post(
-                `/auth/login`,
-                emailAndPasword
-            );
-            localStorage.setItem("token", authLogin.data.accessToken);
+const userRequest = () => ({
+    type: ACCOUNT_REQUEST,
+});
 
-            let info = await fetchWalletApi.get(`/auth/me`);
-            const userDataStorage = {
-                first_name: info.data.first_name,
-                last_name: info.data.last_name,
-                email: info.data.email,
-                roleId: info.data.roleId,
-                id: info.data.id,
-            };
-            localStorage.setItem("user", JSON.stringify(userDataStorage));
+const userSuccess = (type, data) => ({
+    type,
+    payload: data,
+});
 
-            const data = {
-                creationDate: `${dateStr}`,
-                money: 0,
-                isBlocked: false,
-                userId: id,
-            };
+const userFailure = (errorInfo) => ({
+    type: ACCOUNT_FAILURE,
+    payload: errorInfo,
+});
 
-            //create the account whit this date
-            let account = await fetchWalletApi.post(`/accounts`, data);
-            console.log([account.data]);
+const getCurrentDate = () => {
+    const date = new Date();
+    const dateStr =
+        date.getFullYear() +
+        "-" +
+        ("00" + (date.getMonth() + 1)).slice(-2) +
+        "-" +
+        ("00" + date.getDate()).slice(-2) +
+        " " +
+        ("00" + date.getHours()).slice(-2) +
+        ":" +
+        ("00" + date.getMinutes()).slice(-2) +
+        ":" +
+        ("00" + date.getSeconds()).slice(-2);
 
-            const deposit = {
-                type: "topup",
-                concept: "initial",
-                amount: 0,
-            };
+    return dateStr;
+}
 
-            const initialTopup = await fetchWalletApi.post(
-                `/accounts/${account.data.id}`,
-                deposit
-            );
+export const createAccount = (userId) => async (dispatch) => {
+    try {
+        
+        const accountData = {
+            creationDate: `${getCurrentDate()}`,
+            money: 0,
+            isBlocked: false,
+            userId: response?.data?.id,
+        };
 
-            const userDetail = await fetchWalletApi.get(`/auth/me`);
-            const accountDetail = await fetchWalletApi.get(
-                `/accounts/${account.data.id}`
-            );
+        const account = await fetchWalletApi.post(`/accounts`, accountData);
+        console.log(account);
+        /* const deposit = {
+            type: "topup",
+            concept: "initial",
+            amount: 0,
+        };
 
-            return dispatch({
-                type: POST_ACCOUNT,
-                payload: {
-                    user: userDetail.data,
-                    account: accountDetail.data,
-                },
-                status: { status: 200, message: 'OK' }
-            });
-        } catch (e) {
-            return dispatch({
-                type: POST_ACCOUNT,
-                payload: {
-                    user: {},
-                    account: {},
-                },
-                status: { status: e.response.data.status, message: e.response.data.error },
-            });
-        }
-    };
+        const initialTopup = await fetchWalletApi.post(
+            `/accounts/${account.data.id}`,
+            deposit
+        );
+
+        const userDetail = await fetchWalletApi.get(`/auth/me`);
+        const accountDetail = await fetchWalletApi.get(
+            `/accounts/${account.data.id}`
+        );
+
+        return dispatch({
+            type: POST_ACCOUNT,
+            payload: {
+                user: userDetail.data,
+                account: accountDetail.data,
+            },
+            status: { status: 200, message: 'OK' }
+        }); */
+    } catch (error) {
+        console.log(error.response?.data);
+    }
 };
 
 export const addMoneyToAccount = (amount, id) => {

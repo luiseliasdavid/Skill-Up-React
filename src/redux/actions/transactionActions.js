@@ -144,3 +144,47 @@ export const sendMoneyToUser = (destinyAccountId, amountToSend, concept, moneyIn
         }
     };
 };
+
+export const updateSpentConcept = (idTransaction, spentDetails) => {
+    return async function (dispatch) {
+        try {
+            const spendtUpdated = await fetchWalletApi.put(
+                `/transactions/${idTransaction}`,
+                spentDetails
+            );
+
+            let numberTransactionsPage = 1;
+            let condicionTransactions = true;
+
+            let transactionsArray = [];
+
+            do {
+                let dataTransactions = await fetchWalletApi.get(
+                    `/transactions/?page=${numberTransactionsPage}`
+                );
+                transactionsArray.push(...dataTransactions.data.data);
+                dataTransactions.data.nextPage
+                    ? (condicionTransactions = true)
+                    : (condicionTransactions = false);
+                numberTransactionsPage++;
+            } while (condicionTransactions);
+            const payments = transactionsArray.filter(
+                (transaction) => transaction.type === "payment"
+            );
+
+            return dispatch({
+                type: UPLOAD_CONCEPT_TRANSACTION,
+                payload: payments,
+                status: { status: 200, message: "OK" },
+            });
+        } catch (e) {
+            dispatch({
+                type: UPLOAD_CONCEPT_TRANSACTION,
+                status: {
+                    status: e.response.data.status,
+                    message: e.response.data.error,
+                },
+            });
+        }
+    };
+};
