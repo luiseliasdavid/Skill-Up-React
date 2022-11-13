@@ -1,4 +1,4 @@
-const MovementsPagination = ({
+const Pagination = ({
     totalPages,
     currentPage,
     switchPage,
@@ -37,4 +37,4 @@ const MovementsPagination = ({
     );
 };
 
-export default MovementsPagination;
+export default Pagination;
