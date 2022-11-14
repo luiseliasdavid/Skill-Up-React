@@ -56,7 +56,7 @@ const Charge = () => {
           </span>
 
           <form className="mt-3" onSubmit={onSubmit}>
-            <labe className="me-3">AR $</labe>
+            <label className="me-3">AR $</label>
             <input
               type="number"
               name="amount"
