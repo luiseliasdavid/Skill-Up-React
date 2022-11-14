@@ -5,36 +5,36 @@ export const Footer = () => {
     const developers = [
         {
             name: "Daiana Gimenez",
-            email: "",
+            linkedin: "",
         },
         {
             name: "Santiago Zibecchini",
-            email: "https://www.linkedin.com/in/santiago-zibecchi-7996971a5/",
+            linkedin: "https://www.linkedin.com/in/santiago-zibecchi-7996971a5/",
         },
         {
             name: "Tobias Zavallo",
-            email: "https://www.linkedin.com/in/tobias-zavallo-066994222/",
+            linkedin: "https://www.linkedin.com/in/tobias-zavallo-066994222/",
         },
         {
             name: "Lucas Cabral Silvero",
-            email: "https://www.linkedin.com/in/lucas-cabral-silvero/",
+            linkedin: "https://www.linkedin.com/in/lucas-cabral-silvero/",
         },
         {
             name: "Juan Gutierrez",
-            email: "https://www.linkedin.com/in/juangutierrezmonaco/",
+            linkedin: "https://www.linkedin.com/in/juangutierrezmonaco/",
         },
         {
             name: "Facundo N. Alvarez",
-            email: "https://www.linkedin.com/in/facundon-alvarez/",
+            linkedin: "https://www.linkedin.com/in/facundon-alvarez/",
         },
         {
             name: "Luis David",
-            email: "",
+            linkedin: "",
         },
     ];
 
     return (
-        <footer className="container">
+        <footer className="footer">
             <ul id="footer-list" className="list-group list-group-horizontal ">
                 <li className="list-group-item">SkillUp - Noviembre 2022</li>
                 {developers.map((dev, i) => {
@@ -45,7 +45,7 @@ export const Footer = () => {
                             key={i}
                         >
                             <a
-                                href={`${dev.email}`}
+                                href={`${dev.linkedin}`}
                                 target="_blank"
                                 className="text-muted"
                             >

@@ -5,7 +5,7 @@ import * as Yup from "yup";
 
 import "../auth.css";
 
-import { login } from "../../../../redux/actions";
+import { login } from "../../../../redux/actions/authActions";
 import swal from "../../../../utils/swal";
 import toast from "../../../../utils/toast";
 import { useEffect } from "react";
@@ -32,30 +32,16 @@ const Login = () => {
 
     const onSubmit = () => {
         const { email, password } = values;
-        dispatch(login({ email, password }))
-            .then((res) => {
-                const { status, message } = res.status;
 
-                if (status === 200) {
-                    const userData = JSON.parse(localStorage.getItem("user"));
-                    toast(`¡Bienvenido ${userData?.first_name}!`, "success");
-                    navigate("/home");
-                } else {
-                    swal(
-                        "Hubo un error.",
-                        `Detalle del error: ${message}`,
-                        "error"
-                    );
-                }
-            })
-            .catch((err) => {
-                swal(
-                    "Hubo un error inesperado. Recarga la página e intenta nuevamente.",
-                    "",
-                    "error"
-                );
-                console.log(err);
-            });
+        dispatch(login({ email, password })).then((res) => {
+            const { status, error } = res;
+            if (!error) {
+                toast(`¡Bienvenido ${res?.first_name}!`, "success");
+                navigate("/home");
+            } else {
+                swal("Hubo un error.", `Error ${status}: ${error}`, "error");
+            }
+        });
     };
 
     const formik = useFormik({ initialValues, validationSchema, onSubmit });
@@ -64,8 +50,7 @@ const Login = () => {
         formik;
 
     return (
-
-        <div className="d-flex justify-content-center row">
+        <div className="d-flex justify-content-center">
             <form
                 onSubmit={handleSubmit}
                 className="col-6 d-flex flex-column align-items-center g-3"
@@ -98,7 +83,9 @@ const Login = () => {
                 </label>
 
                 <label className="col-6 d-flex flex-column mb-3">
-                    <span className="form-label  col-form-label">Contraseña </span>
+                    <span className="form-label  col-form-label">
+                        Contraseña{" "}
+                    </span>
                     <input
                         type="password"
                         name="password"
