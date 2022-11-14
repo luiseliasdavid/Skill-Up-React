@@ -1,8 +1,8 @@
 import fetchWalletApi from "../../api/fetchWalletApi";
-import { USER_REQUEST, USER_FAILURE, USER_CREATE, USER_GET_DETAIL, USER_GET_ALL, USER_DELETE } from "../types/userTypes";
+import { USER_REQUEST, USER_FAILURE, USER_CREATE, USER_GET_DETAIL, USER_DELETE } from "../types/userTypes";
 
 import { login, logout } from "./authActions";
-import { createAccount, getAccountData } from "./accountActions";
+import { createAccount } from "./accountActions";
 
 const userRequest = () => ({
     type: USER_REQUEST,

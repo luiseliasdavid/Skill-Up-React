@@ -4,7 +4,7 @@ import { lazy, Suspense } from "react";
 
 import PrivateRoutes from "../routes/PrivateRoutes";
 import PublicRoutes from "../routes/PublicRoutes";
-import NavBar from "../Navbar/Navbar";
+import NavBar from "../NavBar/NavBar";
 import Footer from "../Footer/Footer";
 import Register from "../views/auth/Register/Register";
 import Login from "../views/auth/Login/Login";

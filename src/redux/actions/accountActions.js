@@ -1,5 +1,5 @@
 import fetchWalletApi from "../../api/fetchWalletApi";
-import { ACCOUNT_REQUEST, ACCOUNT_FAILURE, ACCOUNT_CREATE, ACCOUNT_GET_DATA, ACCOUNT_GET_DETAIL, ACCOUNT_GET_ALL, ACCOUNT_DEPOSIT } from "../types/accountTypes";
+import { ACCOUNT_REQUEST, ACCOUNT_FAILURE, ACCOUNT_CREATE, ACCOUNT_GET_DATA, ACCOUNT_GET_DETAIL } from "../types/accountTypes";
 
 const accountRequest = () => ({
     type: ACCOUNT_REQUEST,
