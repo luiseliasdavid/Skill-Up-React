@@ -6,6 +6,8 @@ import { currencyFormatter } from "../../../utils/formatters";
 import toast from "../../../utils/toast";
 import swal from "../../../utils/swal";
 import Loader from "../../Loader/Loader";
+import Button from "../../Button/Button";
+import Title from "../../Title/Title.jsx";
 
 const Charge = () => {
     const dispatch = useDispatch();
@@ -42,7 +44,7 @@ const Charge = () => {
 
     return (
         <div>
-            <h1>¡Depositá en tu cuenta!</h1>
+            <Title type="h1" text="¡Depositá en tu cuenta!" />
 
             {loading ? (
                 <Loader />
@@ -56,17 +58,23 @@ const Charge = () => {
                     </span>
 
                     <form onSubmit={onSubmit}>
-                        <label>AR $</label>
+                        <label className="me-3">AR $</label>
                         <input
                             type="number"
                             name="amount"
                             value={amount}
                             onChange={handleChange}
                             placeholder="Ingresa un monto..."
+                            className="p-1 me-2"
                         />
 
                         {/* Inhabilitar el botton de CARGAR si amount es '' */}
-                        <button type={"submit"}>CARGAR SALDO</button>
+                    <Button
+                    className="mx-3"
+                    variant={"success"}
+                    text={"Cargar saldo"}
+                    type={"submit"}
+                     />
                     </form>
                 </div>
             )}
