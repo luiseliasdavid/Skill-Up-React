@@ -34,7 +34,8 @@ export const accountReducer = (state = initialState, action) => {
         }
         case ACCOUNT_GET_DETAIL: {
             return {
-                ...state
+                ...state,
+                loading: false
             }
         }
         case ACCOUNT_GET_ALL: {
