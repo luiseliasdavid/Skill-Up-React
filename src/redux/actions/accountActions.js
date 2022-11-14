@@ -1,5 +1,5 @@
 import fetchWalletApi from "../../api/fetchWalletApi";
-import { ACCOUNT_REQUEST, ACCOUNT_FAILURE, ACCOUNT_CREATE, ACCOUNT_GET_DATA, ACCOUNT_GET_DETAIL, ACCOUNT_GET_ALL, ACCOUNT_DEPOSIT } from "../types/accountTypes";
+import { ACCOUNT_REQUEST, ACCOUNT_FAILURE, ACCOUNT_CREATE, ACCOUNT_GET_DATA, ACCOUNT_GET_DETAIL } from "../types/accountTypes";
 
 const accountRequest = () => ({
     type: ACCOUNT_REQUEST,
@@ -64,6 +64,8 @@ export const getUserAccount = () => async (dispatch) => {
 }
 
 export const accountDeposit = (amount, accountId) => async (dispatch) => {
+    dispatch(accountRequest());
+
     try {
         const deposit = {
             type: "topup",
@@ -76,6 +78,34 @@ export const accountDeposit = (amount, accountId) => async (dispatch) => {
         // dispatch an update of the account
         return dispatch(getUserAccount());
     } catch (error) {
+        return dispatch(accountFailure(error.response?.data)).payload;
+    }
+};
+
+export const getAccountData = (accountId) => async (dispatch) => {
+    dispatch(accountRequest());
+
+    try {
+        const response = await fetchWalletApi.get(`/accounts/${accountId}`);
+        // dispatch an update of the account
+        return dispatch(accountSuccess(ACCOUNT_GET_DETAIL)).payload;
+    } catch (error) {
+        return dispatch(accountFailure(error.response?.data)).payload;
+    }
+};
+
+export const sendMoneyToUser = ({ toAccountId, amount, concept }) => async (dispatch) => {
+    dispatch(accountRequest());
+    try {
+        let paymentBody = {
+            type: "payment",
+            concept: concept,
+            amount: amount
+        }
+        const response = await fetchWalletApi.post(`/accounts/${toAccountId}`, paymentBody);
+        return dispatch(getUserAccount());
+    }
+    catch (error) {
         return dispatch(accountFailure(error.response?.data)).payload;
     }
 };
