@@ -1,5 +1,5 @@
 
-import { USER_REQUEST, USER_FAILURE, USER_CREATE, USER_GET_DETAIL, USER_GET_ALL, USER_DELETE } from "../types/userTypes";
+import { USER_REQUEST, USER_FAILURE, USER_CREATE, USER_GET_DETAIL, USER_DELETE } from "../types/userTypes";
 
 const initialState = {
     loading: false,
@@ -31,14 +31,6 @@ export const userReducer = (state = initialState, action) => {
                 userData: action.payload,
                 errorInfo: {},
                 userList: []
-            }
-        }
-        case USER_GET_ALL: {
-            return {
-                loading: false,
-                userData: {},
-                errorInfo: {},
-                userList: action.payload
             }
         }
         case USER_DELETE: {
