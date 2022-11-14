@@ -14,11 +14,13 @@ import {
 import swal from "../../../utils/swal";
 import MovementsPagination from "./MovementsPagination";
 import MovementsFilters from "./MovementsFilters";
+import { Link } from "react-router-dom";
 
 const Movements = () => {
     const dispatch = useDispatch();
     const { loading, balanceData, topupList, paymentList, transactionList } =
         useSelector((state) => state.transactionReducer);
+    const { accountData } = useSelector( state => state.accountReducer);
 
     const [filteredTransactions, setFilteredTransactions] = useState([]);
     const [transactionsToShow, setTransactionToShow] = useState([]);
@@ -28,17 +30,22 @@ const Movements = () => {
             const { status, error } = res;
             if (!error) {
                 // Set filtered transactions
-                setFilteredTransactions(transactionList);
+                setFilteredTransactions(res.transactionList);
 
                 // Set transactions to show
                 setTransactionToShow(
-                    transactionList.slice(0, TRANSACTIONS_PER_PAGE)
+                    res.transactionList.slice(0, TRANSACTIONS_PER_PAGE)
                 );
             } else {
                 swal("Hubo un error.", `Error ${status}: ${error}`, "error");
             }
         });
     }, []);
+
+    useEffect(() => {
+      console.log(transactionsToShow)
+    }, [transactionsToShow, transactionList])
+    
 
     /* Pagination and filters */
     const TRANSACTIONS_PER_PAGE = 10;
@@ -92,7 +99,7 @@ const Movements = () => {
                     ) : (
                         <div className="d-flex flex-column  gap-3">
                             <div>
-                                Total en cuenta: ${balanceData?.totalBalance}
+                                Total en cuenta: {currencyFormatter(balanceData?.totalBalance)}
                             </div>
 
                             <div className="dropdown-center">
@@ -180,9 +187,11 @@ const Movements = () => {
                                             </div>
                                         </div>
 
-                                        <button className="badge text-bg-primary">
-                                            Ver detalle
-                                        </button>
+                                        <Link to={`/movements/${transaction.id}`}>
+                                            <button className="badge text-bg-primary">
+                                                Ver detalle
+                                            </button>
+                                        </Link>
                                     </li>
                                 ))}
                             </ul>

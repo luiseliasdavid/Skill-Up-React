@@ -24,13 +24,18 @@ export const userReducer = (state = initialState, action) => {
                 userList: []
             }
         }
-        case USER_CREATE:
-        case USER_GET_DETAIL: {
+        case USER_CREATE: {
             return {
                 loading: false,
                 userData: action.payload,
                 errorInfo: {},
                 userList: []
+            }
+        }
+        case USER_GET_DETAIL: {
+            return {
+                loading: false,
+                ...state
             }
         }
         case USER_DELETE: {

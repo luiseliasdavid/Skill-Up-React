@@ -16,7 +16,7 @@ const Charge = () => {
         (store) => store.accountReducer
     );
 
-    const [amount, setAmount] = useState(0);
+    const [amount, setAmount] = useState('');
 
     const handleChange = (e) => {
         setAmount(e.target.value);
@@ -27,7 +27,7 @@ const Charge = () => {
 
         if (amount < 0) {
             toast("El monto debe ser mayor a $0", "error");
-            setAmount(0);
+            setAmount('');
             return;
         }
 
@@ -35,7 +35,7 @@ const Charge = () => {
             const { status, error } = res;
             if (!error) {
                 toast(`Tu dinero se depositó correctamente.`, "success");
-                setAmount(0);
+                setAmount('');
             } else {
                 swal("Hubo un error.", `Error ${status}: ${error}`, "error");
             }
@@ -74,6 +74,7 @@ const Charge = () => {
                     variant={"success"}
                     text={"Cargar saldo"}
                     type={"submit"}
+                    disabled= { amount === '' || Number(amount) <= 0 }
                      />
                     </form>
                 </div>

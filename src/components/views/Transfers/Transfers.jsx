@@ -40,20 +40,24 @@ const Transfers = () => {
         resetForm();
         const { toAccountId, amount, concept } = values;
 
-        dispatch(sendMoneyToUser({ toAccountId, amount, concept })).then(
-            (res) => {
-                const { status, error } = res;
-                if (!error) {
-                    toast(`Envío realizado correctamente`, "success");
-                } else {
-                    swal(
-                        "Hubo un error.",
-                        `Error ${status}: ${error}`,
-                        "error"
-                    );
+        if ( accountData.money < amount) {
+            swal('Error', 'Fondos insuficientes', "error");
+        }else {
+            dispatch(sendMoneyToUser({ toAccountId, amount, concept })).then(
+                (res) => {
+                    const { status, error } = res;
+                    if (!error) {
+                        toast(`Envío realizado correctamente`, "success");
+                    } else {
+                        swal(
+                            "Hubo un error.",
+                            `Error ${status}: ${error}`,
+                            "error"
+                        );
+                    }
                 }
-            }
-        );
+            );
+        }
     };
 
     const formik = useFormik({ initialValues, validationSchema, onSubmit });

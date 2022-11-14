@@ -15,6 +15,7 @@ import Charge from "../views/Charge/Charge";
 import Spents from "../views/Spents/Spents";
 import Balance from "../views/Balance/Balance";
 import Movements from "../views/Movements/Movements";
+import MovementDetail from "../views/Movements/MovementDetail";
 import Transfers from "../views/Transfers/Transfers";
 
 const Layout = () => {
@@ -129,6 +130,23 @@ const Layout = () => {
                                         variants={pageTransition}
                                     >
                                         <Transfers />
+                                    </motion.div>
+                                </main>
+                            }
+                        />
+
+                        <Route
+                            path="/movements/:movementId"
+                            element={
+                                <main>
+                                    <motion.div
+                                        className="page"
+                                        initial="initial"
+                                        animate="animate"
+                                        exit="exit"
+                                        variants={pageTransition}
+                                    >
+                                        <MovementDetail />
                                     </motion.div>
                                 </main>
                             }

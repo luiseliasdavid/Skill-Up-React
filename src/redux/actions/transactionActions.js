@@ -15,6 +15,17 @@ const transactionFailure = (errorInfo) => ({
     payload: errorInfo,
 });
 
+export const getMovementDetail = (movementId) => async (dispatch) => {
+    dispatch(transactionRequest());
+
+    try {
+        const transactions = await fetchWalletApi.get(`/transactions/${movementId}`);
+        return dispatch(transactionSuccess(TRANSACTION_GET_DETAIL, transactions?.data)).payload;
+    } catch (error) {
+        return dispatch(transactionFailure(error.response?.data)).payload;
+    }
+}
+
 export const getMovements = (pageNumber = 1) => async (dispatch) => {
     dispatch(transactionRequest());
 

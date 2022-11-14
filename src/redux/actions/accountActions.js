@@ -69,7 +69,7 @@ export const accountDeposit = (amount, accountId) => async (dispatch) => {
     try {
         const deposit = {
             type: "topup",
-            concept: "Add money",
+            concept: "Carga de saldo",
             amount: amount,
         };
 

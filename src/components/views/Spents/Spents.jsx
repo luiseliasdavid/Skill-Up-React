@@ -70,8 +70,11 @@ const Spents = () => {
     return (
         <div className="container">
             <h1>Gastos</h1>
-
-            <button className="btn btn-primary" onClick={() => setIsDisabled(!isDisabled)}>{isDisabled ? 'Habilitar' : 'Deshabilitar'}</button>
+            {
+                !spents.length ? <h3 className="text-center">No se han registrado gastos.</h3> 
+                :
+                <button className="btn btn-primary" onClick={() => setIsDisabled(!isDisabled)}>{isDisabled ? 'Habilitar' : 'Deshabilitar'}</button>
+            }
 
             {loading ? (
                 <Loader />
