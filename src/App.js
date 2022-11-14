@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
-import './App.styles.css';
 
 import Layout from './components/Layout/Layout';
 import { getUserAccount } from './redux/actions/accountActions';
