@@ -1,10 +1,10 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
-import './App.min.css';
+import './App.styles.css';
+
 import Layout from './components/Layout/Layout';
 import { getUserAccount } from './redux/actions/accountActions';
-
 import { authUser, logout } from './redux/actions/authActions';
 import toast from './utils/toast';
 

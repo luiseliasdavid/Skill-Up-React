@@ -103,9 +103,9 @@ const Spents = () => {
     useEffect(() => {
         setCurrentPage(1);
     }, [spents]);
-    
+
     useEffect(() => {
-        console.log(spentsToShow)
+        console.log(spentsToShow);
     }, [spentsToShow]);
 
     return (

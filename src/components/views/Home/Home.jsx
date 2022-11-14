@@ -11,7 +11,6 @@ import {
     hideNumbersFormatter,
 } from "../../../utils/formatters";
 import { getMovements } from "../../../redux/actions/transactionActions";
-import { getUserAccount } from "../../../redux/actions/accountActions";
 
 const Home = () => {
     const dispatch = useDispatch();
@@ -33,30 +32,31 @@ const Home = () => {
     const money = currencyFormatter(accountData.money);
 
     return (
-        <div
-            className={`container-xl mt-5 ${styles.bgColor} container-fluid-lg`}
-        >
+        <div className={` ${styles.bgColor} container-fluid-lg`}>
+            <h1 className={`${styles.title} pt-3 text-white`}>
+                Bienvenidos a AlkyBank!
+            </h1>
             <div className="row vh-100">
                 <div className="col-12 col-md-4  d-md-flex d-flex flex-column align-items-center justify-content-md-evenly justify-content-start pt-5 ">
                     <div className={`card w-75  ${styles.cardHeightLeft} `}>
-                        <p className="mt-2">Available money</p>
+                        <p className="mt-2">Dinero disponible</p>
                         <h2 className="mt-2">
                             {hide ? money : hideNumbersFormatter(money)}
                         </h2>
                         <button
-                            className="btn btn-primary "
+                            className={`btn btn-primary`}
                             onClick={toggleHide}
                         >
-                            {hide ? "hide" : "show"}
+                            {hide ? "ocultar" : "mostrar"}
                         </button>
                     </div>
 
                     <div
-                        className={`card w-75  d-flex flex-column justify-content-center d-none d-md-flex  ${styles.cardHeightLeft}`}
+                        className={`card w-75  d-flex flex-column justify-content-center d-none d-md-flex ${styles.cardHeightLeft} ${styles.font} `}
                     >
-                        <span>Recomendá la App y ganá!</span>
+                        <span>Recargá crédito en tu SUBE</span>
                         <hr />
-                        <span>Recargá crédito en tu SUBE y tu celular</span>
+                        <span>Recomendá la App y ganá! </span>
                     </div>
 
                     <div
@@ -67,21 +67,27 @@ const Home = () => {
                     <div
                         className={`card w-75 ${styles.regret} d-flex justify-content-center margin-auto flex-row d-none d-md-flex  align-items-center`}
                     >
-                        <span className={`styles.`}>Regret button</span>
+                        <span className={`styles.`}>
+                            Botón de arrepentimiento
+                        </span>
                     </div>
                 </div>
-                <div className="col-12 col-md-8 text-center d-flex justify-content-center align-items-center flex-column">
+                <div
+                    className={`col-12 col-md-8 text-center d-flex justify-content-center align-items-center flex-column `}
+                >
                     <div
-                        className={`card w-75  ${styles.cardHeight} position-relative overflow-scroll`}
+                        className={`card w-75  ${styles.cardHeight} overflow-auto ${styles.boxShadow} `}
                     >
-                        <h5 className="bg-info ">Last movements</h5>
+                        <h5 className={`bg-info p-2 border-2  `}>
+                            Últimos movimientos
+                        </h5>
 
                         {!loading ? (
                             transactionList !== [] ? (
                                 transactionList?.slice(0, 5)?.map((money) => (
                                     <div
                                         key={money.id}
-                                        className="card-body position-relative "
+                                        className="card-body position-relative"
                                     >
                                         <li
                                             className={`list-group-item border border-black rounded ${styles.listCard}`}

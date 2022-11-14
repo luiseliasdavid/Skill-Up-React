@@ -78,7 +78,7 @@ const Transfers = () => {
                     ? `${first_name} ${last_name}`
                     : "Usuario no encontrado"
             );
-        })
+        });
     };
 
     return (
@@ -183,7 +183,13 @@ const Transfers = () => {
                             )}
                         </div>
 
-                        <button type="submit" className="btn btn-primary" disabled={destinataryName === "Usuario no encontrado"}>
+                        <button
+                            type="submit"
+                            className="btn btn-primary"
+                            disabled={
+                                destinataryName === "Usuario no encontrado"
+                            }
+                        >
                             Enviar
                         </button>
                     </form>

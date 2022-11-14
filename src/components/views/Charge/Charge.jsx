@@ -1,10 +1,7 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import {
-    accountDeposit,
-    getUserAccount,
-} from "../../../redux/actions/accountActions";
+import { accountDeposit } from "../../../redux/actions/accountActions";
 import { currencyFormatter } from "../../../utils/formatters";
 import toast from "../../../utils/toast";
 import swal from "../../../utils/swal";
@@ -18,7 +15,7 @@ const Charge = () => {
     );
 
     const [amount, setAmount] = useState(0);
-    
+
     const handleChange = (e) => {
         setAmount(e.target.value);
     };
@@ -27,7 +24,7 @@ const Charge = () => {
         e.preventDefault();
 
         if (amount < 0) {
-            toast("El monto debe ser mayor a $0", 'error');
+            toast("El monto debe ser mayor a $0", "error");
             setAmount(0);
             return;
         }
@@ -45,11 +42,12 @@ const Charge = () => {
 
     return (
         <div>
+            <h1>¡Depositá en tu cuenta!</h1>
+
             {loading ? (
                 <Loader />
             ) : (
                 <div>
-                    <h1>¡Depositá en tu cuenta!</h1>
                     <span>
                         Saldo en cuenta:{" "}
                         {!loading

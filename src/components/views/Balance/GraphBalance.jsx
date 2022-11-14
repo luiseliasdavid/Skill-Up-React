@@ -3,7 +3,7 @@ import { Doughnut } from "react-chartjs-2";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-export const GraphBalance = ({ topup, payments }) => {
+const GraphBalance = ({ topup, payments }) => {
     const dataGraph = {
         labels: ["Cargas", "Transferencias"],
         datasets: [
@@ -25,3 +25,5 @@ export const GraphBalance = ({ topup, payments }) => {
 
     return <Doughnut data={dataGraph} />;
 };
+
+export default GraphBalance;

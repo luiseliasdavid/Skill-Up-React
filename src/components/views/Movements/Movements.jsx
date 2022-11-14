@@ -78,6 +78,10 @@ const Movements = () => {
         setCurrentPage(1);
     }, [filteredTransactions]);
 
+    useEffect(() => {
+        console.log(filteredTransactions);
+    }, [filteredTransactions]);
+
     return (
         <>
             <h1>Movimientos</h1>

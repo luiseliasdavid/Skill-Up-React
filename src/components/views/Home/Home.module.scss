@@ -1,57 +1,80 @@
-$fondo: rgb(237, 237, 237);
-$hover:rgb(247, 247, 247);
-
+$hover: rgb(247, 247, 247);
 
 @mixin hoverStyle {
-    &:hover{
-      background: $hover;
+    &:hover {
+        background: $hover;
     }
- }
- 
-
-.bgColor{
-    background-color: $fondo;
 }
 
-.cardHeight{
+.boxShadow {
+    box-shadow: 7px 7px 12px -3px rgba(0, 0, 0, 0.452);
+    -webkit-box-shadow: 7px 7px 12px -3px rgba(0, 0, 0, 0.384);
+    -moz-box-shadow: 7px 7px 12px -3px rgba(0, 0, 0, 0.349);
+}
+
+.bgColor {
+    background: #9cecfb; /* fallback for old browsers */
+    background: -webkit-linear-gradient(
+        to right,
+        #0052d4,
+        #65c7f7,
+        #9cecfb
+    ); /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(
+        to right,
+        #0052d4,
+        #65c7f7,
+        #9cecfb
+    ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+.title {
+    font-size: 4rem;
+}
+
+.cardHeight {
     height: 90%;
 }
 
-.cardHeightLeft{
-    height:12.5%;
+.cardHeightLeft {
+    height: 12.5%;
     @include hoverStyle;
 }
 
-.regret{
+.regret {
     height: 5%;
     @include hoverStyle;
-    
 }
 
-.listCard{
+.listCard {
     margin-top: -0px;
     @include hoverStyle;
 }
 
-
 @media only screen and (max-width: 958px) {
-    .cardHeightLeft{
+    .cardHeightLeft {
         height: 15%;
     }
-    .regret{
+    .regret {
         height: 5%;
     }
-    .listCard{
+    .listCard {
         margin-top: -0px;
     }
 }
 
 @media only screen and (max-width: 767px) {
-    .cardHeight{
+    .cardHeight {
         height: 50%;
     }
 
-    .cardHeightLeft{
+    .cardHeightLeft {
         height: 75%;
+    }
+}
+
+@media only screen and (max-width: 833px) {
+    .font {
+        font-size: 0.9rem;
     }
 }

@@ -65,6 +65,7 @@ export const getUserAccount = () => async (dispatch) => {
 
 export const accountDeposit = (amount, accountId) => async (dispatch) => {
     dispatch(accountRequest());
+
     try {
         const deposit = {
             type: "topup",

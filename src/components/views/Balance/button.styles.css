@@ -1,0 +1,47 @@
+.btn-navigate {
+    --color: #560bad;
+    font-family: inherit;
+    display: inline-block;
+    width: 8em;
+    height: 2.6em;
+    margin: 20px;
+    margin-left: 0;
+    position: relative;
+    overflow: hidden;
+    border: 2px solid var(--color);
+    transition: color 0.5s;
+    z-index: 1;
+    font-size: 17px;
+    border-radius: 6px;
+    color: var(--color);
+}
+
+.btn-navigate:before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    background: var(--color);
+    height: 150px;
+    width: 200px;
+    border-radius: 50%;
+}
+
+.btn-navigate:hover {
+    color: #fff;
+}
+
+.btn-navigate:before {
+    top: 100%;
+    left: 100%;
+    transition: all 0.7s;
+}
+
+.btn-navigate:hover:before {
+    top: -30px;
+    left: -30px;
+}
+
+.btn-navigate:active:before {
+    background: #3a0ca3;
+    transition: background 0s;
+}

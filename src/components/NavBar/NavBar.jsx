@@ -25,8 +25,8 @@ const Navbar = () => {
                             <img
                                 src="/assets/img/logo.png"
                                 alt="brand-logo"
-                                /* Cambiar tamaños */ width="30"
-                                /* Cambiar tamaños */ height="24"
+                                width="30"
+                                height="24"
                             />
                             <span className="ms-2 text-capitalize nav-item">
                                 {isLogged && firstName

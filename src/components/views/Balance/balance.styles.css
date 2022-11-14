@@ -1,11 +1,3 @@
-/* .balance {
-   display: flex;
-   flex-direction: row;
-   background-color: aquamarine;
-   justify-content: space-around;
-   gap: 20px;
-} */
-
 .balance {
    margin-top: 20px;
    display: flex;

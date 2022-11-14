@@ -2,11 +2,9 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { lazy, Suspense } from "react";
 
-import "./Layout.css";
-
-import PrivateRoutes from "../router/PrivateRoutes";
-import PublicRoutes from "../router/PublicRoutes";
-import NavBar from "../NavBar/NavBar";
+import PrivateRoutes from "../routes/PrivateRoutes";
+import PublicRoutes from "../routes/PublicRoutes";
+import NavBar from "../Navbar/Navbar";
 import Footer from "../Footer/Footer";
 import Register from "../views/auth/Register/Register";
 import Login from "../views/auth/Login/Login";

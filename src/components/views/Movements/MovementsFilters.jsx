@@ -3,7 +3,7 @@ import { useFormik } from "formik";
 const MovementsFilters = ({ transactions, setFilteredTransactions }) => {
     const initialValues = {
         type: "",
-        concept: ""
+        concept: "",
     };
 
     const onSubmit = () => {
@@ -31,7 +31,7 @@ const MovementsFilters = ({ transactions, setFilteredTransactions }) => {
     };
 
     return (
-        <form onSubmit={handleSubmit} className='d-flex flex-column p-3'>
+        <form onSubmit={handleSubmit} className="d-flex flex-column p-3">
             <ul className="movements-filters">
                 <li className="movements-filter">
                     <select

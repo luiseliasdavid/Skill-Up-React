@@ -40,7 +40,6 @@ export const createUser = (userData) => async (dispatch) => {
 
             // and the login state setted must be erased
             await dispatch(logout());
-
             return dispatch(userFailure({ error, status })).payload;
         }
     } catch (error) {
@@ -72,7 +71,7 @@ export const getUserFromAccount = (accountId) => async (dispatch) => {
         const { userId } = accountData?.data;
 
         const userData = await fetchWalletApi.get(`/users/${userId}`);
-        
+
         return userData?.data;
 
     } catch (error) {
