@@ -5,10 +5,10 @@ export const Footer = () => {
     const developers = [
         {
             name: "Daiana Gimenez",
-            email: "",
+            email: "https://www.linkedin.com/in/daiana-elizabeth-gimenez-3bba02213/",
         },
         {
-            name: "Santiago Zibecchini",
+            name: "Santiago Zibecchi",
             email: "https://www.linkedin.com/in/santiago-zibecchi-7996971a5/",
         },
         {
@@ -29,23 +29,24 @@ export const Footer = () => {
         },
         {
             name: "Luis David",
-            email: "",
+            email: "https://www.linkedin.com/in/luis-elias-david",
         },
     ];
 
     return (
         <footer className="footer">
             <ul id="footer-list" className="list-group list-group-horizontal ">
-                <li className="list-group-item">SkillUp - Noviembre 2022</li>
+                <li className="p-2 border border-1">SkillUp - Noviembre 2022</li>
                 {developers.map((dev, i) => {
                     return (
                         <li
-                            className="list-group-item"
+                            className="p-2 border border-1"
                             style={{ textDecoration: "none" }}
                             key={i}
                         >
                             <a
                                 href={`${dev.email}`}
+                                rel="noreferrer"
                                 target="_blank"
                                 className="text-muted"
                             >

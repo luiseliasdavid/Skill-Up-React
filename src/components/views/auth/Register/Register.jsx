@@ -3,7 +3,6 @@ import { useDispatch } from "react-redux";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 
-import "../auth.css";
 
 import { createUser } from "../../../../redux/actions/userActions";
 import toast from "../../../../utils/toast";
@@ -62,7 +61,7 @@ const Register = () => {
         formik;
 
     return (
-        <div className="d-flex justify-content-center row">
+        <div className="d-flex justify-content-center">
             <form
                 onSubmit={handleSubmit}
                 className="col-10 d-flex flex-column align-items-center g-3"
