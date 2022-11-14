@@ -37,7 +37,7 @@ const Home = () => {
             className={` ${styles.bgColor} container-fluid-lg`}
         >
           <h1 className={`${styles.title} pt-3 text-white`}>Bienvenidos a AlkyBank!</h1>
-            <div className="row vh-100">
+            <div className="row">
                 <div className="col-12 col-md-4  d-md-flex d-flex flex-column align-items-center justify-content-md-evenly justify-content-start pt-5 ">
                     <div className={`card w-75  ${styles.cardHeightLeft} `}>
                         <p className="mt-2">Dinero disponible</p>
@@ -73,7 +73,7 @@ const Home = () => {
                         <span className={`styles.`}>Botón de arrepentimiento</span>
                     </div>
                 </div>
-                <div className={`col-12 col-md-8 text-center d-flex justify-content-center align-items-center flex-column `}>
+                <div className={`col-12 col-md-8 text-center d-flex justify-content-center align-items-center flex-column ${styles.cardStrech}`}>
                     <div
                         className={`card w-75  ${styles.cardHeight} overflow-auto ${styles.boxShadow} `}
                     >

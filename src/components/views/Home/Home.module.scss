@@ -32,7 +32,6 @@ $hover:rgb(247, 247, 247);
 }
 
 .cardHeightLeft{
-    height:12.5%;
     @include hoverStyle;
 }
 
@@ -45,6 +44,10 @@ $hover:rgb(247, 247, 247);
 .listCard{
     margin-top: -0px;
     @include hoverStyle;
+}
+
+.cardStrech {
+    min-height: 90vh;
 }
 
 

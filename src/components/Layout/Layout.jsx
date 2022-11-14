@@ -6,7 +6,7 @@ import "./Layout.css";
 
 import PrivateRoutes from "../router/PrivateRoutes";
 import PublicRoutes from "../router/PublicRoutes";
-import NavBar from "../Navbar/Navbar";
+import NavBar from "../NavBar/NavBar";
 import Footer from "../Footer/Footer";
 import Register from "../views/auth/Register/Register";
 import Login from "../views/auth/Login/Login";

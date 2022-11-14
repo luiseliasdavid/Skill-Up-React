@@ -5,22 +5,26 @@ import { useNavigate } from "react-router-dom";
 import "./balanceStyles.css";
 import "./buttonStyles.css";
 
-import Loader from "../../Loader/Loader"
-import { GraphBalance } from "./GraphBalance";
-import { currencyFormatter } from "../../../utils/formatters";
+import Loader from "../../Loader/Loader";
+import {GraphBalance} from "./GraphBalance";
 import { getAllMovements } from "../../../redux/actions/transactionActions";
+import { currencyFormatter } from "../../../utils/formatters";
+import swal from "../../../utils/swal";
 
 const Balance = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    const { loading, balanceData, topupList, paymentList } =
-        useSelector((state) => state.transactionReducer);
+    const { loading, balanceData, topupList, paymentList } = useSelector(
+        (state) => state.transactionReducer
+    );
 
     useEffect(() => {
-        dispatch(getAllMovements())
-            .then(res => console.log(res))
-            .catch((err) => console.log(err));
+        dispatch(getAllMovements()).then((res) => {
+            const { status, error } = res;
+            error &&
+                swal("Hubo un error.", `Error ${status}: ${error}`, "error");
+        });
     }, []);
 
     return (

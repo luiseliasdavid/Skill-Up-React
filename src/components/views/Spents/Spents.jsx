@@ -71,7 +71,7 @@ const Spents = () => {
         <div className="container">
             <h1>Gastos</h1>
 
-            <button onClick={() => setIsDisabled(!isDisabled)}>{isDisabled ? 'Habilitar' : 'Deshabilitar'}</button>
+            <button className="btn btn-primary" onClick={() => setIsDisabled(!isDisabled)}>{isDisabled ? 'Habilitar' : 'Deshabilitar'}</button>
 
             {loading ? (
                 <Loader />
