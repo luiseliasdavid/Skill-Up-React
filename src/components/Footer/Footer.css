@@ -1,0 +1,9 @@
+#footer-list {
+    list-style: none;
+}
+
+.footer {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}

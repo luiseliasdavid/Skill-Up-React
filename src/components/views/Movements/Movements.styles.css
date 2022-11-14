@@ -1,0 +1,43 @@
+.movements {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.movement {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.movement-left {
+    display: flex;
+    gap: 20px;
+}
+
+.movement-left-icon {
+    font-size: 4rem;
+}
+
+.movement-detail {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+}
+
+.skeleton-container {
+    min-width: 768px;
+}
+
+.movements-filters {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+.movements-filter {
+    width: 100%;
+}
