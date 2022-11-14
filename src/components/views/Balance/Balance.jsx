@@ -7,8 +7,9 @@ import "./button.styles.css";
 
 import Loader from "../../Loader/Loader";
 import GraphBalance from "./GraphBalance";
-import { currencyFormatter } from "../../../utils/formatters";
 import { getAllMovements } from "../../../redux/actions/transactionActions";
+import { currencyFormatter } from "../../../utils/formatters";
+import swal from "../../../utils/swal";
 
 const Balance = () => {
     const navigate = useNavigate();
