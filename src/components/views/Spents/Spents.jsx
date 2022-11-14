@@ -71,15 +71,16 @@ const Spents = () => {
         <div className="container">
             <h1>Gastos</h1>
             {
-                !spents.length ? <h3 className="text-center">No se han registrado gastos.</h3> 
-                :
-                <button className="btn btn-primary" onClick={() => setIsDisabled(!isDisabled)}>{isDisabled ? 'Habilitar' : 'Deshabilitar'}</button>
+               !loading && Boolean(!spents.length) && <h3 className="text-center">No se han registrado gastos.</h3> 
             }
 
             {loading ? (
                 <Loader />
             ) : (
-                <div className="d-flex flex-wrap align-items-center m-4">
+                <div className="d-flex flex-wrap align-items-center m-4 justify-content-center">
+                    {
+                        Boolean(spents.length) && <button className="btn btn-primary my-3" onClick={() => setIsDisabled(!isDisabled)}>{isDisabled ? 'Habilitar' : 'Deshabilitar'}</button>
+                    }
                     {spents.map((spent) => (
                         <table className="table table-sm" key={spent.id}>
                             <thead>

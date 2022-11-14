@@ -8,7 +8,7 @@ import { getUserFromAccount } from "../../../redux/actions/userActions";
 import { currencyFormatter } from "../../../utils/formatters";
 import toast from "../../../utils/toast";
 import swal from "../../../utils/swal";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 const Transfers = () => {
     const dispatch = useDispatch();

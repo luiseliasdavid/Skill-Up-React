@@ -44,22 +44,22 @@ const Balance = () => {
                         <hr className="shine" />
 
                         <h3>
-                            Cargas realizadas:
+                            Cargas realizadas:{" "}
                             {topupList.length}
                         </h3>
                         <p>
-                            Total:
+                            Total:{" "}
                             {currencyFormatter(balanceData?.topupBalance)}
                         </p>
 
                         <hr className="shine" />
 
                         <h3>
-                            Cantidad de transferencias:
+                            Cantidad de transferencias:{" "}
                             {paymentList.length}
                         </h3>
                         <p>
-                            Total:
+                            Total:{" "}
                             {currencyFormatter(balanceData?.paymentBalance)}
                         </p>
                         <button

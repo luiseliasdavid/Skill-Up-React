@@ -11,7 +11,6 @@ import {
     hideNumbersFormatter,
 } from "../../../utils/formatters";
 import { getMovements } from "../../../redux/actions/transactionActions";
-import { getUserAccount } from "../../../redux/actions/accountActions";
 
 const Home = () => {
     const dispatch = useDispatch();
@@ -38,7 +37,7 @@ const Home = () => {
         >
           <h1 className={`${styles.title} pt-3 text-white`}>Bienvenidos a AlkyBank!</h1>
             <div className="row">
-                <div className="col-12 col-md-4  d-md-flex d-flex flex-column align-items-center justify-content-md-evenly justify-content-start pt-5 ">
+                <div className="col-12 col-md-4 d-md-flex d-flex flex-column align-items-center justify-content-md-evenly justify-content-start pt-5 ">
                     <div className={`card w-75  ${styles.cardHeightLeft} `}>
                         <p className="mt-2">Dinero disponible</p>
                         <h2 className="mt-2">

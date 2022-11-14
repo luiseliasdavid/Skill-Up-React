@@ -68,7 +68,6 @@ const Charge = () => {
                             className="p-1 me-2"
                         />
 
-                        {/* Inhabilitar el botton de CARGAR si amount es '' */}
                     <Button
                     className="mx-3"
                     variant={"success"}
