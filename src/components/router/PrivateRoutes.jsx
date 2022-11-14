@@ -1,38 +1,9 @@
- import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Navigate, Outlet } from "react-router-dom";
-import { userData } from "../../redux/actions";
+import { Outlet, Navigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const PrivateRoutes = () => {
-
-const data = useSelector((state) => state);
- const dispatch = useDispatch();
-
-useEffect(() => {
-    dispatch(userData(data.userData));
-}, [dispatch]);
-
-
-
-return(
-
-   data?.userData ? <Outlet/> :  <Navigate to="/login" />
-
-)
-
-
-}
-
-export default PrivateRoutes; 
- 
-
-
-
-/*  import { Outlet, Navigate } from "react-router-dom";
-
-const PrivateRoutes = () => {
-   return localStorage.getItem("token") ? <Outlet /> : <Navigate to="/Home" />;
+    const { isLogged } = useSelector((store) => store.authReducer);
+    return isLogged ? <Outlet /> : <Navigate to="/" />;
 };
 
 export default PrivateRoutes;
-       */

@@ -1,13 +1,13 @@
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
-import { logout } from "../../redux/actions";
+import { logout } from "../../redux/actions/authActions";
 
 const Navbar = () => {
     const dispatch = useDispatch();
 
-    const isLogged = useSelector((state) => state.isLogged);
-    const firstName = useSelector((state) => state.userData?.first_name);
+    const { isLogged, userData } = useSelector((state) => state.authReducer);
+    const firstName = userData.first_name;
 
     const handleLogout = () => {
         dispatch(logout());
@@ -18,7 +18,10 @@ const Navbar = () => {
             <nav className="navbar navbar-expand-lg bg-light">
                 <div className="container-fluid ">
                     <div id="nav-left-container">
-                        <Link to={isLogged ? "/home" : "/"} className="nav-link">
+                        <Link
+                            to={isLogged ? "/home" : "/"}
+                            className="nav-link"
+                        >
                             <img
                                 src="/assets/img/logo.png"
                                 alt="brand-logo"

@@ -1,102 +1,79 @@
-import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { addMoneyToAccount, cleanStatusRequest, userDataData } from '../../../redux/actions';
-import toast from '../../../utils/toast';
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
+import {
+    accountDeposit,
+    getUserAccount,
+} from "../../../redux/actions/accountActions";
+import { currencyFormatter } from "../../../utils/formatters";
+import toast from "../../../utils/toast";
+import swal from "../../../utils/swal";
+import Loader from "../../Loader/Loader";
 
 const Charge = () => {
+    const dispatch = useDispatch();
 
-  let data = useSelector((state) => state.userAccount);
-  let request = useSelector( (state) => state.statusRequest );
+    const { loading, accountData } = useSelector(
+        (store) => store.accountReducer
+    );
 
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-
-  const [ loading, setLoading ] = useState(true);
-  const [ amount, setAmount ] = useState('');
- 
-  useEffect(() => {
-    if ( localStorage.getItem("token") === null ) navigate('/login');
-  }, [ navigate, dispatch ])
-  
-  useEffect(() => {
-    dispatch(userDataData()); 
-  }, [ dispatch, data.money ])
-
-    useEffect(() => {
-      if ( request.status === 201 ) {
-        setLoading(false);
-        dispatch(cleanStatusRequest());
-        return;
-      } 
-      if ( request.status === 200 ) {
-        toast('Recarga realizada con éxito'); 
-        dispatch(cleanStatusRequest());
-        return;
-      }
-      if ( request.status === '0' ) return;
-      if ( request.status !== 200 ) {
-          toast('Lo sentimos, ha ocurrido un error. Intenta de nuevo')
-          setLoading(false); 
-          setAmount('');
-          dispatch(cleanStatusRequest());
-      }   
-     }, [ dispatch, request ])
-     
-  const handleChange = (e) => {
-    setAmount(e.target.value);
-  };
-
-  const OnTopup = (e) => {
-    e.preventDefault();
-    if (Number(amount) < 0) {
-      toast('El monto debe ser mayor a $0');
-      setAmount('');
-      return;
+    const [amount, setAmount] = useState(0);
+    
+    const handleChange = (e) => {
+        setAmount(e.target.value);
     };
-    dispatch(addMoneyToAccount( amount, data.id ));
-    setLoading(true);
-    setAmount('');
-  };
 
-  const money = (value) => {
-    let moneyFormat = new Intl.NumberFormat('es-AR', { 
-      style: 'currency',
-      minimumFractionDigits: 2,
-      currency: 'ARG' 
-  })
-  return String(moneyFormat.format(value)); 
-  };
+    const onSubmit = (e) => {
+        e.preventDefault();
 
-  return (
-    <div>
-      {
-        loading ? <span className="spinner-border"></span> 
-        : 
+        if (amount < 0) {
+            toast("El monto debe ser mayor a $0", 'error');
+            setAmount(0);
+            return;
+        }
+
+        dispatch(accountDeposit(amount, accountData.id)).then((res) => {
+            const { status, error } = res;
+            if (!error) {
+                toast(`Tu dinero se depositó correctamente.`, "success");
+                setAmount(0);
+            } else {
+                swal("Hubo un error.", `Error ${status}: ${error}`, "error");
+            }
+        });
+    };
+
+    return (
         <div>
-          <span> Saldo en cuenta: </span>
-          <h3>{ data !== {} ? `$${money(data.money)}` : ''}</h3>
-          <h1>TOPUP</h1>
+            {loading ? (
+                <Loader />
+            ) : (
+                <div>
+                    <h1>¡Depositá en tu cuenta!</h1>
+                    <span>
+                        Saldo en cuenta:{" "}
+                        {!loading
+                            ? currencyFormatter(accountData?.money)
+                            : "..."}
+                    </span>
 
-          <form onSubmit={OnTopup}>
-            <label>AR $</label>
-            <input 
-              type="number" 
-              name={'amount'} 
-              value={amount} 
-              onChange={handleChange} 
-              placeholder='Ingresa un monto...'
-            />
+                    <form onSubmit={onSubmit}>
+                        <label>AR $</label>
+                        <input
+                            type="number"
+                            name="amount"
+                            value={amount}
+                            onChange={handleChange}
+                            placeholder="Ingresa un monto..."
+                        />
 
-            {/* Inhabilitar el botton de CARGAR si amount es '' */}
-            <button type={'submit'}>CARGAR SALDO</button>
-          </form>
-
+                        {/* Inhabilitar el botton de CARGAR si amount es '' */}
+                        <button type={"submit"}>CARGAR SALDO</button>
+                    </form>
+                </div>
+            )}
         </div>
-      }
-    </div>
-  )
-}
+    );
+};
 
 export default Charge;

@@ -1,4 +1,3 @@
-$fondo: rgb(237, 237, 237);
 $hover:rgb(247, 247, 247);
 
 
@@ -7,11 +6,26 @@ $hover:rgb(247, 247, 247);
       background: $hover;
     }
  }
+
+ .boxShadow{
+    box-shadow: 7px 7px 12px -3px rgba(0, 0, 0, 0.452);
+   -webkit-box-shadow: 7px 7px 12px -3px rgba(0, 0, 0, 0.384);
+   -moz-box-shadow: 7px 7px 12px -3px rgba(0, 0, 0, 0.349);
+ }
  
 
 .bgColor{
-    background-color: $fondo;
+    background: #9CECFB;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #0052D4, #65C7F7, #9CECFB);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #0052D4, #65C7F7, #9CECFB); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    
 }
+
+
+.title{
+    font-size: 4rem;
+}
+
 
 .cardHeight{
     height: 90%;
@@ -53,5 +67,11 @@ $hover:rgb(247, 247, 247);
 
     .cardHeightLeft{
         height: 75%;
+    }
+}
+
+@media only screen and (max-width: 833px){
+    .font{
+        font-size: 0.9rem;
     }
 }

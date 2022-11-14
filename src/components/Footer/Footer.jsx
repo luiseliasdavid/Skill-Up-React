@@ -34,7 +34,7 @@ export const Footer = () => {
     ];
 
     return (
-        <footer className="container">
+        <footer className="footer">
             <ul id="footer-list" className="list-group list-group-horizontal ">
                 <li className="list-group-item">SkillUp - Noviembre 2022</li>
                 {developers.map((dev, i) => {

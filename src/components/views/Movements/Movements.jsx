@@ -5,11 +5,11 @@ import "react-loading-skeleton/dist/skeleton.css";
 
 import "./Movements.styles.css";
 
-import { balance } from "../../../redux/actions";
+import { getAllMovements } from "../../../redux/actions/transactionActions";
 import {
     dateFormatter,
     currencyFormatter,
-    formatLargeString,
+    largeStringFormatter,
 } from "../../../utils/formatters";
 import swal from "../../../utils/swal";
 import MovementsPagination from "./MovementsPagination";
@@ -17,52 +17,27 @@ import MovementsFilters from "./MovementsFilters";
 
 const Movements = () => {
     const dispatch = useDispatch();
-    const userData = useSelector((state) => state?.userData);
+    const { loading, balanceData, topupList, paymentList, transactionList } =
+        useSelector((state) => state.transactionReducer);
 
-    const [loading, setLoading] = useState(true);
-    const [transactions, setTransactions] = useState([]);
     const [filteredTransactions, setFilteredTransactions] = useState([]);
     const [transactionsToShow, setTransactionToShow] = useState([]);
 
     useEffect(() => {
-        dispatch(balance())
-            .then((res) => {
-                const { status, paymentsList, topupList } = res;
+        dispatch(getAllMovements()).then((res) => {
+            const { status, error } = res;
+            if (!error) {
+                // Set filtered transactions
+                setFilteredTransactions(transactionList);
 
-                if (status.status !== 200) {
-                    swal(
-                        "Hubo un error.",
-                        `Detalle del error: ${status.message}`,
-                        "error"
-                    );
-                } else {
-                    setLoading(false);
-                    // Sort transactions
-                    const transactions = topupList.concat(paymentsList);
-                    transactions
-                        .sort((d1, d2) => new Date(d2.date) - new Date(d1.date))
-                        .pop();
-
-                    // Set ALL transactions
-                    setTransactions(transactions);
-
-                    // Set filtered transactions
-                    setFilteredTransactions(transactions);
-
-                    // Set transactions to show
-                    setTransactionToShow(
-                        transactions.slice(0, TRANSACTIONS_PER_PAGE)
-                    );
-                }
-            })
-            .catch((err) => {
-                swal(
-                    "Hubo un error inesperado. Recarga la página e intenta nuevamente.",
-                    "",
-                    "error"
+                // Set transactions to show
+                setTransactionToShow(
+                    transactionList.slice(0, TRANSACTIONS_PER_PAGE)
                 );
-                console.log(err);
-            });
+            } else {
+                swal("Hubo un error.", `Error ${status}: ${error}`, "error");
+            }
+        });
     }, []);
 
     /* Pagination and filters */
@@ -70,7 +45,7 @@ const Movements = () => {
 
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(
-        Math.ceil(transactions.length / TRANSACTIONS_PER_PAGE)
+        Math.ceil(transactionList.length / TRANSACTIONS_PER_PAGE)
     );
 
     const handlePrev = () => {
@@ -103,18 +78,21 @@ const Movements = () => {
         setCurrentPage(1);
     }, [filteredTransactions]);
 
+    useEffect(() => {
+        console.log(filteredTransactions);
+    }, [filteredTransactions]);
+
     return (
         <>
             <h2>Movimientos</h2>
             {!loading ? (
                 <section className="movements">
-                    {transactions.length === 0 ? (
+                    {transactionList.length === 0 ? (
                         <div>No tiene movimientos en su cuenta aún.</div>
                     ) : (
                         <div className="d-flex flex-column  gap-3">
                             <div>
-                                Total en cuenta: $
-                                {userData?.balance?.totalBalance}
+                                Total en cuenta: ${balanceData?.totalBalance}
                             </div>
 
                             <div className="dropdown-center">
@@ -129,7 +107,7 @@ const Movements = () => {
 
                                 <div className="dropdown-menu">
                                     <MovementsFilters
-                                        transactions={transactions}
+                                        transactions={transactionList}
                                         setFilteredTransactions={
                                             setFilteredTransactions
                                         }
@@ -166,7 +144,7 @@ const Movements = () => {
                                                     )}
                                                 </span>
 
-                                                {formatLargeString(
+                                                {largeStringFormatter(
                                                     transaction.concept,
                                                     10
                                                 )}
