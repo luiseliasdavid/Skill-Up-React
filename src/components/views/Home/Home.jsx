@@ -29,6 +29,7 @@ const Home = () => {
     const { transactionList, loading } = useSelector(
         (store) => store.transactionReducer
     );
+
     const money = currencyFormatter(accountData.money);
 
     return (
@@ -79,7 +80,7 @@ const Home = () => {
                         <h5 className={`bg-info p-2 border-2  `}>Últimos movimientos</h5>
 
                         {!loading ? (
-                            transactionList !== [] ? (
+                            transactionList.length ? (
                                 transactionList?.slice(0, 5)?.map((money) => (
                                     <div
                                         key={money.id}

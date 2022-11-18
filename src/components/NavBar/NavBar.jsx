@@ -11,7 +11,7 @@ const Navbar = () => {
 
     const handleLogout = () => {
         dispatch(logout());
-    };
+    };    
 
     return (
         <header>

@@ -227,24 +227,6 @@ const Layout = () => {
                         />
 
                         <Route
-                            path="/"
-                            exact
-                            element={
-                                <main>
-                                    <motion.div
-                                        className="page"
-                                        initial="initial"
-                                        animate="animate"
-                                        exit="exit"
-                                        variants={pageTransition}
-                                    >
-                                        <Login />
-                                    </motion.div>
-                                </main>
-                            }
-                        />
-
-                        <Route
                             path="*"
                             element={
                                 <main>
