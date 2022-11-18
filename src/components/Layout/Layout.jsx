@@ -19,7 +19,6 @@ import MovementDetail from "../views/Movements/MovementDetail";
 import Transfers from "../views/Transfers/Transfers";
 
 const Layout = () => {
-
     const pageTransition = {
         initial: {
             opacity: 0,
@@ -54,9 +53,9 @@ const Layout = () => {
                         <Route
                             path="/charge"
                             element={
-                                <main>
+                                <main className="container">
                                     <motion.div
-                                        className="page"
+                                        className="page row g-0 w-100"
                                         initial="initial"
                                         animate="animate"
                                         exit="exit"
@@ -71,9 +70,9 @@ const Layout = () => {
                         <Route
                             path="/spents"
                             element={
-                                <main>
+                                <main className="container">
                                     <motion.div
-                                        className="page"
+                                        className="page row g-0 w-100"
                                         initial="initial"
                                         animate="animate"
                                         exit="exit"
@@ -88,9 +87,9 @@ const Layout = () => {
                         <Route
                             path="/balance"
                             element={
-                                <main>
+                                <main className="container">
                                     <motion.div
-                                        className="page"
+                                        className="page row g-0 w-100"
                                         initial="initial"
                                         animate="animate"
                                         exit="exit"
@@ -105,9 +104,9 @@ const Layout = () => {
                         <Route
                             path="/movements"
                             element={
-                                <main>
+                                <main className="container">
                                     <motion.div
-                                        className="page"
+                                        className="page row g-0 w-100"
                                         initial="initial"
                                         animate="animate"
                                         exit="exit"
@@ -122,9 +121,9 @@ const Layout = () => {
                         <Route
                             path="/transfers"
                             element={
-                                <main>
+                                <main className="container">
                                     <motion.div
-                                        className="page"
+                                        className="page row g-0 w-100"
                                         initial="initial"
                                         animate="animate"
                                         exit="exit"
@@ -139,9 +138,9 @@ const Layout = () => {
                         <Route
                             path="/movements/:movementId"
                             element={
-                                <main>
+                                <main className="container">
                                     <motion.div
-                                        className="page"
+                                        className="page row g-0 w-100"
                                         initial="initial"
                                         animate="animate"
                                         exit="exit"
@@ -157,9 +156,9 @@ const Layout = () => {
                             path="/home"
                             exact
                             element={
-                                <main>
+                                <main className="container">
                                     <motion.div
-                                        className="page"
+                                        className="page row g-0 w-100"
                                         initial="initial"
                                         animate="animate"
                                         exit="exit"
@@ -174,9 +173,9 @@ const Layout = () => {
                         <Route
                             path="*"
                             element={
-                                <main>
+                                <main className="container">
                                     <motion.div
-                                        className="page"
+                                        className="page row g-0 w-100"
                                         initial="initial"
                                         animate="animate"
                                         exit="exit"
@@ -194,9 +193,9 @@ const Layout = () => {
                         <Route
                             path="/register"
                             element={
-                                <main>
+                                <main className="container">
                                     <motion.div
-                                        className="page"
+                                        className="page row g-0 w-100"
                                         initial="initial"
                                         animate="animate"
                                         exit="exit"
@@ -212,9 +211,9 @@ const Layout = () => {
                             path="/"
                             exact
                             element={
-                                <main>
+                                <main className="container">
                                     <motion.div
-                                        className="page"
+                                        className="page row g-0 w-100"
                                         initial="initial"
                                         animate="animate"
                                         exit="exit"
@@ -229,9 +228,9 @@ const Layout = () => {
                         <Route
                             path="*"
                             element={
-                                <main>
+                                <main className="container">
                                     <motion.div
-                                        className="page"
+                                        className="page row g-0 w-100"
                                         initial="initial"
                                         animate="animate"
                                         exit="exit"
@@ -247,7 +246,7 @@ const Layout = () => {
                     </Route>
                 </Routes>
             </AnimatePresence>
-            <Footer />
+            {<Footer />}
         </BrowserRouter>
     );
 };
