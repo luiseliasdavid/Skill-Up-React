@@ -34,8 +34,8 @@ export const userReducer = (state = initialState, action) => {
         }
         case USER_GET_DETAIL: {
             return {
+                ...state,
                 loading: false,
-                ...state
             }
         }
         case USER_DELETE: {

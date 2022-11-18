@@ -19,6 +19,7 @@ import MovementDetail from "../views/Movements/MovementDetail";
 import Transfers from "../views/Transfers/Transfers";
 
 const Layout = () => {
+
     const pageTransition = {
         initial: {
             opacity: 0,

@@ -41,7 +41,6 @@ const Register = () => {
         };
 
         dispatch(createUser(userData)).then((res) => {
-            console.log(res);
             const { status, error } = res;
             if (!error) {
                 toast(
