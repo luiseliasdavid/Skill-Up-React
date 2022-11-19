@@ -2,7 +2,7 @@
 
 ## Pasos para intalacion:
 
-### 1) `git clone https://github.com/luiseliasdavid/Skill-Up-React.git`
+### 1) `git clone https://github.com/juangutierrezmonaco/alkemy-wallet.git`
 
 Clonar el repositorio en su local.
 
