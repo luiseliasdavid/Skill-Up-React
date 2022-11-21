@@ -42,11 +42,6 @@ const Movements = () => {
         });
     }, []);
 
-    useEffect(() => {
-      console.log(transactionsToShow)
-    }, [transactionsToShow, transactionList])
-    
-
     /* Pagination and filters */
     const TRANSACTIONS_PER_PAGE = 10;
 
@@ -83,10 +78,6 @@ const Movements = () => {
 
     useEffect(() => {
         setCurrentPage(1);
-    }, [filteredTransactions]);
-
-    useEffect(() => {
-        console.log(filteredTransactions);
     }, [filteredTransactions]);
 
     return (

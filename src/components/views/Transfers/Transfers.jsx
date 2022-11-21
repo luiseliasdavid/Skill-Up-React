@@ -8,13 +8,15 @@ import { getUserFromAccount } from "../../../redux/actions/userActions";
 import { currencyFormatter } from "../../../utils/formatters";
 import toast from "../../../utils/toast";
 import swal from "../../../utils/swal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const Transfers = () => {
     const dispatch = useDispatch();
     const { loading, accountData } = useSelector(
         (state) => state.accountReducer
     );
+
+    const { loading: loadingUser } = useSelector((state) => state.userReducer);
 
     const initialValues = {
         toAccountId: "",
@@ -37,17 +39,18 @@ const Transfers = () => {
     });
 
     const onSubmit = () => {
-        resetForm();
         const { toAccountId, amount, concept } = values;
 
-        if ( accountData.money < amount) {
-            swal('Error', 'Fondos insuficientes', "error");
-        }else {
+        if (accountData.money < amount) {
+            swal("Error", "Fondos insuficientes", "error");
+        } else {
             dispatch(sendMoneyToUser({ toAccountId, amount, concept })).then(
                 (res) => {
                     const { status, error } = res;
                     if (!error) {
                         toast(`Envío realizado correctamente`, "success");
+                        resetForm();
+                        setDestinataryName("");
                     } else {
                         swal(
                             "Hubo un error.",
@@ -75,15 +78,24 @@ const Transfers = () => {
 
     const handleSearch = (e) => {
         handleBlur(e);
-        dispatch(getUserFromAccount(values.toAccountId)).then((res) => {
-            const { first_name, last_name } = res;
-            setDestinataryName(
-                first_name && last_name
-                    ? `${first_name} ${last_name}`
-                    : "Usuario no encontrado"
-            );
-        });
+
+        const { toAccountId } = values;
+        if (toAccountId) {
+            dispatch(getUserFromAccount(values.toAccountId)).then((res) => {
+                const { first_name, last_name } = res;
+                setDestinataryName(
+                    first_name && last_name
+                        ? `${first_name} ${last_name}`
+                        : "Usuario no encontrado"
+                );
+            });
+        }
     };
+
+    useEffect(() => {
+        const { toAccountId } = values;
+        !toAccountId && setDestinataryName("");
+    }, [values]);
 
     return (
         <div>
@@ -134,7 +146,18 @@ const Transfers = () => {
                                         : "fw-bold"
                                 }
                             >
-                                {destinataryName}
+                                {loadingUser ? (
+                                    <div
+                                        className="spinner-border mt-2"
+                                        role="status"
+                                    >
+                                        <span className="visually-hidden">
+                                            Loading...
+                                        </span>
+                                    </div>
+                                ) : (
+                                    destinataryName
+                                )}
                             </div>
                         </div>
 
