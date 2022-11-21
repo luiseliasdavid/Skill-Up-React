@@ -17,7 +17,6 @@ const authFailure = errorInfo => ({
 
 export const authUser = () => async dispatch => {
     dispatch(authRequest());
-
     try {
         // get user data
         const userData = await fetchWalletApi.get(`/auth/me`);

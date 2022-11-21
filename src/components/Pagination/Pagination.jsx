@@ -1,10 +1,4 @@
-const MovementsPagination = ({
-    totalPages,
-    currentPage,
-    switchPage,
-    prev,
-    next,
-}) => {
+const Pagination = ({ totalPages, currentPage, switchPage, prev, next }) => {
     return (
         <nav className="align-self-center">
             <ul className="pagination">
@@ -37,4 +31,4 @@ const MovementsPagination = ({
     );
 };
 
-export default MovementsPagination;
+export default Pagination;

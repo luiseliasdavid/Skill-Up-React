@@ -12,7 +12,7 @@ import {
     largeStringFormatter,
 } from "../../../utils/formatters";
 import swal from "../../../utils/swal";
-import MovementsPagination from "./MovementsPagination";
+import Pagination from "../../Pagination/Pagination";
 import MovementsFilters from "./MovementsFilters";
 import { Link } from "react-router-dom";
 
@@ -20,7 +20,7 @@ const Movements = () => {
     const dispatch = useDispatch();
     const { loading, balanceData, topupList, paymentList, transactionList } =
         useSelector((state) => state.transactionReducer);
-    const { accountData } = useSelector( state => state.accountReducer);
+    const { accountData } = useSelector((state) => state.accountReducer);
 
     const [filteredTransactions, setFilteredTransactions] = useState([]);
     const [transactionsToShow, setTransactionToShow] = useState([]);
@@ -82,7 +82,7 @@ const Movements = () => {
 
     return (
         <>
-            <h2>Movimientos</h2>
+            <h1>Movimientos</h1>
             {!loading ? (
                 <section className="movements">
                     {transactionList.length === 0 ? (
@@ -116,7 +116,7 @@ const Movements = () => {
                             {transactionsToShow.length === 0 ? (
                                 <div>Sin resultados.</div>
                             ) : (
-                                <MovementsPagination
+                                <Pagination
                                     totalPages={totalPages}
                                     currentPage={currentPage}
                                     switchPage={switchPage}

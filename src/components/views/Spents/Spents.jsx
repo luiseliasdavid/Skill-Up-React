@@ -10,15 +10,15 @@ import { currencyFormatter, dateFormatter } from "../../../utils/formatters";
 import toast from "../../../utils/toast";
 import swal from "../../../utils/swal";
 import Loader from "../../Loader/Loader";
+import Pagination from "../../Pagination/Pagination";
 
 const Spents = () => {
     const dispatch = useDispatch();
 
-    const { loading, paymentList } = useSelector(
-        (state) => state.transactionReducer
-    );
+    const { loading } = useSelector((state) => state.transactionReducer);
 
     const [spents, setSpents] = useState([]);
+    const [spentsToShow, setSpentsToShow] = useState([]);
     const [isDisabled, setIsDisabled] = useState(true);
 
     useEffect(() => {
@@ -26,6 +26,7 @@ const Spents = () => {
             const { status, error } = res;
             if (!error) {
                 setSpents(res.paymentList);
+                setSpentsToShow(res.paymentList.slice(0, SPENTS_PER_PAGE));
             } else {
                 swal("Hubo un error.", `Error ${status}: ${error}`, "error");
             }
@@ -67,21 +68,66 @@ const Spents = () => {
         });
     };
 
+    /* Pagination */
+    const SPENTS_PER_PAGE = 10;
+
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(
+        Math.ceil(spents.length / SPENTS_PER_PAGE)
+    );
+
+    const handlePrev = () => {
+        const index = currentPage > 1 ? currentPage - 1 : totalPages;
+        setCurrentPage(index);
+    };
+
+    const handleNext = () => {
+        const index = currentPage < totalPages ? currentPage + 1 : 1;
+        setCurrentPage(index);
+    };
+
+    const switchPage = (page) => {
+        setCurrentPage(page);
+    };
+
+    useEffect(() => {
+        const initialIndex = (currentPage - 1) * SPENTS_PER_PAGE;
+        const finalIndex = initialIndex + SPENTS_PER_PAGE;
+        setSpentsToShow(spents.slice(initialIndex, finalIndex));
+
+        setTotalPages(Math.ceil(spents.length / SPENTS_PER_PAGE));
+    }, [currentPage, spents]);
+
+    useEffect(() => {
+        setCurrentPage(1);
+    }, [spents]);
+
     return (
         <div className="container">
             <h1>Gastos</h1>
-            {
-               !loading && Boolean(!spents.length) && <h3 className="text-center">No se han registrado gastos.</h3> 
-            }
+
+            {!loading && !spentsToShow.length && (
+                <h3 className="text-center">No se han registrado gastos.</h3>
+            )}
+
+            {!loading && (
+                <button onClick={() => setIsDisabled(!isDisabled)} className='btn btn-dark'>
+                    {isDisabled ? "Habilitar edición" : "Deshabilitar edición"}
+                </button>
+            )}
 
             {loading ? (
                 <Loader />
             ) : (
-                <div className="d-flex flex-wrap align-items-center m-4 justify-content-center">
-                    {
-                        Boolean(spents.length) && <button className="btn btn-primary my-3" onClick={() => setIsDisabled(!isDisabled)}>{isDisabled ? 'Habilitar' : 'Deshabilitar'}</button>
-                    }
-                    {spents.map((spent) => (
+                <div className="d-flex flex-wrap justify-content-center align-items-center m-4">
+                    <Pagination
+                        totalPages={totalPages}
+                        currentPage={currentPage}
+                        switchPage={switchPage}
+                        prev={handlePrev}
+                        next={handleNext}
+                    />
+                    {spentsToShow.map((spent) => (
                         <table className="table table-sm" key={spent.id}>
                             <thead>
                                 <tr>
