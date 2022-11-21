@@ -2,7 +2,7 @@ import axios from "axios";
 
 const fetchWalletApi = () => {
     const defaultOptions = {
-        baseURL: "http://wallet-main.eba-ccwdurgr.us-east-1.elasticbeanstalk.com",
+        baseURL: process.env.REACT_APP_API_URL,
     };
 
     // axios instance
