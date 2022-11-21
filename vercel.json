@@ -2,7 +2,7 @@
     "redirects": [
         {
             "source": "/api/(.*)",
-            "destination": "http://wallet-main.eba-ccwdurgr.us-east-1.elasticbeanstalk.com/:splat",
+            "destination": "http://wallet-main.eba-ccwdurgr.us-east-1.elasticbeanstalk.com/",
             "statusCode": 200
         }
     ]
