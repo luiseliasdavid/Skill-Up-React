@@ -16,7 +16,7 @@ const Charge = () => {
         (store) => store.accountReducer
     );
 
-    const [amount, setAmount] = useState('');
+    const [amount, setAmount] = useState("");
 
     const handleChange = (e) => {
         setAmount(e.target.value);
@@ -27,7 +27,7 @@ const Charge = () => {
 
         if (amount < 0) {
             toast("El monto debe ser mayor a $0", "error");
-            setAmount('');
+            setAmount("");
             return;
         }
 
@@ -35,7 +35,7 @@ const Charge = () => {
             const { status, error } = res;
             if (!error) {
                 toast(`Tu dinero se depositó correctamente.`, "success");
-                setAmount('');
+                setAmount("");
             } else {
                 swal("Hubo un error.", `Error ${status}: ${error}`, "error");
             }
@@ -57,7 +57,7 @@ const Charge = () => {
                             : "..."}
                     </span>
 
-                    <form onSubmit={onSubmit}>
+                    <form onSubmit={onSubmit} className="mt-3">
                         <label className="me-3">AR $</label>
                         <input
                             type="number"
@@ -68,13 +68,13 @@ const Charge = () => {
                             className="p-1 me-2"
                         />
 
-                    <Button
-                    className="mx-3"
-                    variant={"success"}
-                    text={"Cargar saldo"}
-                    type={"submit"}
-                    disabled= { amount === '' || Number(amount) <= 0 }
-                     />
+                        <Button
+                            className="mx-3"
+                            variant={"success"}
+                            text={"Cargar saldo"}
+                            type={"submit"}
+                            disabled={amount === "" || Number(amount) <= 0}
+                        />
                     </form>
                 </div>
             )}
