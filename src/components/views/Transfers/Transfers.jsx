@@ -33,9 +33,10 @@ const Transfers = () => {
         amount: Yup.number("Debe ser un número")
             .positive("Debe ingresar un número positivo.")
             .required("Debe ingresar el monto que desea transferir."),
-        concept: Yup.string().required(
-            "Debe ingresar un concepto de la transferencia."
-        ),
+        concept: Yup.string()
+            .max(25, 'El concepto puede tener como máximo 25 caracteres.')
+            .matches(/^[aA-zZ\s]+$/, "Sólo puede ingresar letras en el concepto.")
+            .required("Debe ingresar un concepto de la transferencia."),
     });
 
     const onSubmit = () => {
